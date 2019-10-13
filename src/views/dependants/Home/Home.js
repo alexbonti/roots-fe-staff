@@ -9,14 +9,14 @@ import {
   Typography,
   Box,
   Grid,
-  Container
+  Container,
 } from "@material-ui/core/";
 import { HomeContext, LoginContext } from "contexts";
 import {
   AddOpportunity,
   ListOpportunity,
   MyCompany,
-  EditMyCompany
+  EditMyCompany,
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
@@ -27,16 +27,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     flexGrow: 1,
-    padding: "0"
+    padding: "0",
   },
   icon: {
-    margin: theme.spacing(0)
+    margin: theme.spacing(0),
   },
   iconHover: {
     margin: theme.spacing(0),
     "&:hover": {
-      color: "red"
-    }
+      color: "red",
+    },
   },
   topSpace: {
     display: "flex",
@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bolder",
     margin: 0,
     width: "100vw",
-    maxWidth: "none"
-  }
+    maxWidth: "none",
+  },
 }));
 
 function TabPanel(props) {
@@ -71,13 +71,13 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -93,7 +93,7 @@ export const Home = () => {
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
-    setMainTitle
+    setMainTitle,
   } = useContext(HomeContext);
   const { loginStatus } = useContext(LoginContext);
 
@@ -144,8 +144,8 @@ export const Home = () => {
       // Used to shift a color's luminance by approximately
       // two indexes within its tonal palette.
       // E.g., shift from Red 500 to Red 300 or Red 700.
-      tonalOffset: 0.2
-    }
+      tonalOffset: 0.2,
+    },
   });
 
   const list = !addOpportunity ? (

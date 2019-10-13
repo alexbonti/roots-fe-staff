@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { API } from "helpers/index";
+import { createTypeOf } from "../../../node_modules/typescript/lib/typescript";
 
 export default function Accept() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
   });
+  const [imgUrl, setImgUrl] = useState("");
 
   const acceptedFilesItems = acceptedFiles.map(file => (
     <li key={file.path}>
@@ -19,11 +22,13 @@ export default function Accept() {
         let file = new FormData();
         file.append("imageFile", data[0]);
         const imageData = await API.uploadImage(file);
-        console.log(imageData);
+        setImgUrl(imageData);
       };
       uploadImageImported(acceptedFiles);
     }
   }, [acceptedFiles]);
+
+  useEffect(() => {}, [imgUrl]);
 
   return (
     <section className="container">
@@ -34,6 +39,7 @@ export default function Accept() {
       </div>
       <aside>
         <h4>Accepted files</h4>
+        <img src={imgUrl} alt="" />
         <ul>{acceptedFilesItems}</ul>
       </aside>
     </section>
