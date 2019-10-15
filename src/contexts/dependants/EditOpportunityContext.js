@@ -36,7 +36,7 @@ export const EditOpportunityProvider = props => {
         industryField,
         setIndustryField,
         location,
-        setLocation
+        setLocation,
       }}
     >
       {children}

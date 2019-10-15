@@ -11,44 +11,45 @@ import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
+
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   root: {
     flexGrow: 1,
     textAlign: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: "55% !important",
-    textAlign: "center !important"
+    textAlign: "center !important",
   },
   textareaAutosize: {
     width: "70%",
     margin: "2%",
-    height: "25vh !important"
+    height: "25vh !important",
   },
   dense: {
-    marginTop: 19
+    marginTop: 19,
   },
   menu: {
-    width: 200
+    width: 200,
   },
   location: {
-    width: "55% !important"
+    width: "55% !important",
   },
   suggestion: {
     border: "1px solid grey",
     borderRadius: "2px",
-    display: "block"
+    display: "block",
   },
   back: {
-    margin: 15
-  }
+    margin: 15,
+  },
 }));
 
 const theme = createMuiTheme({
@@ -62,8 +63,8 @@ const theme = createMuiTheme({
     // Used to shift a color's luminance by approximately
     // two indexes within its tonal palette.
     // E.g., shift from Red 500 to Red 300 or Red 700.
-    tonalOffset: 0.2
-  }
+    tonalOffset: 0.2,
+  },
 });
 
 export function AddOpportunity() {
@@ -85,7 +86,7 @@ export function AddOpportunity() {
     industryField,
     setIndustryField,
     location,
-    setLocation
+    setLocation,
   } = useContext(EditOpportunityContext);
 
   const [inputPosition, setInputPosition] = useState("");
@@ -96,7 +97,7 @@ export function AddOpportunity() {
     styleEdit,
     setStyleEdit,
     setAddOpportunity,
-    tabNumber
+    tabNumber,
   } = useContext(HomeContext);
 
   const autoFill = async event => {
@@ -125,12 +126,11 @@ export function AddOpportunity() {
       endDate: new Date(stop).toISOString(),
       industryField,
       description,
-      location
+      location,
     };
     setAddOpportunity(false);
     API.postOpportunityDraft(data);
     notify("Job Saved");
-    // window.location.reload();
   };
 
   const getSkill = event => {
@@ -208,7 +208,7 @@ export function AddOpportunity() {
                     type="date"
                     className={classes.textField}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={event => {
                       setStart(event.target.value);
@@ -222,7 +222,7 @@ export function AddOpportunity() {
                     type="date"
                     className={classes.textField}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     onChange={event => {
                       setStop(event.target.value);

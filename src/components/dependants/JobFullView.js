@@ -11,40 +11,40 @@ import { notify } from "../common/Notification";
 const useStyles = makeStyles({
   container: {
     backgroundColor: "white",
-    borderRadius: "10px 10px 0 0 "
+    borderRadius: "10px 10px 0 0 ",
   },
   containerBottom: {
     backgroundColor: "white",
     borderRadius: "0px 0px 10px 10px ",
-    padding: "32px 70px 32px 32px "
+    padding: "32px 70px 32px 32px ",
   },
   transparentContainer: {
-    padding: "10px 32px "
+    padding: "10px 32px ",
   },
   title: {
-    fontSize: 34
+    fontSize: 34,
   },
   subText: {
-    fontSize: 12
+    fontSize: 12,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   rightIcon: {
-    marginLeft: "5px"
+    marginLeft: "5px",
   },
   button1: {
     borderRadius: "20px",
     backgroundColor: "white",
     border: "1px solid #087B94",
-    color: "#087B94"
+    color: "#087B94",
   },
   button2: {
-    borderRadius: "20px"
+    borderRadius: "20px",
   },
   back: {
-    margin: 3
-  }
+    margin: 3,
+  },
 });
 
 export default function FullViewCard() {
@@ -61,7 +61,7 @@ export default function FullViewCard() {
     editSkills,
     description,
     industryField,
-    location
+    location,
   } = useContext(EditOpportunityContext);
 
   const closePreview = () => {
@@ -79,12 +79,12 @@ export default function FullViewCard() {
       endDate: new Date(stop).toISOString(),
       industryField,
       description,
-      location
+      location,
     };
     setAddOpportunity(false);
     API.postOpportunity(data);
     notify("Job Saved");
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
