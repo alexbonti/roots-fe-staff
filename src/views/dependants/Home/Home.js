@@ -158,8 +158,6 @@ export const Home = () => {
     <AddOpportunity />
   );
 
-  const singleJob = <SingleJob />;
-
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -190,7 +188,7 @@ export const Home = () => {
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Grid container className={classes.root} spacing={2}>
               <Grid item xs={12}>
-                {jobView ? singleJob : list}
+                {jobView ? <SingleJob /> : list}
               </Grid>
             </Grid>
           </TabPanel>

@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     textAlign: "center",
     backgroundColor: "white",
+    marginTop: "1vh"
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -87,6 +88,7 @@ export function EditMyCompany() {
     setIsPreview,
     styleEdit,
     setStyleEdit,
+    setIsEditMycompany,
     // setAddOpportunity
   } = useContext(HomeContext);
 
@@ -101,15 +103,16 @@ export function EditMyCompany() {
     setStyleEdit({ display: "none" });
   };
 
-  const submitToApi = () => {
-    const data = {
-      companyName,
-      companyField,
-      companyLocation,
-      companyDescription,
-    };
+  const submitToApi = (data) => {
+    // const data = {
+    //   companyName,
+    //   companyLogo,
+    //   companyLocation,
+    //   companyDescription,
+    //   companyIndustry: companyField
+    // };
 
-    API.postMyCompanyDetails(data);
+    API.upadateMyCompanyDetails(data);
     notify("Company Details Saved");
   };
 
@@ -120,10 +123,15 @@ export function EditMyCompany() {
     setPositionSuggestions("");
   };
 
+  const closeEdit = () => {
+    setIsEditMycompany(false);
+  };
+
   return (
     <div>
       <div style={styleEdit}>
         <ThemeProvider theme={theme}>
+          <Button onClick={closeEdit}> {"<"} Back</Button>
           <div className={classes.root}>
             <Grid container spacing={3}>
               {/* company name */}
@@ -241,7 +249,7 @@ export function EditMyCompany() {
         </ThemeProvider>
       </div>
 
-      {isPreview ? <JobFullView /> : ""}
+     {/* {isPreview ? <MyCompanyFullView  /> : ""} */}
     </div>
   );
 }

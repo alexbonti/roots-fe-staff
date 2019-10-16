@@ -5,6 +5,7 @@ import { axiosInstance } from "helpers";
 let config = {
   headers: { authorization: "Bearer " + AccessToken },
 };
+
 class API {
   loginEmployer = async (data, setAccessToken) => {
     return await axios({
@@ -64,12 +65,23 @@ class API {
       .catch(error => console.log(error));
   };
 
-  // postMyCompanyDetails = data => {
-  //   axios
-  //     .post("http://localhost:8031/api/jobs/opportunities", data, config)
-  //     .then(response => response)
-  //     .catch(error => console.log(error));
-  // };
+  postMyCompanyDetails = async (data, accessToken) => {
+   const details ={
+      "companyName": "string",
+      "companyLogo": "string",
+      "location": "string",
+      "companyIndustry": "string",
+      "companyDescription": "string"
+    }
+    return await axiosInstance
+      .post("/employer/createcompany", details, {
+        headers: {
+          authorization: "Bearer " + accessToken,
+        },
+      })
+      .then(response => {return response})
+      .catch(error => console.log(error));
+  };
 
   getOpportunity = async () => {
     return await axiosInstance

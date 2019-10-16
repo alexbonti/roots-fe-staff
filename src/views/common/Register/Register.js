@@ -91,7 +91,6 @@ const Register = props => {
       setAccessToken(registerData.response.accessToken);
       setEmailVerified(registerData.response.employerDetails.emailVerified);
       setRedirect(true);
-      // setOpenModal(true);
     };
     triggerAPI();
   };
