@@ -5,6 +5,7 @@ import { EditOpportunityContext } from "../../contexts/";
 import { Grid } from "@material-ui/core/";
 
 import "react-quill/dist/quill.snow.css";
+import { TextEditorContext } from "contexts/index";
 
 const modules = {
   toolbar: [
@@ -23,7 +24,7 @@ const modules = {
 };
 
 export const TextEditor = () => {
-  const { setDescription } = useContext(EditOpportunityContext);
+  const { setDescription } = useContext(TextEditorContext);
   const [nodeRedData] = useState("");
 
   const handleTextEditorChange = value => {

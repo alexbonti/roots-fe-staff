@@ -26,7 +26,7 @@ export const MyCompanyProvider = props => {
     <li>Always remember your target audience while writing the company description. Think about their requirements and preferences.</li>
     <li>Try to make your business stand out from your competition.</li>
   </ul>`);
-  const [companyField, setCompanyField] = useState("Human Resources");
+  const [companyIndustry, setCompanyIndustry] = useState("Human Resources");
   const [companyLocation, setCompanyLocation] = useState("Melbourne");
 
   const { children } = props;
@@ -39,8 +39,8 @@ export const MyCompanyProvider = props => {
         setCompanyLogo,
         companyDescription,
         setCompanyDescription,
-        companyField,
-        setCompanyField,
+        companyIndustry,
+        setCompanyIndustry,
         companyLocation,
         setCompanyLocation
       }}

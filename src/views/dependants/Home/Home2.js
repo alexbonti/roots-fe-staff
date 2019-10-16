@@ -81,11 +81,12 @@ function a11yProps(index) {
   };
 }
 
-export const Home = () => {
+export const Home2 = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
   const [dataJobsDraft, setDataJobsDraft] = useState("");
+  const [isMycompany, setIsMyCompany] = useState(true)
   const {
     addOpportunity,
     jobView,
@@ -95,7 +96,7 @@ export const Home = () => {
     mainTitle,
     setMainTitle
   } = useContext(HomeContext);
-  const { loginStatus } = useContext(LoginContext);
+  const { loginStatus, accessToken } = useContext(LoginContext);
 
   const handleChange = (event, newValue) => {
     // main title tab
@@ -113,23 +114,31 @@ export const Home = () => {
 
   const handleChangeIndex = index => setValue(index);
 
+
   useEffect(() => {
     const triggerAPI = async () => {
-      const oppResponse = await API.getOpportunity();
-      const oppDraftResponse = await API.getOpportunityDraft();
-      if (oppResponse.status && oppDraftResponse.status) {
-        setDataJobs(oppResponse.response);
-        setDataJobsDraft(oppDraftResponse.response);
-      }
-    };
-    if (loginStatus) {
-      triggerAPI();
+       const profileData = await API.getProfileEmployer(accessToken)
+       if(profileData.response.companyId === null){
+          setIsMyCompany(false)
+          setValue(2)
+       } 
     }
-    // if (loginStatus) {
-    //   API.getOpportunity(setDataJobs);
-    //   API.getOpportunityDraft(setDataJobsDraft);
-    // }
-  }, [loginStatus]);
+    triggerAPI(accessToken)
+    
+  }, [API])
+  // useEffect(() => {
+  //   const triggerAPI = async () => {
+  //     const oppResponse = await API.getOpportunity();
+  //     const oppDraftResponse = await API.getOpportunityDraft();
+  //     if (oppResponse.status && oppDraftResponse.status) {
+  //       setDataJobs(oppResponse.response);
+  //       setDataJobsDraft(oppDraftResponse.response);
+  //     }
+  //   };
+  //   if (loginStatus) {
+  //     triggerAPI();
+  //   }
+  // }, [loginStatus]);
 
   const theme = createMuiTheme({
     palette: {
@@ -157,7 +166,6 @@ export const Home = () => {
   ) : (
     <AddOpportunity />
   );
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -197,7 +205,7 @@ export const Home = () => {
             {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            {isEditMyCompany ? <EditMyCompany /> : <MyCompany />}
+            {isEditMyCompany ? <EditMyCompany /> : <MyCompany data={isMycompany} />}
           </TabPanel>
         </SwipeableViews>
       </div>

@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { API } from "helpers/index";
+import {MyCompanyContext} from '../../contexts/'
 
 export default function Accept() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
   });
+
+  const { setCompanyLogo} = useContext(MyCompanyContext)
 
   const acceptedFilesItems = acceptedFiles.map(file => (
     <li key={file.path}>
@@ -19,7 +22,7 @@ export default function Accept() {
         let file = new FormData();
         file.append("imageFile", data[0]);
         const imageData = await API.uploadImage(file);
-        console.log(imageData);
+        setCompanyLogo(imageData.response.data.data.imageFileURL.thumbnail);
       };
       uploadImageImported(acceptedFiles);
     }

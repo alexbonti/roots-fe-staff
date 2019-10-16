@@ -66,15 +66,9 @@ class API {
   };
 
   postMyCompanyDetails = async (data, accessToken) => {
-   const details ={
-      "companyName": "string",
-      "companyLogo": "string",
-      "location": "string",
-      "companyIndustry": "string",
-      "companyDescription": "string"
-    }
+   
     return await axiosInstance
-      .post("/employer/createcompany", details, {
+      .post("/employer/createcompany", data, {
         headers: {
           authorization: "Bearer " + accessToken,
         },
@@ -122,6 +116,22 @@ class API {
       })
       .catch(error => console.log(error));
   };
+
+
+  getProfileEmployer = async(auth) =>{
+    return await axiosInstance
+      .get('/employer/getProfile', {
+        headers: {
+          authorization: `Bearer ${auth}`,
+        }
+      })
+      .then(response => {
+        return {"response": response.data.data.customerData}
+      })
+      .catch(error => {
+        return {"error": error}
+      })
+  }
 
   uploadImage = async data => {
     return await axiosInstance

@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function MyCompany() {
+export default function MyCompany(props) {
   const classes = useStyles();
   const {
     companyName,
@@ -59,62 +59,68 @@ export default function MyCompany() {
     setIsEditMycompany(true);
   };
 
-  
+  const isCompanyConfigured = props.data
 
+  
+  if(!isCompanyConfigured){
+    setIsEditMycompany(true)
+  }
+  
+  let content = (<div>
+    <Container className={classes.container}>
+      <Grid container direction="column">
+        <Grid item xs={4}>
+          <img
+            alt="Remy Sharp"
+            src={companyLogo}
+            className={classes.avatar}
+          />
+        </Grid>
+        <Grid item xs={4} className={classes.title}>
+          {companyName}
+        </Grid>
+        <Grid item xs={4}>
+          {/* {seniority} */}
+        </Grid>
+      </Grid>
+    </Container>
+    <Container className={classes.transparentContainer}>
+      <Grid container direction="column">
+        <Grid item xs={4} className={classes.subText}>
+          {companyLocation}
+        </Grid>
+        <Grid item xs={4} className={classes.subText}>
+          {companyField}
+        </Grid>
+      </Grid>
+    </Container>
+    <Container className={classes.containerBottom}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={3}
+      >
+        <Grid item xs={12} className={classes.subText}>
+          {ReactHtmlParser(companyDescription)}
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            className={classes.button1}
+            size="medium"
+            variant="contained"
+            color="primary"
+            onClick={() => openEdit()}
+          >
+            Edit
+            {/* <Edit className={classes.rightIcon} /> */}
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
+  </div>) 
   return (
-    <div>
-      <Container className={classes.container}>
-        <Grid container direction="column">
-          <Grid item xs={4}>
-            <img
-              alt="Remy Sharp"
-              src={companyLogo}
-              className={classes.avatar}
-            />
-          </Grid>
-          <Grid item xs={4} className={classes.title}>
-            {companyName}
-          </Grid>
-          <Grid item xs={4}>
-            {/* {seniority} */}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.subText}>
-            {companyLocation}
-          </Grid>
-          <Grid item xs={4} className={classes.subText}>
-            {companyField}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.containerBottom}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          spacing={3}
-        >
-          <Grid item xs={12} className={classes.subText}>
-            {ReactHtmlParser(companyDescription)}
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              className={classes.button1}
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={() => openEdit()}
-            >
-              Edit
-              {/* <Edit className={classes.rightIcon} /> */}
-            </Button>
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
+    content
   );
 }

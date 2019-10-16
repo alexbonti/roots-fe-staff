@@ -15,6 +15,8 @@ import {
   CandidateProvider
 } from "./dependants/CandidateContext";
 
+import {TextEditorContext, TextEditorProvider} from './dependants/TextEditorContext'
+
 export {
   LoginContext,
   LoginProvider,
@@ -27,7 +29,9 @@ export {
   MyCompanyContext,
   MyCompanyProvider,
   CandidateContext,
-  CandidateProvider
+  CandidateProvider,
+  TextEditorContext,
+  TextEditorProvider
 };
 
 export const ContextManager = props => {
@@ -38,7 +42,9 @@ export const ContextManager = props => {
         <HomeProvider>
           <MyCompanyProvider>
             <CandidateProvider>
-              <EditOpportunityProvider>{children}</EditOpportunityProvider>
+              <EditOpportunityProvider>
+                <TextEditorProvider>{children}</TextEditorProvider>
+              </EditOpportunityProvider>
             </CandidateProvider>
           </MyCompanyProvider>
         </HomeProvider>

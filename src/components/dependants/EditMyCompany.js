@@ -6,7 +6,7 @@ import { TextField, Grid, Button } from "@material-ui/core/";
 import API from "../../helpers/api";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
-import { MyCompanyContext, HomeContext } from "../../contexts";
+import { MyCompanyContext, HomeContext, TextEditorContext } from "../../contexts";
 import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
@@ -71,15 +71,14 @@ export function EditMyCompany() {
   const {
     companyName,
     setCompanyName,
-    // companyLogo,
-    // setCompanyLogo,
-    companyDescription,
-    // setCompanyDescription,
-    companyField,
-    setCompanyField,
+    companyLogo,
+    companyIndustry,
+    setCompanyIndustry,
     companyLocation,
     setCompanyLocation,
   } = useContext(MyCompanyContext);
+
+  const {description} = useContext(TextEditorContext)
 
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
@@ -103,16 +102,22 @@ export function EditMyCompany() {
     setStyleEdit({ display: "none" });
   };
 
-  const submitToApi = (data) => {
-    // const data = {
-    //   companyName,
-    //   companyLogo,
-    //   companyLocation,
-    //   companyDescription,
-    //   companyIndustry: companyField
-    // };
 
-    API.upadateMyCompanyDetails(data);
+
+  const submitToApi = async (accesstoken) => {
+
+    const data = {
+      companyName,
+      companyLogo,
+      location: companyLocation,
+      companyDescription: description,
+      companyIndustry
+    };
+    console.log(data)
+
+    const  postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
+  
+    console.log(postDataCompany)
     notify("Company Details Saved");
   };
 
@@ -166,7 +171,7 @@ export function EditMyCompany() {
                   className={classes.textField}
                   margin="normal"
                   onChange={event => {
-                    setCompanyField(event.target.value);
+                    setCompanyIndustry(event.target.value);
                   }}
                 />{" "}
               </Grid>
