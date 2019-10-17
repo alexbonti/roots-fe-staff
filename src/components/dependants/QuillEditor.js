@@ -37,7 +37,7 @@ export const TextEditor = () => {
 
   return (
     <Grid container direction="row" justify="center" alignItems="center">
-      <Grid item xs={8}>
+      <Grid item xs={7}  >
         <ReactQuill
           style={{ width: "100%", height: "30vh", marginBottom: "2rem" }}
           onChange={handleTextEditorChange}

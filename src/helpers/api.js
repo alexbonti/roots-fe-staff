@@ -158,7 +158,41 @@ class API {
       .then(response => response.data.suggestions)
       .catch(error => console.log(error));
   };
+
+  getCompanyDetails = async auth => {
+    return await axiosInstance
+      .get("/employer/getcompany", {
+        headers: {
+          "authorization": `bearer ${auth}`,
+        },
+      })
+      .then(response => {
+        return { "response": response.data.data.companyData[0] };
+      })
+      .catch(error => {
+        return { "error": error };
+      });
+  };
+
+  updateCompanyDetails = async (data, auth) => {
+    return await axiosInstance
+      .put("/employer/updatecompany", data, {
+        headers: {
+          "authorization": `bearer ${auth}`,
+        },
+      })
+      .then(response => {
+        return { "response": response };
+      })
+      .catch(error => {
+        return { "error": error };
+      });
+  };
+
 }
+  
+
+
 
 const instance = new API();
 export default instance;

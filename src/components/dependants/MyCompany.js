@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Container } from "@material-ui/core/";
-import { HomeContext, MyCompanyContext } from "contexts/index";
+import { HomeContext, MyCompanyContext, TextEditorContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 
 const useStyles = makeStyles({
   container: {
     backgroundColor: "white",
     borderRadius: "10px 10px 0 0 "
+  },
+  contatinerHead:{
+    padding: "3vh 0"
   },
   containerBottom: {
     backgroundColor: "white",
@@ -18,7 +21,8 @@ const useStyles = makeStyles({
     padding: "10px 32px "
   },
   title: {
-    fontSize: 34
+    fontSize: 34,
+    fontWeight: "500"
   },
   subText: {
     fontSize: 12
@@ -49,9 +53,11 @@ export default function MyCompany(props) {
     companyName,
     companyLogo,
     companyDescription,
-    companyField,
+    companyIndustry,
     companyLocation
   } = useContext(MyCompanyContext);
+
+  const {description} = useContext(TextEditorContext)
 
   const { setIsEditMycompany } = useContext(HomeContext);
 
@@ -65,10 +71,12 @@ export default function MyCompany(props) {
   if(!isCompanyConfigured){
     setIsEditMycompany(true)
   }
+
+
   
-  let content = (<div>
+  let content =  (<div>
     <Container className={classes.container}>
-      <Grid container direction="column">
+      <Grid container className={classes.contatinerHead} direction="column">
         <Grid item xs={4}>
           <img
             alt="Remy Sharp"
@@ -90,7 +98,7 @@ export default function MyCompany(props) {
           {companyLocation}
         </Grid>
         <Grid item xs={4} className={classes.subText}>
-          {companyField}
+          {companyIndustry}
         </Grid>
       </Grid>
     </Container>
@@ -99,13 +107,15 @@ export default function MyCompany(props) {
         container
         direction="column"
         justify="center"
-        alignItems="center"
+        alignItems="flex-start"
         spacing={3}
       >
         <Grid item xs={12} className={classes.subText}>
           {ReactHtmlParser(companyDescription)}
         </Grid>
-        <Grid item xs={12}>
+       
+      </Grid>
+      <Grid container justify="center">
           <Button
             className={classes.button1}
             size="medium"
@@ -117,7 +127,6 @@ export default function MyCompany(props) {
             {/* <Edit className={classes.rightIcon} /> */}
           </Button>
         </Grid>
-      </Grid>
     </Container>
   </div>) 
   return (

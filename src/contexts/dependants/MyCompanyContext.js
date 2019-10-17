@@ -3,10 +3,10 @@ import React, { createContext, useState } from "react";
 export const MyCompanyContext = createContext();
 
 export const MyCompanyProvider = props => {
+
+  const [companyId, setCompanyId] = useState("")
   const [companyName, setCompanyName] = useState("My Company");
-  const [companyLogo, setCompanyLogo] = useState(
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCK4URjbR3TE8cSfY1pYy4IGhl6nOdQ9C9257OafzyP8KySLZwXA"
-  );
+  const [companyLogo, setCompanyLogo] = useState("https://s3.au-syd.cloud-object-storage.appdomain.cloud/refugee-bucket/image/profilePicture/thumb/Thumb_Profile_lFu6zRW9TBxB.png");
   const [
     companyDescription,
     setCompanyDescription
@@ -33,6 +33,8 @@ export const MyCompanyProvider = props => {
   return (
     <MyCompanyContext.Provider
       value={{
+        companyId,
+        setCompanyId,
         companyName,
         setCompanyName,
         companyLogo,

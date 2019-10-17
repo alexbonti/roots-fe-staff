@@ -1,14 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { API } from "helpers/index";
-import {MyCompanyContext} from '../../contexts/'
+import { Grid } from "@material-ui/core/";
+import { MyCompanyContext } from "../../contexts/";
 
 export default function Accept() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
   });
 
-  const { setCompanyLogo} = useContext(MyCompanyContext)
+  const { companyLogo, setCompanyLogo } = useContext(MyCompanyContext);
 
   const acceptedFilesItems = acceptedFiles.map(file => (
     <li key={file.path}>
@@ -29,16 +30,27 @@ export default function Accept() {
   }, [acceptedFiles]);
 
   return (
-    <section className="container">
-      <div {...getRootProps({ className: "dropzone" })}>
+    <Grid
+      container
+      item
+      xs={7}
+      direction="column"
+      className="container"
+      alignItems="center"
+      style={{backgroundImage: `url(${companyLogo})`, backgroundRepeat: "no-repeat", margin: "0 auto", height: "30vh", border: "solid 1px #d0d0d0"}}
+    >
+      <Grid container item xs={12} alignItems="center" justify="center" direction="column" {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
+        <Grid item xs={6}>
         <p>Drag and drop a logo image here, or click to select files</p>
         <em>(Only *.jpeg and *.png images will be accepted)</em>
-      </div>
-      <aside>
-        <h4>Accepted files</h4>
-        <ul>{acceptedFilesItems}</ul>
-      </aside>
-    </section>
+        </Grid>
+      </Grid>
+      {/* <Grid item xs={12}>
+        <aside>
+          <ul>{acceptedFilesItems}</ul>
+        </aside>
+      </Grid> */}
+    </Grid>
   );
 }

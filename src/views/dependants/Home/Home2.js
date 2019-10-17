@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
 import PropTypes from "prop-types";
+import React, { useEffect, useState, useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import {
@@ -9,14 +9,14 @@ import {
   Typography,
   Box,
   Grid,
-  Container
+  Container,
 } from "@material-ui/core/";
-import { HomeContext, LoginContext } from "contexts";
+import { HomeContext, LoginContext, MyCompanyContext } from "contexts";
 import {
   AddOpportunity,
   ListOpportunity,
   MyCompany,
-  EditMyCompany
+  EditMyCompany,
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
@@ -27,16 +27,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     flexGrow: 1,
-    padding: "0"
+    padding: "0",
   },
   icon: {
-    margin: theme.spacing(0)
+    margin: theme.spacing(0),
   },
   iconHover: {
     margin: theme.spacing(0),
     "&:hover": {
-      color: "red"
-    }
+      color: "red",
+    },
   },
   topSpace: {
     display: "flex",
@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bolder",
     margin: 0,
     width: "100vw",
-    maxWidth: "none"
-  }
+    maxWidth: "none",
+  },
 }));
 
 function TabPanel(props) {
@@ -71,13 +71,13 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 };
 
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -86,7 +86,7 @@ export const Home2 = () => {
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
   const [dataJobsDraft, setDataJobsDraft] = useState("");
-  const [isMycompany, setIsMyCompany] = useState(true)
+  const [isMycompany, setIsMyCompany] = useState(true);
   const {
     addOpportunity,
     jobView,
@@ -94,9 +94,17 @@ export const Home2 = () => {
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
-    setMainTitle
+    setMainTitle,
   } = useContext(HomeContext);
   const { loginStatus, accessToken } = useContext(LoginContext);
+  const {
+    setCompanyId,
+    setCompanyName,
+    setCompanyLogo,
+    setCompanyDescription,
+    setCompanyIndustry,
+    setCompanyLocation,
+  } = useContext(MyCompanyContext);
 
   const handleChange = (event, newValue) => {
     // main title tab
@@ -114,18 +122,30 @@ export const Home2 = () => {
 
   const handleChangeIndex = index => setValue(index);
 
-
   useEffect(() => {
-    const triggerAPI = async () => {
-       const profileData = await API.getProfileEmployer(accessToken)
-       if(profileData.response.companyId === null){
-          setIsMyCompany(false)
-          setValue(2)
-       } 
+    if (loginStatus) {
+      const triggerAPI = async () => {
+        const profileData = await API.getProfileEmployer(accessToken);
+        if (profileData.response.companyId === null) {
+          setCompanyId(null)
+          setIsMyCompany(false);
+          setValue(2);
+          console.log(profileData.response);
+        } else {
+          console.log("in")
+          const companyData = await API.getCompanyDetails(accessToken);
+          console.log(companyData)
+          setCompanyId(companyData.response.companyId)
+          setCompanyName(companyData.response.companyName)
+          setCompanyLogo(companyData.response.companyLogo)
+          setCompanyDescription(companyData.response.companyDescription)
+          setCompanyIndustry(companyData.response.companyIndustry)
+          setCompanyLocation(companyData.response.location);
+        }
+      };
+      triggerAPI(accessToken);
     }
-    triggerAPI(accessToken)
-    
-  }, [API])
+  }, [API]);
   // useEffect(() => {
   //   const triggerAPI = async () => {
   //     const oppResponse = await API.getOpportunity();
@@ -153,8 +173,8 @@ export const Home2 = () => {
       // Used to shift a color's luminance by approximately
       // two indexes within its tonal palette.
       // E.g., shift from Red 500 to Red 300 or Red 700.
-      tonalOffset: 0.2
-    }
+      tonalOffset: 0.2,
+    },
   });
 
   const list = !addOpportunity ? (
@@ -205,7 +225,11 @@ export const Home2 = () => {
             {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            {isEditMyCompany ? <EditMyCompany /> : <MyCompany data={isMycompany} />}
+            {isEditMyCompany ? (
+              <EditMyCompany />
+            ) : (
+              <MyCompany data={isMycompany} />
+            )}
           </TabPanel>
         </SwipeableViews>
       </div>
