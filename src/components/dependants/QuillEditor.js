@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import ReactQuill from "react-quill";
 import ReactHtmlParser from "react-html-parser";
-import { EditOpportunityContext } from "../../contexts/";
 import { Grid } from "@material-ui/core/";
 
 import "react-quill/dist/quill.snow.css";
@@ -31,9 +30,6 @@ export const TextEditor = () => {
     return setDescription(value);
   };
 
-  // useEffect(() => {
-  //   API.getTextEditorData(setNodeRedData);
-  // }, [data]);
 
   return (
     <Grid container direction="row" justify="center" alignItems="center">

@@ -139,12 +139,16 @@ export function EditMyCompany() {
         accesstoken
       );
       notify("Company Details Saved");
+      console.log(updateDataCompany)
       closeEdit();
     } else {
       const postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
       notify("Company Details Saved");
+      console.log(postDataCompany)
+
       closeEdit();
     }
+
   };
 
   const setSuggestions = event => {
@@ -194,7 +198,8 @@ export function EditMyCompany() {
                 }}
               />
             </Grid>
-
+            
+            {/* Logo upload */}
             <Grid item xs={8}>
               <MyDropzone />
             </Grid>
@@ -257,52 +262,13 @@ export function EditMyCompany() {
                     </div>
                       
              </Grid>
-            {/* <Grid item xs={8}>
-                    <TextField
-                      required
-                      id="standard-required"
-                      label="Location"
-                      value={inputPosition}
-                      placeholder="Company Location"
-                      className={classes.textField}
-                      margin="normal"
-                      onChange={event => {
-                        event.preventDefault();
-                        autoFill(event);
-                      }}
-                    />{" "}
-                    <div>
-                      {positionSuggestions !== null &&
-                      positionSuggestions !== undefined &&
-                      positionSuggestions !== "" ? (
-                        <div className={classes.suggestion}>
-                          {positionSuggestions.map(suggestion => {
-                            return (
-                              <div
-                                key={Math.random()}
-                                onClick={event => {
-                                  event.preventDefault();
-                                  setSuggestions(event);
-                                }}
-                              >
-                                {suggestion.address.country},{" "}
-                                {suggestion.address.city},{" "}
-                                {suggestion.address.state}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </Grid>
-                    <div />
-                  </Grid> */}
-
+            
             {/* description */}
             <Grid item xs={8}>
               <TextEditor />{" "}
             </Grid>
+
+            {/* Buttons */}
             <Grid
               container
               spacing={2}
@@ -348,6 +314,8 @@ export function EditMyCompany() {
               </Grid>
 
             </Grid>
+
+
           </Grid>
         </Grid>
       </ThemeProvider>

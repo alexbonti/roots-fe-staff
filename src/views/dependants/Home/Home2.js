@@ -84,8 +84,8 @@ function a11yProps(index) {
 export const Home2 = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [dataJobs, setDataJobs] = useState("");
-  const [dataJobsDraft, setDataJobsDraft] = useState("");
+  const [dataJobs] = useState("");
+  const [dataJobsDraft] = useState("");
   const [isMycompany, setIsMyCompany] = useState(true);
   const {
     addOpportunity,
@@ -145,7 +145,7 @@ export const Home2 = () => {
       };
       triggerAPI(accessToken);
     }
-  }, [API]);
+  }, [ accessToken, setCompanyId, loginStatus, setCompanyName, setCompanyLogo, setCompanyDescription, setCompanyIndustry, setCompanyLocation]);
   // useEffect(() => {
   //   const triggerAPI = async () => {
   //     const oppResponse = await API.getOpportunity();

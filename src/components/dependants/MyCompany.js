@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Container } from "@material-ui/core/";
-import { HomeContext, MyCompanyContext, TextEditorContext } from "contexts/index";
+import { HomeContext, MyCompanyContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 
 const useStyles = makeStyles({
@@ -57,7 +57,7 @@ export default function MyCompany(props) {
     companyLocation
   } = useContext(MyCompanyContext);
 
-  const {description} = useContext(TextEditorContext)
+  // const {description} = useContext(TextEditorContext)
 
   const { setIsEditMycompany } = useContext(HomeContext);
 
