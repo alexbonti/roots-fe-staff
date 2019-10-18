@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Container } from "@material-ui/core/";
 import { HomeContext, MyCompanyContext, TextEditorContext } from "contexts/index";
@@ -71,6 +71,11 @@ export default function MyCompany(props) {
   if(!isCompanyConfigured){
     setIsEditMycompany(true)
   }
+
+
+  useEffect(() => {
+    
+  }, [setIsEditMycompany])
 
 
   

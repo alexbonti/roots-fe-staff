@@ -32,19 +32,27 @@ export default function Accept() {
   return (
     <Grid
       container
-      item
-      xs={7}
-      direction="column"
+      direction="row"
       className="container"
+      spacing={2}
       alignItems="center"
-      style={{backgroundImage: `url(${companyLogo})`, backgroundRepeat: "no-repeat", margin: "0 auto", height: "30vh", border: "solid 1px #d0d0d0"}}
+      {...getRootProps({ className: "dropzone" })}
+      style={{border: "solid 1px #d0d0d0"}}
     >
-      <Grid container item xs={12} alignItems="center" justify="center" direction="column" {...getRootProps({ className: "dropzone" })}>
+      {/* <Grid container item xs={12} alignItems="center" justify="center" direction="column" {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
-        <Grid item xs={6}>
+        <Grid item xs={8}>
         <p>Drag and drop a logo image here, or click to select files</p>
         <em>(Only *.jpeg and *.png images will be accepted)</em>
         </Grid>
+      </Grid> */}
+      <Grid item xs={4} >
+        <img src={companyLogo} alt="backgroundImage" />
+      </Grid>
+      <Grid item xs={8}>
+        <input {...getInputProps()} />
+        <p>Drag and drop a logo image here, or click to select files</p>
+        <em>(Only *.jpeg and *.png images will be accepted)</em>
       </Grid>
       {/* <Grid item xs={12}>
         <aside>

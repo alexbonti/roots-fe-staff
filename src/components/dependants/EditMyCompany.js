@@ -23,15 +23,14 @@ const useStyles = makeStyles(theme => ({
     flexWrap: "wrap",
   },
   root: {
-    flexGrow: 1,
     backgroundColor: "white",
     marginTop: "1vh",
     borderRadius: "10px",
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "58% !important",
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1),
+    // width: "100%",
   },
   textareaAutosize: {
     width: "70%",
@@ -45,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     width: 200,
   },
   location: {
-    width: "55% !important",
+    //width: "55% !important",
   },
   suggestion: {
     border: "1px solid grey",
@@ -71,6 +70,8 @@ const theme = createMuiTheme({
 
 export function EditMyCompany() {
   const classes = useStyles();
+
+  //-------------------context
   const {
     companyId,
     companyName,
@@ -83,18 +84,22 @@ export function EditMyCompany() {
   } = useContext(MyCompanyContext);
 
   const { description } = useContext(TextEditorContext);
-
-  const [inputPosition, setInputPosition] = useState("");
-  const [positionSuggestions, setPositionSuggestions] = useState("");
   const {
     isPreview,
     setIsPreview,
     styleEdit,
     setStyleEdit,
     setIsEditMycompany,
+    setMainTitle,
     // setAddOpportunity
   } = useContext(HomeContext);
 
+  //--------------------- usestates
+
+  const [inputPosition, setInputPosition] = useState("");
+  const [positionSuggestions, setPositionSuggestions] = useState("");
+
+  //--------------------- functions
   const autoFill = async event => {
     setInputPosition(event.target.value);
     let suggestions = await API.getAddress(inputPosition);
@@ -106,8 +111,12 @@ export function EditMyCompany() {
     setStyleEdit({ display: "none" });
   };
 
+  if (!companyId) {
+    setMainTitle("First let's create your Company profile");
+  }
+
   const submitToApi = async accesstoken => {
-    console.log(companyId)
+    console.log(companyId);
     const data = {
       companyName,
       companyLogo,
@@ -124,15 +133,18 @@ export function EditMyCompany() {
       companyIndustry,
     };
 
-    if(companyId !== null){
-      const updateDataCompany = await API.updateCompanyDetails(data2, accesstoken)
-    }
-    else {
+    if (companyId !== null) {
+      const updateDataCompany = await API.updateCompanyDetails(
+        data2,
+        accesstoken
+      );
+      notify("Company Details Saved");
+      closeEdit();
+    } else {
       const postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
+      notify("Company Details Saved");
+      closeEdit();
     }
-
-    notify("Company Details Saved");
-    closeEdit()
   };
 
   const setSuggestions = event => {
@@ -147,133 +159,199 @@ export function EditMyCompany() {
   };
 
   return (
-    <div>
-      <div style={styleEdit}>
-        <ThemeProvider theme={theme}>
-          <Grid container alignContent="flex-start">
-            <Button onClick={closeEdit}> {"<"} Back</Button>
-          </Grid>
-          <Grid container direction="column" alignItems="center">
-            <Grid container item xs={10}>
-              <div className={classes.root}>
-                <Grid container spacing={3} alignContent="center">
-                  {/* company name */}
-                  <Grid item xs={12}>
+    <Grid style={styleEdit}>
+      <ThemeProvider theme={theme}>
+        {/* BUTTON */}
+        <Grid container alignContent="flex-start">
+          <Button onClick={closeEdit}> {"<"} Back</Button>
+        </Grid>
+
+        {/* //MAIN center the page */}
+        <Grid container direction="column" alignItems="center">
+          {/* root gives size  */}
+          <Grid
+            container
+            alignItems="center"
+            justify="center"
+            direction="row"
+            className={classes.root}
+            spacing={3}
+            item
+            xs={8}
+          >
+            {/* company name */}
+            <Grid item xs={8}>
+              <TextField
+                // className={classes.textField}
+                required
+                fullWidth
+                id="standard-required"
+                label="Company Name"
+                placeholder="Company Name"
+                margin="normal"
+                onChange={event => {
+                  setCompanyName(event.target.value);
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={8}>
+              <MyDropzone />
+            </Grid>
+
+            {/* industry */}
+            <Grid item xs={8}>
+              <TextField
+                required
+                fullWidth
+                id="standard-required"
+                label="Company Industry"
+                defaultValue=""
+                placeholder="Company Industry  Field "
+                // className={classes.textField}
+                margin="normal"
+                onChange={event => {
+                  setCompanyIndustry(event.target.value);
+                }}
+              />{" "}
+            </Grid>
+
+            {/* location */}
+            <Grid item xs={8}>
                     <TextField
-                      className={classes.textField}
                       required
                       id="standard-required"
-                      label="Company Name"
-                      placeholder="Company Name"
+                      label="Location"
+                      value={inputPosition}
+                      fullWidth
+                      placeholder="Company Location"
+                      className={classes.textField}
                       margin="normal"
                       onChange={event => {
-                        setCompanyName(event.target.value);
+                        event.preventDefault();
+                        autoFill(event);
                       }}
                     />
-                  </Grid>
-
-                  {/* company logo */}
-                  <Grid container item xs={12} alignItems="center">
-                    <MyDropzone />
-                  </Grid>
-
-                  {/* industry */}
-                  <Grid item xs={12}>
+                    <div>
+                    {positionSuggestions  !== null &&
+                      positionSuggestions !== undefined &&
+                      positionSuggestions !== "" ? (
+                        <div className={classes.suggestion}>
+                          {positionSuggestions.map(suggestion => {
+                            return (
+                              <div
+                                key={Math.random()}
+                                onClick={event => {
+                                  event.preventDefault();
+                                  setSuggestions(event);
+                                }}
+                              >
+                                {suggestion.address.country},{" "}
+                                {suggestion.address.city},{" "}
+                                {suggestion.address.state}
+                              </div>
+                            );
+                          })}
+                        </div> 
+                      ) : ""}
+                    </div>
+                      
+             </Grid>
+            {/* <Grid item xs={8}>
                     <TextField
                       required
                       id="standard-required"
-                      label="Company Industry"
-                      defaultValue=""
-                      placeholder="Company Industry  Field "
+                      label="Location"
+                      value={inputPosition}
+                      placeholder="Company Location"
                       className={classes.textField}
                       margin="normal"
                       onChange={event => {
-                        setCompanyIndustry(event.target.value);
+                        event.preventDefault();
+                        autoFill(event);
                       }}
                     />{" "}
-                  </Grid>
-
-                  {/* location */}
-                  <Grid item xs={12}>
                     <div>
-                      <TextField
-                        required
-                        id="standard-required"
-                        label="Location"
-                        value={inputPosition}
-                        placeholder="Company Location"
-                        className={classes.textField}
-                        margin="normal"
-                        onChange={event => {
-                          event.preventDefault();
-                          autoFill(event);
-                        }}
-                      />{" "}
-                      {/* prettier-ignore */}
-                      <div>
+                      {positionSuggestions !== null &&
+                      positionSuggestions !== undefined &&
+                      positionSuggestions !== "" ? (
+                        <div className={classes.suggestion}>
+                          {positionSuggestions.map(suggestion => {
+                            return (
+                              <div
+                                key={Math.random()}
+                                onClick={event => {
+                                  event.preventDefault();
+                                  setSuggestions(event);
+                                }}
+                              >
+                                {suggestion.address.country},{" "}
+                                {suggestion.address.city},{" "}
+                                {suggestion.address.state}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </Grid>
+                    <div />
+                  </Grid> */}
 
-                              {positionSuggestions !== null &&
-                              positionSuggestions !== undefined &&
-                              positionSuggestions !== "" ? (
-                                  <div className={classes.suggestion}>
-                                    {positionSuggestions.map(suggestion => {
-                                      return (
-                                        <div
-                                          key={Math.random()}
-                                          onClick={event => {
-                                            event.preventDefault();
-                                            setSuggestions(event);
-                                          }}
-                                        >
-                                          {suggestion.address.country},{" "}
-                                          {suggestion.address.city},{" "}
-                                          {suggestion.address.state}
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                            </div>
-                      <div />
-                    </div>
-                  </Grid>
-
-                  {/* description */}
-                  <Grid item xs={12}>
-                    <TextEditor />{" "}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        activePreview();
-                      }}
-                    >
-                      Preview
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      onClick={() => {
-                        submitToApi(AccessToken);
-                      }}
-                      variant="contained"
-                      color="primary"
-                    >
-                      Save
-                    </Button>
-                  </Grid>
+            {/* description */}
+            <Grid item xs={8}>
+              <TextEditor />{" "}
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justify="center"
+              item
+              xs={8}
+              direction="row"
+            >
+              <Grid
+                item
+                xs={6}
+                container
+                direction="column"
+                alignContent="center"
+                spacing={2}
+                // justify="sp"
+              >
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      activePreview();
+                    }}
+                    style={{ width: "100%" }}
+                  >
+                    Preview
+                  </Button>
                 </Grid>
-              </div>
+                <Grid item xs={12}>
+                  <Button
+                    onClick={() => {
+                      submitToApi(AccessToken);
+                    }}
+                    variant="contained"
+                    color="primary"
+                    style={{ width: "100%" }}
+                  >
+                    Save
+                  </Button>
+                </Grid>
+              </Grid>
+
             </Grid>
           </Grid>
-        </ThemeProvider>
-      </div>
-
+        </Grid>
+      </ThemeProvider>
       {/* {isPreview ? <MyCompanyFullView  /> : ""} */}
-    </div>
+    </Grid>
   );
 }
