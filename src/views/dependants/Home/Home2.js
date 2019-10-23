@@ -86,7 +86,8 @@ export const Home2 = () => {
   const [value, setValue] = useState(0);
   const [dataJobs] = useState("");
   const [dataJobsDraft] = useState("");
-  const [isMycompany, setIsMyCompany] = useState(true);
+  const [isMyCompany, setIsMyCompany] = useState(true);
+  //const [dataMyCompany, setDataMyCompany] = useState("");
   const {
     addOpportunity,
     jobView,
@@ -94,16 +95,20 @@ export const Home2 = () => {
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
-    setMainTitle,
+    setMainTitle
   } = useContext(HomeContext);
   const { loginStatus, accessToken } = useContext(LoginContext);
   const {
     setCompanyId,
-    setCompanyName,
-    setCompanyLogo,
-    setCompanyDescription,
-    setCompanyIndustry,
-    setCompanyLocation,
+    // setCompanyName,
+    // setCompanyLogo,
+    // setCompanyDescription,
+    // setCompanyIndustry,
+    // setCompanyLocation,
+      dataMyCompany, 
+    setDataMyCompany,
+    isUploaded,
+    setIsUploaded
   } = useContext(MyCompanyContext);
 
   const handleChange = (event, newValue) => {
@@ -126,26 +131,47 @@ export const Home2 = () => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-        if (profileData.response.companyId === null) {
-          setCompanyId(null)
+
+        if (
+          profileData.response &&
+          !Object.prototype.hasOwnProperty.call(
+            profileData.response,
+            "companyId"
+          ) && isUploaded
+        ) {
+          setCompanyId(null);
           setIsMyCompany(false);
           setValue(2);
-          console.log(profileData.response);
         } else {
-          console.log("in")
           const companyData = await API.getCompanyDetails(accessToken);
-          console.log(companyData)
-          setCompanyId(companyData.response.companyId)
-          setCompanyName(companyData.response.companyName)
-          setCompanyLogo(companyData.response.companyLogo)
-          setCompanyDescription(companyData.response.companyDescription)
-          setCompanyIndustry(companyData.response.companyIndustry)
-          setCompanyLocation(companyData.response.location);
+          setDataMyCompany(companyData.response);
+          setCompanyId(companyData.response.companyId);
+          setIsUploaded(false)
         }
       };
       triggerAPI(accessToken);
     }
-  }, [ accessToken, setCompanyId, loginStatus, setCompanyName, setCompanyLogo, setCompanyDescription, setCompanyIndustry, setCompanyLocation]);
+  }, [accessToken, loginStatus, setCompanyId, isUploaded]);
+
+  // useEffect(() => {
+  //   if (loginStatus) {
+  //     const triggerAPI = async () => {
+  //       const profileData = await API.getProfileEmployer(accessToken);
+
+  //       if (
+  //         profileData.response &&
+  //         Object.prototype.hasOwnProperty.call(
+  //           profileData.response,
+  //           "companyId"
+  //         )
+  //       ) else {const companyData = await API.getCompanyDetails(accessToken);
+  //         setDataMyCompany(companyData.response);
+  //         setCompanyId(companyData.response.companyId);
+  //       }}
+  //     };
+  //     triggerAPI(accessToken);
+  //   }
+  // }, []);
   // useEffect(() => {
   //   const triggerAPI = async () => {
   //     const oppResponse = await API.getOpportunity();
@@ -188,51 +214,53 @@ export const Home2 = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <Container className={classes.topSpace}>
-          <Grid container justify="center" alignItems="center">
-            <Grid item>{mainTitle} </Grid>
-          </Grid>
-        </Container>
-        <AppBar position="static" color="primary">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            textColor="inherit"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Your Opportunity" {...a11yProps(0)} />
-            <Tab label="Candidates" {...a11yProps(1)} />
-            <Tab label="My Company" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <Grid container className={classes.root} spacing={2}>
-              <Grid item xs={12}>
-                {jobView ? <SingleJob /> : list}
-              </Grid>
+    <>
+      <ThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <Container className={classes.topSpace}>
+            <Grid container justify="center" alignItems="center">
+              <Grid item>{mainTitle} </Grid>
             </Grid>
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            {isEditMyCompany ? (
-              <EditMyCompany />
-            ) : (
-              <MyCompany data={isMycompany} />
-            )}
-          </TabPanel>
-        </SwipeableViews>
-      </div>
-    </ThemeProvider>
+          </Container>
+          <AppBar position="static" color="primary">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab label="Your Opportunity" {...a11yProps(0)} />
+              <Tab label="Candidates" {...a11yProps(1)} />
+              <Tab label="My Company" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+          <SwipeableViews
+            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+          >
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={12}>
+                  {jobView ? <SingleJob /> : list}
+                </Grid>
+              </Grid>
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
+            </TabPanel>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+              {isEditMyCompany ? (
+                <EditMyCompany />
+              ) : (
+                <MyCompany data={(isMyCompany, dataMyCompany)} />
+              )}
+            </TabPanel>
+          </SwipeableViews>
+        </div>
+      </ThemeProvider>
+    </>
   );
 };

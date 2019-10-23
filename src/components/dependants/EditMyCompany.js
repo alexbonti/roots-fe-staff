@@ -72,16 +72,7 @@ export function EditMyCompany() {
   const classes = useStyles();
 
   //-------------------context
-  const {
-    companyId,
-    companyName,
-    setCompanyName,
-    companyLogo,
-    companyIndustry,
-    setCompanyIndustry,
-    companyLocation,
-    setCompanyLocation,
-  } = useContext(MyCompanyContext);
+  const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
   const { description } = useContext(TextEditorContext);
   const {
@@ -95,7 +86,9 @@ export function EditMyCompany() {
   } = useContext(HomeContext);
 
   //--------------------- usestates
-
+  const [companyName, setCompanyName] = useState("");
+  const [companyIndustry, setCompanyIndustry] = useState("");
+  const [companyLocation, setCompanyLocation] = useState("");
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
 
@@ -116,10 +109,9 @@ export function EditMyCompany() {
   }
 
   const submitToApi = async accesstoken => {
-    console.log(companyId);
     const data = {
       companyName,
-      companyLogo,
+      companyLogo: tempLogo,
       location: companyLocation,
       companyDescription: description,
       companyIndustry,
@@ -127,28 +119,31 @@ export function EditMyCompany() {
     const data2 = {
       companyId,
       companyName,
-      companyLogo,
+      companyLogo: tempLogo,
       location: companyLocation,
       companyDescription: description,
       companyIndustry,
     };
 
     if (companyId !== null) {
+      console.log(companyLocation);
       const updateDataCompany = await API.updateCompanyDetails(
         data2,
         accesstoken
       );
       notify("Company Details Saved");
-      console.log(updateDataCompany)
+      console.log("update company details", updateDataCompany);
       closeEdit();
+      setIsUploaded(true);
     } else {
       const postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
+
       notify("Company Details Saved");
-      console.log(postDataCompany)
+      console.log(postDataCompany);
 
       closeEdit();
+      setIsUploaded(true);
     }
-
   };
 
   const setSuggestions = event => {
@@ -198,7 +193,7 @@ export function EditMyCompany() {
                 }}
               />
             </Grid>
-            
+
             {/* Logo upload */}
             <Grid item xs={8}>
               <MyDropzone />
@@ -223,46 +218,46 @@ export function EditMyCompany() {
 
             {/* location */}
             <Grid item xs={8}>
-                    <TextField
-                      required
-                      id="standard-required"
-                      label="Location"
-                      value={inputPosition}
-                      fullWidth
-                      placeholder="Company Location"
-                      className={classes.textField}
-                      margin="normal"
-                      onChange={event => {
-                        event.preventDefault();
-                        autoFill(event);
-                      }}
-                    />
-                    <div>
-                    {positionSuggestions  !== null &&
-                      positionSuggestions !== undefined &&
-                      positionSuggestions !== "" ? (
-                        <div className={classes.suggestion}>
-                          {positionSuggestions.map(suggestion => {
-                            return (
-                              <div
-                                key={Math.random()}
-                                onClick={event => {
-                                  event.preventDefault();
-                                  setSuggestions(event);
-                                }}
-                              >
-                                {suggestion.address.country},{" "}
-                                {suggestion.address.city},{" "}
-                                {suggestion.address.state}
-                              </div>
-                            );
-                          })}
-                        </div> 
-                      ) : ""}
-                    </div>
-                      
-             </Grid>
-            
+              <TextField
+                required
+                id="standard-required"
+                label="Location"
+                value={inputPosition}
+                fullWidth
+                placeholder="Company Location"
+                className={classes.textField}
+                margin="normal"
+                onChange={event => {
+                  event.preventDefault();
+                  autoFill(event);
+                }}
+              />
+              <div>
+                {positionSuggestions !== null &&
+                positionSuggestions !== undefined &&
+                positionSuggestions !== "" ? (
+                  <div className={classes.suggestion}>
+                    {positionSuggestions.map(suggestion => {
+                      return (
+                        <div
+                          key={Math.random()}
+                          onClick={event => {
+                            event.preventDefault();
+                            setSuggestions(event);
+                          }}
+                        >
+                          {suggestion.address.country},{" "}
+                          {suggestion.address.city}, {suggestion.address.state}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </Grid>
+
             {/* description */}
             <Grid item xs={8}>
               <TextEditor />{" "}
@@ -312,10 +307,7 @@ export function EditMyCompany() {
                   </Button>
                 </Grid>
               </Grid>
-
             </Grid>
-
-
           </Grid>
         </Grid>
       </ThemeProvider>

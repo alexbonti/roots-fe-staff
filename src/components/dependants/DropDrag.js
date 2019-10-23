@@ -9,7 +9,7 @@ export default function Accept() {
     accept: "image/jpeg, image/png",
   });
 
-  const { companyLogo, setCompanyLogo } = useContext(MyCompanyContext);
+  const { companyLogo, tempLogo, setTempLogo } = useContext(MyCompanyContext);
 
   // const acceptedFilesItems = acceptedFiles.map(file => (
   //   <li key={file.path}>
@@ -23,12 +23,13 @@ export default function Accept() {
         let file = new FormData();
         file.append("imageFile", data[0]);
         const imageData = await API.uploadImage(file);
-        setCompanyLogo(imageData.response.data.data.imageFileURL.thumbnail);
+        setTempLogo(imageData.response.data.data.imageFileURL.thumbnail);
       };
       uploadImageImported(acceptedFiles);
     }
-  }, [acceptedFiles, setCompanyLogo]);
+  }, [acceptedFiles, setTempLogo]);
 
+  let logo = tempLogo === '' ? companyLogo : tempLogo
   return (
     <Grid
       container
@@ -40,7 +41,7 @@ export default function Accept() {
       style={{border: "solid 1px #d0d0d0"}}
     >
       <Grid item xs={4} >
-        <img src={companyLogo} alt="backgroundImage" />
+        <img src={logo} alt="backgroundImage" />
       </Grid>
       <Grid item xs={8}>
         <input {...getInputProps()} />

@@ -8,8 +8,13 @@ export const MyCompanyProvider = props => {
   const [companyName, setCompanyName] = useState("My Company");
   const [companyLogo, setCompanyLogo] = useState("https://s3.au-syd.cloud-object-storage.appdomain.cloud/refugee-bucket/image/profilePicture/thumb/Thumb_Profile_lFu6zRW9TBxB.png");
   const [companyDescription, setCompanyDescription] = useState(``);
+  const [tempLogo, setTempLogo] = useState(``);
+
   const [companyIndustry, setCompanyIndustry] = useState("Human Resources");
   const [companyLocation, setCompanyLocation] = useState("Melbourne");
+  const [tempData, setTempData] = useState("")
+  const [dataMyCompany, setDataMyCompany] = useState("")
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const { children } = props;
   return (
@@ -26,7 +31,15 @@ export const MyCompanyProvider = props => {
         companyIndustry,
         setCompanyIndustry,
         companyLocation,
-        setCompanyLocation
+        setCompanyLocation,
+        tempLogo,
+        setTempLogo,
+        tempData,
+        setTempData,
+        dataMyCompany,
+        setDataMyCompany,
+        isUploaded,
+        setIsUploaded
       }}
     >
       {children}
