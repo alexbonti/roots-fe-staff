@@ -128,7 +128,6 @@ export const Home2 = () => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-
         if (
           profileData.response &&
           !Object.prototype.hasOwnProperty.call(
@@ -153,8 +152,8 @@ export const Home2 = () => {
 
   useEffect(() => {
     const triggerAPI = async () => {
-      const oppResponse = await API.getOpportunity();
-      const oppDraftResponse = await API.getOpportunityDraft();
+      const oppResponse = await API.getOpportunity(accessToken);
+      const oppDraftResponse = await API.getOpportunityDraft(accessToken);
       if (oppResponse.status && oppDraftResponse.status) {
         setDataJobs(oppResponse.response);
         setDataJobsDraft(oppDraftResponse.response);
@@ -162,10 +161,11 @@ export const Home2 = () => {
     };
     if (loginStatus) {
       triggerAPI();
+      setIsUpdated(true);
     }
     setIsUpdated(false);
     
-  }, [loginStatus, isUpdated]);
+  }, [loginStatus, isUpdated, accessToken]);
 
   const theme = createMuiTheme({
     palette: {
@@ -184,7 +184,6 @@ export const Home2 = () => {
     },
   });
 
-  console.log(dataJobs);
   const list = !addOpportunity ? (
     dataJobs && dataJobsDraft !== "" ? (
       <ListOpportunity data={dataJobs} data2={dataJobsDraft} />

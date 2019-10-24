@@ -36,7 +36,7 @@ export function ListOpportunity(props) {
 
   const allJobs =
     tabNumber === 0 ? (
-      <div style={{ padding: "2rem" }}>
+      <div style={{ padding: "1vh 20vh" }}>
         <Grid container>
           <Grid item sx={12} className={classes.title}>
             Created Opportunities
@@ -97,7 +97,7 @@ export function ListOpportunity(props) {
         </Grid>
       </div>
     ) : (
-      <div>
+      <div style={{ padding: "1vh 20vh" }}>
         <Grid container>
           <Grid item sx={12} className={classes.title}>
             Open Opportunities

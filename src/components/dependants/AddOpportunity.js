@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "55% !important",
+    width: "58% !important",
     textAlign: "center !important",
   },
   textareaAutosize: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     width: 200,
   },
   location: {
-    width: "55% !important",
+    width: "58% !important",
   },
   suggestion: {
     border: "1px solid grey",
@@ -160,7 +160,7 @@ export function AddOpportunity() {
           </Button>
           <ThemeProvider theme={theme}>
             <div className={classes.root}>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} alignItems="center" justify="center">
                 <Grid item xs={12}>
                   <TextField
                     className={classes.textField}
@@ -229,12 +229,10 @@ export function AddOpportunity() {
                     }}
                   />
                 </Grid>
-                <Container>
-                  <Grid item xs={12}>
-                    {" "}
-                    <TextEditor data={"opportunity"} />{" "}
-                  </Grid>
-                </Container>
+                <Grid item xs={7}>
+                  {" "}
+                  <TextEditor data={"opportunity"} />{" "}
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required

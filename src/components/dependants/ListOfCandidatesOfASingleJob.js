@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../helpers/api";
 
@@ -9,25 +9,26 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Grid
+  Grid,
 } from "@material-ui/core/";
 import { HomeContext, CandidateContext } from "contexts";
 import { StarRate, StarBorder } from "@material-ui/icons/";
+import { LoginContext } from "contexts/index";
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   card: {
-    minWidth: 275
+    minWidth: 275,
   },
   skills: {
     borderRadius: ".85rem",
     backgroundColor: "#C74197",
     color: "white",
     textAlign: "center",
-    margin: "1rem"
-  }
+    margin: "1rem",
+  },
 });
 
 export function ListOfCandidatesOfASingleJob(props) {
@@ -36,14 +37,21 @@ export function ListOfCandidatesOfASingleJob(props) {
     HomeContext
   );
   const { setIsSingleCandidate } = useContext(CandidateContext);
+  const {accessToken} = useContext(LoginContext)
 
   const dataArray = applicantsInfo.opportunityData;
+
   useEffect(() => {
     const data = {
-      opportunityId: props.data
+      opportunityId: props.data,
     };
-    API.getApplicantsData(data, setApplicantsInfo);
-  }, [props.data, setApplicantsInfo]);
+    const triggerAPI = async () => {
+      const dataApplicants = await API.getApplicantsData(data, accessToken);
+      setApplicantsInfo(dataApplicants.response);
+    };
+
+    triggerAPI();
+  }, []);
 
   if (applicantsInfo === "") return null;
   if (applicantsInfo === undefined) return null;
@@ -53,7 +61,7 @@ export function ListOfCandidatesOfASingleJob(props) {
   };
 
   let content = (
-    <div>
+    <div style={{ padding: "1vh 20vh" }}>
       <Button
         className={classes.back}
         size="small"
@@ -63,10 +71,14 @@ export function ListOfCandidatesOfASingleJob(props) {
       >
         {"<"} Back
       </Button>
+
       <h1>
         {dataArray[0].jobId.positionTitle} - {dataArray[0].jobId.location}
       </h1>
+
+      <hr />
       <Grid className={classes.root} container spacing={3}>
+        {console.log(dataArray)}{" "}
         {dataArray.map(element => {
           const { first_name, last_name } = element.candidateId;
           return (
@@ -117,7 +129,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                     onClick={() =>
                       setIsSingleCandidate({
                         _: true,
-                        userDetails: element.candidateId
+                        userDetails: element.candidateId,
                       })
                     }
                   >

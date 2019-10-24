@@ -16,7 +16,7 @@ export const CandidateProvider = props => {
         candidateProfile,
         setCandidateProfile,
         isSingleCandidate,
-        setIsSingleCandidate
+        setIsSingleCandidate,
       }}
     >
       {children}

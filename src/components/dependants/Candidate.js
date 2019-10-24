@@ -6,7 +6,7 @@ import {
   Container,
   Icon,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
 } from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
 import { StarRate, StarBorder } from "@material-ui/icons/";
@@ -14,55 +14,61 @@ import {
   ExperienceCV,
   EducationCV,
   VolunteerCV,
-  CoverLetterCV
+  CoverLetterCV,
 } from "../index";
+
 
 const useStyles = makeStyles({
   container: {
     backgroundColor: "white",
-    borderRadius: "10px 10px 0 0 "
+    borderRadius: "10px 10px 0 0 ",
   },
   containerBottom: {
     backgroundColor: "white",
     borderRadius: "0px 0px 10px 10px ",
-    padding: "32px 70px 32px 32px "
+    padding: "32px 70px 32px 32px ",
   },
   transparentContainer: {
-    padding: "10px 32px "
+    padding: "10px 32px ",
   },
   title: {
-    fontSize: 34
+    fontSize: 34,
   },
   subText: {
-    fontSize: 12
+    fontSize: 12,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   rightIcon: {
-    marginLeft: "5px"
+    marginLeft: "5px",
   },
   button1: {
     borderRadius: "20px",
     backgroundColor: "white",
     border: "1px solid #087B94",
-    color: "#087B94"
+    color: "#087B94",
   },
   button2: {
-    borderRadius: "20px"
+    borderRadius: "20px",
   },
   back: {
-    margin: 3
+    margin: 3,
   },
   avatar: {
     heigth: "30%",
     width: "30%",
-    padding: "10px"
+    padding: "10px",
   },
   icon: {
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
 });
+
+
+
+
+
 
 export const Candidate = props => {
   const classes = useStyles();
@@ -70,7 +76,7 @@ export const Candidate = props => {
   const {
     volunteer,
     workExperience,
-    education
+    education,
   } = props.data.UserExtendedProfile;
   const coverLetter = `<h2>Why Bother With a Cover Letter at All?</h2>
   <p>Before we jump in, it’s worth emphasizing <em>why</em> cover letters still exist and are worthy of your attention. I bet when you see a job listing where one’s “optional” you gleefully submit a resume and move on. But you’re truly doing yourself a disservice by not creating one (or by writing one that’s super generic or formulaic).</p>
@@ -88,6 +94,7 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
+
   return (
     <div>
       <Button onClick={back}> {"<"} Back</Button>
@@ -101,25 +108,23 @@ export const Candidate = props => {
             />
           </Grid>
           <Grid container item xs={5} direction="column">
-            <Grid container item xs={6}>
-              <Grid item xs={10} className={classes.title}>
-                {first_name} {last_name}
+            <Grid container item xs={12} >
+              <Grid item xs={12} className={classes.title} >
+                {first_name} {last_name} <Icon>cloud_download</Icon>
               </Grid>
-              <Grid item xs={1} className={classes.icon}>
-                <Icon>cloud_download</Icon>
+              <Grid item xs={12}>
+                {emailId}
               </Grid>
-            </Grid>
-            <Grid item xs={6}>
-              {emailId}
             </Grid>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2}  style={{textAlign: "end"}}>
             <FormControlLabel
               control={
                 <Checkbox
                   icon={<StarBorder />}
                   checkedIcon={<StarRate />}
                   value="checkedH"
+                  onClick={(e) => {console.log(e.target)}}
                 />
               }
             />

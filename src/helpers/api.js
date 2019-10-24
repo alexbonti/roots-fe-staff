@@ -77,9 +77,13 @@ class API {
       .catch(error => console.log(error));
   };
 
-  getOpportunity = async () => {
+  getOpportunity = async (accessToken) => {
     return await axiosInstance
-      .get("http://localhost:8031/api/employer/viewjobsposted", config)
+      .get("http://localhost:8031/api/employer/viewjobsposted", {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        }
+      })
       .then(response => {
         return { response: response.data.data.jobsData, status: true };
       })
@@ -89,9 +93,13 @@ class API {
       });
   };
 
-  getOpportunityDraft = async callback => {
+  getOpportunityDraft = async accessToken => {
     return axiosInstance
-      .get("http://localhost:8031/api/jobs/getOpportunityDraft", config)
+      .get("jobs/getOpportunityDraft", {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        }
+      })
       .then(response => {
         return {
           response: response.data.data.opportunityData,
@@ -104,15 +112,19 @@ class API {
       });
   };
 
-  getApplicantsData = (data, callback) => {
-    axios
+  getApplicantsData = async (data,accessToken) => {
+    return axiosInstance
       .post(
-        "http://localhost:8031/api/employer/viewjobapplicants",
+        "employer/viewjobapplicants",
         data,
-        config
+        {
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+          }
+        }
       )
       .then(response => {
-        return callback(response.data.data);
+        return ({"response": response.data.data});
       })
       .catch(error => console.log(error));
   };
