@@ -7,6 +7,8 @@ import {
   Icon,
   Checkbox,
   FormControlLabel,
+  Avatar,
+  Typography,
 } from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
 import { StarRate, StarBorder } from "@material-ui/icons/";
@@ -18,15 +20,14 @@ import {
 } from "../index";
 
 
+
+
+
+
 const useStyles = makeStyles({
   container: {
     backgroundColor: "white",
     borderRadius: "10px 10px 0 0 ",
-  },
-  containerBottom: {
-    backgroundColor: "white",
-    borderRadius: "0px 0px 10px 10px ",
-    padding: "32px 70px 32px 32px ",
   },
   transparentContainer: {
     padding: "10px 32px ",
@@ -56,17 +57,14 @@ const useStyles = makeStyles({
     margin: 3,
   },
   avatar: {
-    heigth: "30%",
-    width: "30%",
-    padding: "10px",
+    width: 120,
+    height: 120,
+    margin: 10,
   },
   icon: {
     alignSelf: "center",
   },
 });
-
-
-
 
 
 
@@ -94,37 +92,38 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
-
   return (
     <div>
       <Button onClick={back}> {"<"} Back</Button>
       <Container className={classes.container}>
-        <Grid container spacing={1}>
-          <Grid item xs={4}>
-            <img
-              alt="Remy Sharp"
-              src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"
-              className={classes.avatar}
-            />
-          </Grid>
-          <Grid container item xs={5} direction="column">
-            <Grid container item xs={12} >
-              <Grid item xs={12} className={classes.title} >
+        <Grid container direction="row" justify="space-between">
+          <Grid container item xs={11} alignItems="center">
+            <Grid item>
+              <Avatar
+                alt="Remy Sharp"
+                src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"
+                className={classes.avatar}
+              />
+            </Grid>
+
+            <Grid  item xs={4}>
+              <Typography variant="h4">
                 {first_name} {last_name} <Icon>cloud_download</Icon>
-              </Grid>
-              <Grid item xs={12}>
-                {emailId}
-              </Grid>
+              </Typography>
+              <Typography variant="body2">{emailId}</Typography>
             </Grid>
           </Grid>
-          <Grid item xs={2}  style={{textAlign: "end"}}>
+
+          <Grid item xs={1} style={{ textAlign: "end" }}>
             <FormControlLabel
               control={
                 <Checkbox
                   icon={<StarBorder />}
                   checkedIcon={<StarRate />}
                   value="checkedH"
-                  onClick={(e) => {console.log(e.target);}}
+                  onClick={e => {
+                    console.log(e.target);
+                  }}
                 />
               }
             />
