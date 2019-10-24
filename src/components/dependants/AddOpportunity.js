@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { TextField, Grid, Button, Container } from "@material-ui/core/";
+import { TextField, Grid, Button } from "@material-ui/core/";
 import API from "../../helpers/api";
 import { arrayfy } from "../../helpers/arrayfy";
 import pink from "@material-ui/core/colors/pink";
@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     textAlign: "center",
     backgroundColor: "white",
+    width: "80vw",
+    margin: "1vh auto",
+    borderRadius: "10px"
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -304,28 +307,54 @@ export function AddOpportunity() {
                     <div />
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      activePreview();
-                    }}
+
+                {/* BUTTONS */}
+
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  alignItems="center"
+                  justify="center"
+                  direction="row"
+                  spacing={2}
+                >
+                  <Grid
+                    container
+                    item
+                    xs={8}
+                    direction="column"
+                    spacing={2}
+                    alignContent="center"
                   >
-                    Preview
-                  </Button>
+                    <Grid item xs={12}>
+                      <Button
+                        style={{ width: "100% !important" }}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          activePreview();
+                        }}
+                      >
+                        Preview
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        style={{ width: "100% !important" }}
+                        onClick={() => {
+                          submitToApi(AccessToken);
+                        }}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Save For Later
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    onClick={() => {
-                      submitToApi(AccessToken);
-                    }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Save For Later
-                  </Button>
-                </Grid>
+
+              
               </Grid>
             </div>
           </ThemeProvider>

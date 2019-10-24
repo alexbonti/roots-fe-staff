@@ -11,7 +11,6 @@ import {
   HomeContext,
   TextEditorContext,
 } from "../../contexts";
-import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import MyDropzone from "./DropDrag";
@@ -76,13 +75,12 @@ export function EditMyCompany() {
 
   const { description } = useContext(TextEditorContext);
   const {
-    isPreview,
-    setIsPreview,
+    //isPreview,
+    //setIsPreview,
     styleEdit,
-    setStyleEdit,
+    //setStyleEdit,
     setIsEditMycompany,
     setMainTitle,
-    // setAddOpportunity
   } = useContext(HomeContext);
 
   //--------------------- usestates
@@ -99,10 +97,10 @@ export function EditMyCompany() {
     setPositionSuggestions(suggestions);
   };
 
-  const activePreview = () => {
-    setIsPreview(true);
-    setStyleEdit({ display: "none" });
-  };
+  // const activePreview = () => {
+  //   setIsPreview(true);
+  //   setStyleEdit({ display: "none" });
+  // };
 
   if (!companyId) {
     setMainTitle("First let's create your Company profile");
@@ -280,7 +278,6 @@ export function EditMyCompany() {
                 direction="column"
                 alignContent="center"
                 spacing={2}
-                // justify="sp"
               >
                 {/* <Grid item xs={12}>
                   <Button

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "../../helpers/api";
 
@@ -51,7 +51,7 @@ export function ListOfCandidatesOfASingleJob(props) {
     };
 
     triggerAPI();
-  }, []);
+  }, [setApplicantsInfo, props.data, accessToken ]);
 
   if (applicantsInfo === "") return null;
   if (applicantsInfo === undefined) return null;
@@ -78,7 +78,6 @@ export function ListOfCandidatesOfASingleJob(props) {
 
       <hr />
       <Grid className={classes.root} container spacing={3}>
-        {console.log(dataArray)}{" "}
         {dataArray.map(element => {
           const { first_name, last_name } = element.candidateId;
           return (

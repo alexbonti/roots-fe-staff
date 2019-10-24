@@ -23,6 +23,21 @@ class API {
       });
   };
 
+
+  logout = async (accessToken) => {
+    return await axiosInstance
+    .put("/employer/logout", {
+      headers: {
+        authorization: "Bearer " + accessToken,
+      }
+    })
+    .then(response => {
+      console.log(response)
+      return {"response": response}
+    })
+    .catch(error => console.log(error))
+  }
+
   registerEmployer = async data => {
     return await axios({
       method: "post",
@@ -79,9 +94,9 @@ class API {
 
   getOpportunity = async (accessToken) => {
     return await axiosInstance
-      .get("http://localhost:8031/api/employer/viewjobsposted", {
+      .get("/employer/viewjobsposted", {
         headers: {
-          authorization: `Bearer ${accessToken}`,
+          authorization: "Bearer " + accessToken,
         }
       })
       .then(response => {

@@ -148,7 +148,7 @@ export const Home2 = () => {
       };
       triggerAPI(accessToken);
     }
-  }, [accessToken, loginStatus, setCompanyId, isUploaded]);
+  }, [accessToken, loginStatus, setCompanyId, isUploaded, setDataMyCompany, setIsUploaded]);
 
   useEffect(() => {
     const triggerAPI = async () => {
@@ -165,7 +165,7 @@ export const Home2 = () => {
     }
     setIsUpdated(false);
     
-  }, [loginStatus, isUpdated, accessToken]);
+  }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
 
   const theme = createMuiTheme({
     palette: {

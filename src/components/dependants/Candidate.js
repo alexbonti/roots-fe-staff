@@ -13,7 +13,7 @@ import { StarRate, StarBorder } from "@material-ui/icons/";
 import {
   ExperienceCV,
   EducationCV,
-  VolunteerCV,
+  //VolunteerCV,
   CoverLetterCV,
 } from "../index";
 
@@ -74,7 +74,7 @@ export const Candidate = props => {
   const classes = useStyles();
   const { setIsSingleCandidate } = useContext(CandidateContext);
   const {
-    volunteer,
+    //volunteer,
     workExperience,
     education,
   } = props.data.UserExtendedProfile;
@@ -124,7 +124,7 @@ export const Candidate = props => {
                   icon={<StarBorder />}
                   checkedIcon={<StarRate />}
                   value="checkedH"
-                  onClick={(e) => {console.log(e.target)}}
+                  onClick={(e) => {console.log(e.target);}}
                 />
               }
             />
