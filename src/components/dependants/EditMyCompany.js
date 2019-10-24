@@ -282,7 +282,7 @@ export function EditMyCompany() {
                 spacing={2}
                 // justify="sp"
               >
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <Button
                     variant="contained"
                     color="primary"
@@ -293,7 +293,7 @@ export function EditMyCompany() {
                   >
                     Preview
                   </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <Button
                     onClick={() => {

@@ -22,13 +22,20 @@ const modules = {
   ]
 };
 
-export const TextEditor = () => {
-  const { setDescription } = useContext(TextEditorContext);
+export const TextEditor = (props) => {
+  const { setDescription, setDescriptionOpportunity } = useContext(TextEditorContext);
   const [nodeRedData] = useState("");
 
   const handleTextEditorChange = value => {
-    return setDescription(value);
+    console.log(props.data)
+    if(props.data === "opportunity"){
+      return setDescriptionOpportunity(value);
+    }
+    else {
+      return setDescription(value);
+    }
   };
+
 
 
   return (

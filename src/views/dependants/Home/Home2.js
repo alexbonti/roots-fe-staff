@@ -17,6 +17,7 @@ import {
   ListOpportunity,
   MyCompany,
   EditMyCompany,
+  AddButtonCard,
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
@@ -84,10 +85,9 @@ function a11yProps(index) {
 export const Home2 = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [dataJobs] = useState("");
-  const [dataJobsDraft] = useState("");
+  const [dataJobs, setDataJobs] = useState("");
+  const [dataJobsDraft, setDataJobsDraft] = useState("");
   const [isMyCompany, setIsMyCompany] = useState(true);
-  //const [dataMyCompany, setDataMyCompany] = useState("");
   const {
     addOpportunity,
     jobView,
@@ -95,20 +95,17 @@ export const Home2 = () => {
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
-    setMainTitle
+    setMainTitle,
+    isUpdated,
+    setIsUpdated,
   } = useContext(HomeContext);
   const { loginStatus, accessToken } = useContext(LoginContext);
   const {
     setCompanyId,
-    // setCompanyName,
-    // setCompanyLogo,
-    // setCompanyDescription,
-    // setCompanyIndustry,
-    // setCompanyLocation,
-      dataMyCompany, 
+    dataMyCompany,
     setDataMyCompany,
     isUploaded,
-    setIsUploaded
+    setIsUploaded,
   } = useContext(MyCompanyContext);
 
   const handleChange = (event, newValue) => {
@@ -137,7 +134,8 @@ export const Home2 = () => {
           !Object.prototype.hasOwnProperty.call(
             profileData.response,
             "companyId"
-          ) && isUploaded
+          ) &&
+          isUploaded
         ) {
           setCompanyId(null);
           setIsMyCompany(false);
@@ -146,45 +144,28 @@ export const Home2 = () => {
           const companyData = await API.getCompanyDetails(accessToken);
           setDataMyCompany(companyData.response);
           setCompanyId(companyData.response.companyId);
-          setIsUploaded(false)
+          setIsUploaded(false);
         }
       };
       triggerAPI(accessToken);
     }
   }, [accessToken, loginStatus, setCompanyId, isUploaded]);
 
-  // useEffect(() => {
-  //   if (loginStatus) {
-  //     const triggerAPI = async () => {
-  //       const profileData = await API.getProfileEmployer(accessToken);
-
-  //       if (
-  //         profileData.response &&
-  //         Object.prototype.hasOwnProperty.call(
-  //           profileData.response,
-  //           "companyId"
-  //         )
-  //       ) else {const companyData = await API.getCompanyDetails(accessToken);
-  //         setDataMyCompany(companyData.response);
-  //         setCompanyId(companyData.response.companyId);
-  //       }}
-  //     };
-  //     triggerAPI(accessToken);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const triggerAPI = async () => {
-  //     const oppResponse = await API.getOpportunity();
-  //     const oppDraftResponse = await API.getOpportunityDraft();
-  //     if (oppResponse.status && oppDraftResponse.status) {
-  //       setDataJobs(oppResponse.response);
-  //       setDataJobsDraft(oppDraftResponse.response);
-  //     }
-  //   };
-  //   if (loginStatus) {
-  //     triggerAPI();
-  //   }
-  // }, [loginStatus]);
+  useEffect(() => {
+    const triggerAPI = async () => {
+      const oppResponse = await API.getOpportunity();
+      const oppDraftResponse = await API.getOpportunityDraft();
+      if (oppResponse.status && oppDraftResponse.status) {
+        setDataJobs(oppResponse.response);
+        setDataJobsDraft(oppDraftResponse.response);
+      }
+    };
+    if (loginStatus) {
+      triggerAPI();
+    }
+    setIsUpdated(false);
+    
+  }, [loginStatus, isUpdated]);
 
   const theme = createMuiTheme({
     palette: {
@@ -203,11 +184,12 @@ export const Home2 = () => {
     },
   });
 
+  console.log(dataJobs);
   const list = !addOpportunity ? (
-    dataJobs !== "" && dataJobsDraft !== "" ? (
+    dataJobs && dataJobsDraft !== "" ? (
       <ListOpportunity data={dataJobs} data2={dataJobsDraft} />
     ) : (
-      "loading"
+      "loading" && <AddButtonCard />
     )
   ) : (
     <AddOpportunity />

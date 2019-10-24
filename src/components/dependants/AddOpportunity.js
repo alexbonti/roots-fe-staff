@@ -232,7 +232,7 @@ export function AddOpportunity() {
                 <Container>
                   <Grid item xs={12}>
                     {" "}
-                    <TextEditor />{" "}
+                    <TextEditor data={"opportunity"} />{" "}
                   </Grid>
                 </Container>
                 <Grid item xs={12}>
@@ -282,26 +282,26 @@ export function AddOpportunity() {
                       {positionSuggestions !== null &&
                       positionSuggestions !== undefined &&
                       positionSuggestions !== "" ? (
-                        <div className={classes.suggestion}>
-                          {positionSuggestions.map(suggestion => {
-                            return (
-                              <div
-                                key={Math.random()}
-                                onClick={event => {
-                                  event.preventDefault();
-                                  setSuggestions(event);
-                                }}
-                              >
-                                {suggestion.address.country},{" "}
-                                {suggestion.address.city},{" "}
-                                {suggestion.address.state}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                          <div className={classes.suggestion}>
+                            {positionSuggestions.map(suggestion => {
+                              return (
+                                <div
+                                  key={Math.random()}
+                                  onClick={event => {
+                                    event.preventDefault();
+                                    setSuggestions(event);
+                                  }}
+                                >
+                                  {suggestion.address.country},{" "}
+                                  {suggestion.address.city},{" "}
+                                  {suggestion.address.state}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                     </div>
                     <div />
                   </div>

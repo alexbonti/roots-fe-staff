@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Button, Grid } from "@material-ui/core/";
-import { HomeContext, EditOpportunityContext } from "contexts/index";
+import { HomeContext, EditOpportunityContext, TextEditorContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 import { Send, Edit } from "@material-ui/icons/";
 import { AccessToken } from "../../contexts/helpers/";
@@ -49,7 +49,7 @@ const useStyles = makeStyles({
 
 export default function FullViewCard() {
   const classes = useStyles();
-  const { setIsPreview, setStyleEdit, setAddOpportunity } = useContext(
+  const { setIsPreview, setStyleEdit, setAddOpportunity, setIsUpdated } = useContext(
     HomeContext
   );
   const {
@@ -59,10 +59,12 @@ export default function FullViewCard() {
     start,
     stop,
     editSkills,
-    description,
     industryField,
     location,
   } = useContext(EditOpportunityContext);
+
+  const {descriptionOpportunity} = useContext(TextEditorContext);
+
 
   const closePreview = () => {
     setStyleEdit({ display: "block" });
@@ -78,11 +80,12 @@ export default function FullViewCard() {
       startDate: new Date(start).toISOString(),
       endDate: new Date(stop).toISOString(),
       industryField,
-      description,
+      description: descriptionOpportunity,
       location,
     };
     setAddOpportunity(false);
     API.postOpportunity(data);
+    setIsUpdated(true);
     notify("Job Saved");
     // window.location.reload();
   };
@@ -133,7 +136,7 @@ export default function FullViewCard() {
           spacing={3}
         >
           <Grid item xs={12} className={classes.subText}>
-            {ReactHtmlParser(description)}
+            {ReactHtmlParser(descriptionOpportunity)}
           </Grid>
           <Grid item xs={12}>
             <Button

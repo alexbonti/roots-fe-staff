@@ -66,7 +66,6 @@ export default function MyCompany(props) {
   };
 
   const companyData = props.data;
-  console.log(props.data);
 
   // if (!companyData) {
   //   setIsEditMycompany(true);

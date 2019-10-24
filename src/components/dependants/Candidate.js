@@ -129,7 +129,7 @@ export const Candidate = props => {
       <CoverLetterCV data={coverLetter} />
       <ExperienceCV data={workExperience} />
       <EducationCV data={education} />
-      <VolunteerCV data={volunteer} />
+      {/* <VolunteerCV data={volunteer} /> */}
     </div>
   );
 };

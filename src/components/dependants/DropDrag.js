@@ -29,7 +29,7 @@ export default function Accept() {
     }
   }, [acceptedFiles, setTempLogo]);
 
-  let logo = tempLogo === '' ? companyLogo : tempLogo
+  let logo = tempLogo === "" ? companyLogo : tempLogo
   return (
     <Grid
       container

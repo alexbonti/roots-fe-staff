@@ -15,6 +15,7 @@ export const HomeProvider = props => {
   const [mainTitle, setMainTitle] = useState(
     "Let's create an opportunity and start making a difference"
   );
+  const [isUpdated, setIsUpdated] = useState(true)
 
   const { children } = props;
   return (
@@ -39,7 +40,9 @@ export const HomeProvider = props => {
         isEditMyCompany,
         setIsEditMycompany,
         mainTitle,
-        setMainTitle
+        setMainTitle,
+        isUpdated,
+        setIsUpdated
       }}
     >
       {children}
