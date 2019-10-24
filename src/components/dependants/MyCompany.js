@@ -72,7 +72,7 @@ export default function MyCompany(props) {
   // }
 
   let content = companyData ? (
-    <div>
+    <div style={{padding: "2vh 18vh"}}>
       <Container className={classes.container}>
         <Grid container className={classes.contatinerHead} direction="column">
           <Grid item xs={4}>

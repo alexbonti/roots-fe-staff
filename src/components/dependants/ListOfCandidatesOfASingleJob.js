@@ -61,31 +61,34 @@ export function ListOfCandidatesOfASingleJob(props) {
   };
 
   let content = (
-    <div style={{ padding: "1vh 20vh" }}>
-      <Button
-        className={classes.back}
-        size="small"
-        onClick={() => {
-          back();
-        }}
-      >
-        {"<"} Back
-      </Button>
+    <Grid container spacing={3} direction="column" style={{ padding: "1vh 20vh" }} >
+      <Grid item >
+        <Button
+          className={classes.back}
+          size="small"
+          onClick={() => {
+            back();
+          }}
+        >
+          {"<"} Back
+        </Button>
+      </Grid>
+      <Grid item>
+        <h1>
+          {dataArray[0].jobId.positionTitle} - {dataArray[0].jobId.location}
+        </h1>
+      </Grid>
 
-      <h1>
-        {dataArray[0].jobId.positionTitle} - {dataArray[0].jobId.location}
-      </h1>
-
-      <hr />
-      <Grid className={classes.root} container spacing={3}>
+ 
+      <Grid className={classes.root} container spacing={3} >
         {dataArray.map(element => {
           const { first_name, last_name } = element.candidateId;
           return (
             <Grid key={Math.random()} item xs={12}>
               <Card className={classes.card}>
                 <CardContent>
-                  <Grid className={classes.root} container spacing={2}>
-                    <Grid item xs={3}>
+                  <Grid className={classes.root} container spacing={2}  justify="space-between">
+                    <Grid item xs={6}>
                       <Typography
                         className={classes.title}
                         color="primary"
@@ -94,8 +97,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                         {first_name.toUpperCase()} {last_name.toUpperCase()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={8} />
-                    <Grid item xs={1}>
+                    <Grid item xs={6 } style={{textAlign: "end"}}>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -140,7 +142,7 @@ export function ListOfCandidatesOfASingleJob(props) {
           );
         })}
       </Grid>
-    </div>
+    </Grid>
   );
 
   return <div>{content}</div>;

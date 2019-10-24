@@ -199,7 +199,7 @@ export const Home2 = () => {
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
           <Container className={classes.topSpace}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justify="flex-start" alignItems="center" style={{padding: "0 22vh"}}>
               <Grid item>{mainTitle} </Grid>
             </Grid>
           </Container>
