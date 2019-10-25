@@ -82,7 +82,8 @@ function a11yProps(index) {
   };
 }
 
-export const Home2 = () => {
+export const Home2 = (props) => {
+  
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
@@ -92,6 +93,7 @@ export const Home2 = () => {
     addOpportunity,
     jobView,
     setTabNumber,
+    setIsEditMycompany,
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
@@ -99,6 +101,7 @@ export const Home2 = () => {
     isUpdated,
     setIsUpdated,
   } = useContext(HomeContext);
+
   const { loginStatus, accessToken } = useContext(LoginContext);
   const {
     setCompanyId,
@@ -113,8 +116,8 @@ export const Home2 = () => {
     newValue === 1
       ? setMainTitle("Canditates")
       : newValue === 2
-      ? setMainTitle("Company Profile")
-      : setMainTitle(
+        ? setMainTitle("Company Profile")
+        : setMainTitle(
           "Let's create an opportunity and start making a difference"
         );
 
@@ -127,24 +130,26 @@ export const Home2 = () => {
   useEffect(() => {
     if (loginStatus) {
       const triggerAPI = async () => {
+
         const profileData = await API.getProfileEmployer(accessToken);
-        if (
+        if (!(
           profileData.response &&
           !Object.prototype.hasOwnProperty.call(
             profileData.response,
-            "companyId"
-          ) &&
-          isUploaded
+            "companyId" 
+          ))
         ) {
           setCompanyId(null);
           setIsMyCompany(false);
           setValue(2);
+          setIsEditMycompany(true);
         } else {
           const companyData = await API.getCompanyDetails(accessToken);
           setDataMyCompany(companyData.response);
           setCompanyId(companyData.response.companyId);
           setIsUploaded(false);
         }
+    
       };
       triggerAPI(accessToken);
     }

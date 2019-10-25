@@ -164,7 +164,7 @@ export const Login = () => {
                 component={Link}
                 to="/register"
               >
-                Sign Up
+                Register
               </Button>
             </form>
           </Grid>

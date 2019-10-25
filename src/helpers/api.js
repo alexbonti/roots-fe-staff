@@ -25,17 +25,17 @@ class API {
 
 
   logout = async (accessToken) => {
+    accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
-    .put("/employer/logout", {
+    .put("/employer/logout",{}, {
       headers: {
         authorization: "Bearer " + accessToken,
       }
     })
     .then(response => {
-      console.log(response)
       return {"response": response}
     })
-    .catch(error => console.log(error))
+    .catch(error => window.localStorage.clear)
   }
 
   registerEmployer = async data => {
@@ -93,6 +93,7 @@ class API {
   };
 
   getOpportunity = async (accessToken) => {
+    accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
       .get("/employer/viewjobsposted", {
         headers: {
@@ -109,6 +110,7 @@ class API {
   };
 
   getOpportunityDraft = async accessToken => {
+     accessToken = localStorage.getItem("accessToken");
     return axiosInstance
       .get("jobs/getOpportunityDraft", {
         headers: {
@@ -146,10 +148,11 @@ class API {
 
 
   getProfileEmployer = async(auth) =>{
+    let accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
       .get('/employer/getProfile', {
         headers: {
-          authorization: `Bearer ${auth}`,
+          authorization: `Bearer ${accessToken}`,
         }
       })
       .then(response => {
@@ -187,10 +190,12 @@ class API {
   };
 
   getCompanyDetails = async auth => {
+    let accessToken = localStorage.getItem("accessToken");
+
     return await axiosInstance
       .get("/employer/getcompany", {
         headers: {
-          "authorization": `bearer ${auth}`,
+          "authorization": `bearer ${accessToken}`,
         },
       })
       .then(response => {

@@ -29,10 +29,14 @@ export function ListOpportunity(props) {
   const { isSingleCandidate } = useContext(CandidateContext);
   let list = props.data;
   let listDraft = props.data2;
-
   useEffect(() => {
     setIsSingle(false);
   }, [tabNumber, setIsSingle]);
+
+
+  const draftTitle = (listDraft.length === 0 || undefined) ? "" : <Grid item sx={12} className={classes.title}>Draft Opportunities</Grid>;
+  const expiredTitle = (listDraft.length === 0 || undefined) ? "" : <Grid item sx={12} className={classes.title}>Expired Opportunities</Grid>;
+
 
   const allJobs =
     tabNumber === 0 ? (
@@ -61,9 +65,8 @@ export function ListOpportunity(props) {
           </Grid>
         </Grid>
         <Grid container direction="column">
-          <Grid item sx={12} className={classes.title}>
-            Draft Opportunities
-          </Grid>
+
+          {draftTitle}
           <Grid className={classes.root} container spacing={3}>
             {listDraft.map(element => {
               return (
@@ -75,9 +78,7 @@ export function ListOpportunity(props) {
           </Grid>
         </Grid>
         <Grid container direction="column">
-          <Grid item sx={12} className={classes.title}>
-            Expired Opportunities
-          </Grid>
+          {expiredTitle}
           <Grid className={classes.root} container spacing={3}>
             {list.map(element => {
               let thisDate = new Date(element.endDate);

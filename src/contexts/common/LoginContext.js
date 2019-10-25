@@ -10,7 +10,6 @@ import React, { createContext, useState, useEffect } from "react";
  *
  * can be used by VanilaJS to check respective status
  */
-
 export var AccessToken = localStorage.getItem("accessToken");
 export var LoginStatus = localStorage.getItem("loginStatus");
 export var DevMode = localStorage.getItem("devMode");
