@@ -123,8 +123,8 @@ export function EditMyCompany() {
       companyIndustry,
     };
 
-    if (companyId !== null) {
-      console.log(companyLocation);
+    if (companyId !== null && companyId !== "") {
+      console.log(companyId);
       const updateDataCompany = await API.updateCompanyDetails(
         data2,
         accesstoken
@@ -133,12 +133,11 @@ export function EditMyCompany() {
       console.log("update company details", updateDataCompany);
       closeEdit();
       setIsUploaded(true);
-    } else {
+    } 
+    else {
       const postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
-
-      notify("Company Details Saved");
+      notify("Company Details Created");
       console.log(postDataCompany);
-
       closeEdit();
       setIsUploaded(true);
     }

@@ -70,7 +70,7 @@ const theme = createMuiTheme({
   },
 });
 
-export function AddOpportunity() {
+export function AddOpportunity(props) {
   const classes = useStyles();
   const {
     position,
@@ -120,20 +120,26 @@ export function AddOpportunity() {
   }, [tabNumber, setAddOpportunity]);
 
   const submitToApi = () => {
-    const data = {
-      positionTitle: position,
-      employmentType,
-      skills: editSkills,
-      seniority,
-      startDate: new Date(start).toISOString(),
-      endDate: new Date(stop).toISOString(),
-      industryField,
-      description,
-      location,
-    };
-    setAddOpportunity(false);
-    API.postOpportunityDraft(data);
-    notify("Job Saved");
+    if(props.data){
+      const data = {
+        positionTitle: position,
+        employmentType,
+        skills: editSkills,
+        seniority,
+        startDate: new Date(start).toISOString(),
+        endDate: new Date(stop).toISOString(),
+        industryField,
+        description,
+        location,
+      };
+      setAddOpportunity(false);
+      API.postOpportunityDraft(data);
+      notify("Job Saved");
+    }
+    else {
+      notify("Please first complete your Company profile");
+
+    }
   };
 
   const getSkill = event => {

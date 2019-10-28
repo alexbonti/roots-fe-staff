@@ -8,6 +8,8 @@ export const CandidateProvider = props => {
     _: false,
     userDetails: ""
   });
+
+  const [isUpdated, setIsUpdated] = useState(false)
   const { children } = props;
 
   return (
@@ -17,6 +19,8 @@ export const CandidateProvider = props => {
         setCandidateProfile,
         isSingleCandidate,
         setIsSingleCandidate,
+        isUpdated,
+        setIsUpdated
       }}
     >
       {children}

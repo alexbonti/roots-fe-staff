@@ -104,6 +104,7 @@ export const Home2 = (props) => {
 
   const { loginStatus, accessToken } = useContext(LoginContext);
   const {
+    companyId,
     setCompanyId,
     dataMyCompany,
     setDataMyCompany,
@@ -132,14 +133,12 @@ export const Home2 = (props) => {
       const triggerAPI = async () => {
 
         const profileData = await API.getProfileEmployer(accessToken);
-        if (!(
-          profileData.response &&
-          !Object.prototype.hasOwnProperty.call(
-            profileData.response,
-            "companyId" 
-          ))
-        ) {
-          setCompanyId(null);
+        console.log(profileData)
+         
+        if (
+          profileData.response && !profileData.response.companyId && !isUploaded
+        )
+        {
           setIsMyCompany(false);
           setValue(2);
           setIsEditMycompany(true);
@@ -196,7 +195,7 @@ export const Home2 = (props) => {
       "loading" && <AddButtonCard />
     )
   ) : (
-    <AddOpportunity />
+    <AddOpportunity data={companyId}/>
   );
 
   return (

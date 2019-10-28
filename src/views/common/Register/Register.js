@@ -72,6 +72,7 @@ const Register = props => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [companyId, setCompanyId] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [accessToken, setAccessToken] = useState("");
   const [emailVerified, setEmailVerified] = useState("");
@@ -82,6 +83,7 @@ const Register = props => {
     const data = {
       first_name: firstName,
       last_name: lastName,
+      companyId,
       emailId,
       password
     };
@@ -102,6 +104,7 @@ const Register = props => {
       confirmPassword.length < 0 ||
       firstName.length < 0 ||
       lastName.length < 0 ||
+      companyId.lenght < 0 ||
       emailId === "" ||
       password === "" ||
       confirmPassword === "" ||
@@ -182,6 +185,16 @@ const Register = props => {
                 name="email"
                 autoComplete="email"
                 onChange={e => setEmailId(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="companyId"
+                label="Company Name"
+                name="Company Name"
+                autoComplete="Company Name"
+                onChange={e => setCompanyId(e.target.value)}
               />
               <TextField
                 margin="normal"

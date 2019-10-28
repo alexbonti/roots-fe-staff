@@ -54,6 +54,7 @@ class API {
   };
 
   sendOTP = async (data, accessToken) => {
+    accessToken = localStorage.getItem("accessToken");
     return await axios
       .put("http://localhost:8031/api/employer/verifyOTP", data, {
         headers: {
@@ -81,7 +82,8 @@ class API {
   };
 
   postMyCompanyDetails = async (data, accessToken) => {
-   
+    accessToken = localStorage.getItem("accessToken");
+
     return await axiosInstance
       .post("/employer/createcompany", data, {
         headers: {
@@ -130,6 +132,7 @@ class API {
   };
 
   getApplicantsData = async (data,accessToken) => {
+    accessToken = localStorage.getItem("accessToken");
     return axiosInstance
       .post(
         "employer/viewjobapplicants",
@@ -199,7 +202,7 @@ class API {
         },
       })
       .then(response => {
-        return { "response": response.data.data.companyData[0] };
+        return { "response": response.data.data.companyData };
       })
       .catch(error => {
         return { "error": error };
@@ -207,10 +210,12 @@ class API {
   };
 
   updateCompanyDetails = async (data, auth) => {
+    let accessToken = localStorage.getItem("accessToken");
+
     return await axiosInstance
       .put("/employer/updatecompany", data, {
         headers: {
-          "authorization": `bearer ${auth}`,
+          "authorization": `bearer ${accessToken}`,
         },
       })
       .then(response => {
@@ -220,6 +225,23 @@ class API {
         return { "error": error };
       });
   };
+
+
+  updateShortList = async (array) => {
+    let accessToken = localStorage.getItem("accessToken");
+    return await axiosInstance
+      .put("/jobs/updateShortListed", array, {
+        headers: {
+          "authorization": `bearer ${accessToken}`,
+        },
+      })
+      .then(response => {
+        return { "response": response };
+      })
+      .catch(error => {
+        return { "error": error };
+      });
+  }
 
 }
   
