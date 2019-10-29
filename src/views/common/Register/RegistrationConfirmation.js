@@ -67,7 +67,8 @@ const theme = createMuiTheme({
   }
 });
 
-const RegistrationConfirmation = props => {
+const RegistrationConfirmation = ({...props}) => {
+  console.log(props)
   const classes = useStyles();
   const [code, setCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -135,7 +136,7 @@ const RegistrationConfirmation = props => {
         direction="column"
       >
         <Grid item xs={3} className={classes.text}>
-          A verification code has been sent to your email
+          A verification code has been sent to {props.location.state.emailId}
         </Grid>
         <Grid item xs={3} container spacing={2}>
           <Grid item xs={6}>

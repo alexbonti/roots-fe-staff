@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {
   TextField,
@@ -14,6 +14,7 @@ import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
 import { Header } from "../../../components/dependants/Header";
 import { withRouter } from "react-router-dom";
+import {MyCompanyContext} from '../../../contexts/dependants/MyCompanyContext'
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -77,6 +78,8 @@ const Register = props => {
   const [accessToken, setAccessToken] = useState("");
   const [emailVerified, setEmailVerified] = useState("");
 
+  const {companyLogo, companyDescription, companyIndustry, companyLocation} = useContext(MyCompanyContext)
+
   // const { setOpenModal } = useContext(LoginContext);
 
   const registerEmployer = () => {
@@ -88,10 +91,21 @@ const Register = props => {
       password
     };
 
+    const dataCompany = {
+      companyName: companyId,
+      companyLogo,
+      companyDescription,
+      companyIndustry,
+      location: companyLocation
+    };
+
     const triggerAPI = async () => {
+      
       const registerData = await API.registerEmployer(data, setAccessToken);
       setAccessToken(registerData.response.accessToken);
       setEmailVerified(registerData.response.employerDetails.emailVerified);
+      const createCompany = await API.createMyCompany(dataCompany, registerData.response.accessToken);
+      console.log(createCompany);
       setRedirect(true);
     };
     triggerAPI();
@@ -130,7 +144,7 @@ const Register = props => {
     <Redirect
       to={{
         pathname: "/registerSuccess",
-        state: { accessToken, emailVerified }
+        state: { accessToken, emailVerified, emailId }
       }}
     />
   ) : (

@@ -120,6 +120,7 @@ export function AddOpportunity(props) {
   }, [tabNumber, setAddOpportunity]);
 
   const submitToApi = () => {
+    console.log(props.data)
     if(props.data){
       const data = {
         positionTitle: position,

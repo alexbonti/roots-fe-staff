@@ -92,10 +92,19 @@ export function ListOfCandidatesOfASingleJob(props) {
   const shortListedRender =
     shortListedData.length > 0 ? (
       <>
-        <Typography className={classes.title} color="primary" gutterBottom>
-          Shortlisted Candidates
-        </Typography>
-        <Grid className={classes.root} container item xs={12} spacing={3}>
+        <Grid
+          className={classes.root}
+          container
+          item
+          xs={12}
+          spacing={3}
+          alignItems="center"
+        >
+          <Grid item xs={12}>
+            <Typography color="primary" variant="h5" gutterBottom>
+              Shortlist
+            </Typography>
+          </Grid>
           {dataArray.map(element => {
             const { _id, first_name, last_name } = element.candidateId;
             let isShortListed = shortListedData.includes(_id);
@@ -180,8 +189,8 @@ export function ListOfCandidatesOfASingleJob(props) {
             }
           })}
         </Grid>
-        <Grid item xs={12}>
-          <hr />
+        <Grid item xs={12} style={{ padding: "2vh 0" }}>
+          <hr style={{ border: "1px solid gray" }} />
         </Grid>
       </>
     ) : (
@@ -207,9 +216,9 @@ export function ListOfCandidatesOfASingleJob(props) {
         </Button>
       </Grid>
       <Grid item>
-        <h1>
+        <Typography color="textPrimary" variant="h3">
           {dataArray[0].jobId.positionTitle} - {dataArray[0].jobId.location}
-        </h1>
+        </Typography>
       </Grid>
       {shortListedRender}
       <Grid className={classes.root} container item xs={12} spacing={3}>

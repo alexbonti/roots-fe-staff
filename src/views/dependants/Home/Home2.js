@@ -82,8 +82,7 @@ function a11yProps(index) {
   };
 }
 
-export const Home2 = (props) => {
-  
+export const Home2 = props => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
@@ -112,65 +111,8 @@ export const Home2 = (props) => {
     setIsUploaded,
   } = useContext(MyCompanyContext);
 
-  const handleChange = (event, newValue) => {
-    // main title tab
-    newValue === 1
-      ? setMainTitle("Canditates")
-      : newValue === 2
-        ? setMainTitle("Company Profile")
-        : setMainTitle(
-          "Let's create an opportunity and start making a difference"
-        );
 
-    setTabNumber(newValue);
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = index => setValue(index);
-
-  useEffect(() => {
-    if (loginStatus) {
-      const triggerAPI = async () => {
-
-        const profileData = await API.getProfileEmployer(accessToken);
-        console.log(profileData)
-         
-        if (
-          profileData.response && !profileData.response.companyId && !isUploaded
-        )
-        {
-          setIsMyCompany(false);
-          setValue(2);
-          setIsEditMycompany(true);
-        } else {
-          const companyData = await API.getCompanyDetails(accessToken);
-          setDataMyCompany(companyData.response);
-          setCompanyId(companyData.response.companyId);
-          setIsUploaded(false);
-        }
-    
-      };
-      triggerAPI(accessToken);
-    }
-  }, [accessToken, loginStatus, setCompanyId, isUploaded, setDataMyCompany, setIsUploaded]);
-
-  useEffect(() => {
-    const triggerAPI = async () => {
-      const oppResponse = await API.getOpportunity(accessToken);
-      const oppDraftResponse = await API.getOpportunityDraft(accessToken);
-      if (oppResponse.status && oppDraftResponse.status) {
-        setDataJobs(oppResponse.response);
-        setDataJobsDraft(oppDraftResponse.response);
-      }
-    };
-    if (loginStatus) {
-      triggerAPI();
-      setIsUpdated(true);
-    }
-    setIsUpdated(false);
-    
-  }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
-
+  //-----------theme settings 
   const theme = createMuiTheme({
     palette: {
       primary: { main: "#087B94", light: "#FFD922" },
@@ -188,6 +130,71 @@ export const Home2 = (props) => {
     },
   });
 
+
+  //-----------table change settings--------------
+
+  const handleChange = (event, newValue) => {
+    // main title tab
+    newValue === 1
+      ? setMainTitle("Canditates")
+      : newValue === 2
+      ? setMainTitle("Company Profile")
+      : setMainTitle(
+          "Let's create an opportunity and start making a difference"
+        );
+
+    setTabNumber(newValue);
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = index => setValue(index);
+
+
+  //-----if logged get company data and set them in the context
+  useEffect(() => {
+    if (loginStatus) {
+      const triggerAPI = async () => {
+        const profileData = await API.getProfileEmployer(accessToken);
+        console.log(profileData)
+        const companyData = await API.getCompanyDetails(accessToken);
+        setDataMyCompany(companyData.response);
+        setCompanyId(profileData.response[0].companyId);
+        setIsUploaded(false);
+      };
+      triggerAPI(accessToken);
+    }
+  }, [
+    accessToken,
+    loginStatus,
+    setCompanyId,
+    isUploaded,
+    setDataMyCompany,
+    setIsUploaded,
+  ]);
+
+
+  //----------------get opportunities created
+  useEffect(() => {
+    const triggerAPI = async () => {
+      const oppResponse = await API.getOpportunity(accessToken);
+      const oppDraftResponse = await API.getOpportunityDraft(accessToken);
+      if (oppResponse.status && oppDraftResponse.status) {
+        setDataJobs(oppResponse.response);
+        setDataJobsDraft(oppDraftResponse.response);
+      }
+    };
+    if (loginStatus) {
+      triggerAPI();
+      setIsUpdated(true);
+    }
+    setIsUpdated(false);
+  }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
+
+  
+
+
+
+  // ------if there are no data opportunity will just show a loader 
   const list = !addOpportunity ? (
     dataJobs && dataJobsDraft !== "" ? (
       <ListOpportunity data={dataJobs} data2={dataJobsDraft} />
@@ -195,15 +202,23 @@ export const Home2 = (props) => {
       "loading" && <AddButtonCard />
     )
   ) : (
-    <AddOpportunity data={companyId}/>
+    <AddOpportunity data={companyId} />
   );
 
+
+
+  //?----render-----
   return (
     <>
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
           <Container className={classes.topSpace}>
-            <Grid container justify="flex-start" alignItems="center" style={{padding: "0 22vh"}}>
+            <Grid
+              container
+              justify="flex-start"
+              alignItems="center"
+              style={{ padding: "0 22vh" }}
+            >
               <Grid item>{mainTitle} </Grid>
             </Grid>
           </Container>

@@ -54,7 +54,7 @@ class API {
   };
 
   sendOTP = async (data, accessToken) => {
-    accessToken = localStorage.getItem("accessToken");
+    //accessToken = localStorage.getItem("accessToken");
     return await axios
       .put("http://localhost:8031/api/employer/verifyOTP", data, {
         headers: {
@@ -68,22 +68,26 @@ class API {
   };
 
   postOpportunity = data => {
-    axios
-      .post("http://localhost:8031/api/jobs/opportunities", data, config)
+    let accessToken = localStorage.getItem("accessToken");
+    axiosInstance
+      .post("/jobs/opportunities", data, {
+        headers: {
+          authorization: "Bearer " + accessToken,
+        },
+      } )
       .then(response => response)
       .catch(error => console.log(error));
   };
 
   postOpportunityDraft = data => {
-    axios
-      .post("http://localhost:8031/api/jobs/opportunityDraft", data, config)
+    axiosInstance
+      .post("/jobs/opportunityDraft", data, config)
       .then(response => response)
       .catch(error => console.log(error));
   };
 
-  postMyCompanyDetails = async (data, accessToken) => {
-    accessToken = localStorage.getItem("accessToken");
-
+  createMyCompany = async (data, accessToken ) => {
+    console.log(accessToken)
     return await axiosInstance
       .post("/employer/createcompany", data, {
         headers: {
