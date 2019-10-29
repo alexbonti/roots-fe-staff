@@ -155,9 +155,10 @@ export const Home2 = props => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-        console.log(profileData)
+        console.log(profileData);
         const companyData = await API.getCompanyDetails(accessToken);
-        setDataMyCompany(companyData.response);
+        console.log(companyData)
+        setDataMyCompany(profileData.response[1]);
         setCompanyId(profileData.response[0].companyId);
         setIsUploaded(false);
       };

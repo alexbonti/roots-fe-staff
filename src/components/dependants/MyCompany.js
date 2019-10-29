@@ -49,13 +49,13 @@ const useStyles = makeStyles({
 
 export default function MyCompany(props) {
   const classes = useStyles();
-  const {
-    companyName,
-    companyLogo,
-    companyDescription,
-    companyIndustry,
-    companyLocation
-  } = useContext(MyCompanyContext);
+  // const {
+  //   //companyName,
+  //   //companyLogo,
+  //   //companyDescription,
+  //   //companyIndustry,
+  //   //companyLocation
+  // } = useContext(MyCompanyContext);
 
   // const {description} = useContext(TextEditorContext)
 
@@ -65,7 +65,10 @@ export default function MyCompany(props) {
     setIsEditMycompany(true);
   };
 
-  const companyData = props.data;
+  const companyData = props.data.companyDetails;
+  console.log(props.data);
+
+  // const {companyDescription, companyName, companyIndustry, companyLogo, location, } = props.data.companyDetails;
 
   // if (!companyData) {
   //   setIsEditMycompany(true);
@@ -126,61 +129,7 @@ export default function MyCompany(props) {
         </Grid>
       </Container>
     </div>
-  ) : (
-    <div>
-      <Container className={classes.container}>
-        <Grid container className={classes.contatinerHead} direction="column">
-          <Grid item xs={4}>
-            <img
-              alt="Remy Sharp"
-              src={companyLogo}
-              className={classes.avatar}
-            />
-          </Grid>
-          <Grid item xs={4} className={classes.title}>
-            {companyName}
-          </Grid>
-          <Grid item xs={4}>
-            {/* {seniority} */}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.subText}>
-            {companyLocation}
-          </Grid>
-          <Grid item xs={4} className={classes.subText}>
-            {companyIndustry}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.containerBottom}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="flex-start"
-          spacing={3}
-        >
-          <Grid item xs={12} className={classes.subText}>
-            {ReactHtmlParser(companyDescription)}
-          </Grid>
-        </Grid>
-        <Grid container justify="center">
-          <Button
-            className={classes.button1}
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => openEdit()}
-          >
-            Edit
-            {/* <Edit className={classes.rightIcon} /> */}
-          </Button>
-        </Grid>
-      </Container>
-    </div>
-  );
+  ) : <div>Loading</div>;
+
   return content;
 }

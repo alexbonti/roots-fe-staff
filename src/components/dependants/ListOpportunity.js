@@ -37,7 +37,7 @@ export function ListOpportunity(props) {
   const draftTitle = (listDraft.length === 0 || undefined) ? "" : <Grid item sx={12} className={classes.title}>Draft Opportunities</Grid>;
   const expiredTitle = (listDraft.length === 0 || undefined) ? "" : <Grid item sx={12} className={classes.title}>Expired Opportunities</Grid>;
 
-
+console.log(props.data)
   const allJobs =
     tabNumber === 0 ? (
       <div style={{ padding: "1vh 20vh" }}>

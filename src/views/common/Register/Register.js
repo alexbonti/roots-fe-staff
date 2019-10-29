@@ -86,26 +86,17 @@ const Register = props => {
     const data = {
       first_name: firstName,
       last_name: lastName,
-      companyId,
+      companyId: companyId.toLowerCase(),
       emailId,
       password
     };
 
-    const dataCompany = {
-      companyName: companyId,
-      companyLogo,
-      companyDescription,
-      companyIndustry,
-      location: companyLocation
-    };
-
     const triggerAPI = async () => {
+
       
-      const registerData = await API.registerEmployer(data, setAccessToken);
+      const registerData = await API.registerEmployer(data);
       setAccessToken(registerData.response.accessToken);
       setEmailVerified(registerData.response.employerDetails.emailVerified);
-      const createCompany = await API.createMyCompany(dataCompany, registerData.response.accessToken);
-      console.log(createCompany);
       setRedirect(true);
     };
     triggerAPI();

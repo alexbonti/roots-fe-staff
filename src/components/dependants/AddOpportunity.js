@@ -101,6 +101,7 @@ export function AddOpportunity(props) {
     setStyleEdit,
     setAddOpportunity,
     tabNumber,
+    setIsUpdated
   } = useContext(HomeContext);
 
   const autoFill = async event => {
@@ -135,6 +136,7 @@ export function AddOpportunity(props) {
       };
       setAddOpportunity(false);
       API.postOpportunityDraft(data);
+      setIsUpdated(true);
       notify("Job Saved");
     }
     else {

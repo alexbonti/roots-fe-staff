@@ -53,6 +53,7 @@ export default function CandidatesCard(props) {
     numberOfApplications,
     _id
   } = props.data;
+  console.log(props.data)
 
   const { setIsSingle } = useContext(HomeContext);
   const requestApplicantsInfo = () => {
