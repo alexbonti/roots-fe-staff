@@ -1,6 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container } from "@material-ui/core/";
+import ReactHtmlParser from "react-html-parser";
+
+
 
 const useStyles = makeStyles({
   container: {
@@ -94,7 +97,7 @@ export const ExperienceCV = props => {
                 {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
               </Grid>
               <Grid item xs={12} className={classes.subText}>
-                {description}
+                {ReactHtmlParser(description)}
               </Grid>
               <Grid item xs={12} style={{ width: "100%" }}>
                 {i < props.data.length - 1 ? (

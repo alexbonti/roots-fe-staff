@@ -96,7 +96,7 @@ const Register = props => {
 
     const triggerAPI = async () => {
       const registerData = await API.registerEmployer(data);
-      console.log(registerData.response.statusCode)
+      console.log(registerData);
       if (registerData.response.statusCode === 200 || registerData.response.statusCode === 201) {
         setAccessToken(registerData.response.data.accessToken);
         setEmailVerified(registerData.response.data.employerDetails.emailVerified);

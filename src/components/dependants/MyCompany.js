@@ -58,6 +58,7 @@ export default function MyCompany(props) {
     setIsEditMycompany(true);
   };
 
+  console.log(props.data);
   const companyData = props.data.companyDetails;
 
  
@@ -69,7 +70,7 @@ export default function MyCompany(props) {
           <Grid item xs={4}>
             <img
               alt="Remy Sharp"
-              src={companyData.companyLogo}
+              src={companyData.companyLogo }
               className={classes.avatar}
             />
           </Grid>

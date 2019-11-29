@@ -6,7 +6,7 @@ import API from "../../helpers/api";
 import { arrayfy } from "../../helpers/arrayfy";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
-import { EditOpportunityContext, HomeContext } from "../../contexts";
+import { EditOpportunityContext, HomeContext, TextEditorContext } from "../../contexts";
 import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
@@ -82,7 +82,6 @@ export function AddOpportunity(props) {
     setStart,
     stop,
     setStop,
-    description,
     editSkills,
     setEditSkills,
     industryField,
@@ -94,7 +93,7 @@ export function AddOpportunity(props) {
     latitude,
     setLatitude,
   } = useContext(EditOpportunityContext);
-
+  const {descriptionOpportunity} = useContext(TextEditorContext);
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
 
@@ -109,6 +108,8 @@ export function AddOpportunity(props) {
     singleJobData,
     isEditOpportunity,
   } = useContext(HomeContext);
+
+  console.log("singleJobData", singleJobData)
 
   const autoFill = async event => {
     setInputPosition(event.target.value);
@@ -136,11 +137,12 @@ export function AddOpportunity(props) {
         startDate: new Date(start).toISOString(),
         endDate: new Date(stop).toISOString(),
         industryField,
-        description,
+        description: descriptionOpportunity,
         location,
         latitude,
         longitude,
       };
+      console.log(data);
       setAddOpportunity(false);
       API.postOpportunityDraft(data);
       setIsUpdated(true);

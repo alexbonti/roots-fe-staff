@@ -26,6 +26,7 @@ export const TextEditor = (props) => {
   const { setDescription, setDescriptionOpportunity } = useContext(TextEditorContext);
   const {isEditOpportunity} = useContext(HomeContext);
   const [nodeRedData] = useState("");
+  console.log(props)
 
   const handleTextEditorChange = value => {
     

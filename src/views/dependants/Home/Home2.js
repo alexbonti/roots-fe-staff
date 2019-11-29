@@ -25,29 +25,7 @@ import { ListOfCandidatesOfASingleJob } from "components/dependants/ListOfCandid
 import { Spinner } from "components";
 
 const useStyles = makeStyles(theme => ({
-  // root: {
-  //   padding: "0",
-  // },
-  // icon: {
-  //   margin: theme.spacing(0),
-  // },
-  // iconHover: {
-  //   margin: theme.spacing(0),
-  //   "&:hover": {
-  //     color: "red",
-  //   },
-  // },
-  // topSpace: {
-  //   display: "flex",
-  //   height: "15vh",
-  //   backgroundColor: "white",
-  //   fontSize: 30,
-  //   padding: "10px 0",
-  //   fontWeight: "bolder",
-  //   margin: 0,
-  //   width: "100vw",
-  //   maxWidth: "none",
-  // },
+
 }));
 
 function TabPanel(props) {
@@ -108,6 +86,8 @@ export const Home2 = props => {
     setIsUploaded,
   } = useContext(MyCompanyContext);
 
+  console.log(dataMyCompany);
+
   //-----------theme settings
   const theme = createMuiTheme({
     palette: {
@@ -150,7 +130,8 @@ export const Home2 = props => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-        //const companyData = await API.getCompanyDetails(accessToken);
+        const companyData = await API.getCompanyDetails(accessToken);
+        console.log(companyData)
         setDataMyCompany(profileData.response[1]);
         setCompanyId(profileData.response[0].companyId);
         setIsUploaded(false);

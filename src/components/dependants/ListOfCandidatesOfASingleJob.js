@@ -215,7 +215,7 @@ export function ListOfCandidatesOfASingleJob(props) {
       </Grid>
       <Grid item>
         <Typography color="textPrimary" variant="h3">
-          {dataArray[0].jobId.positionTitle} - {dataArray[0].jobId.location}
+          {dataArray[0].jobId.positionTitle} 
         </Typography>
       </Grid>
       {shortListedRender}

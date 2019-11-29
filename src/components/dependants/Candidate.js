@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import ReactDOM from 'react-dom';
+import ReactHtmlParser from "react-html-parser";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -72,23 +73,17 @@ export const Candidate = props => {
     //volunteer,
     workExperience,
     education,
+    avatar,
+    coverLetter
   } = props.data.UserExtendedProfile;
-  const coverLetter = `<h2>Why Bother With a Cover Letter at All?</h2>
-  <p>Before we jump in, it’s worth emphasizing <em>why</em> cover letters still exist and are worthy of your attention. I bet when you see a job listing where one’s “optional” you gleefully submit a resume and move on. But you’re truly doing yourself a disservice by not creating one (or by writing one that’s super generic or formulaic).</p>
-  <p>“When you’re writing a resume you’re oftentimes confined by space, by resume speak, by keywords—you’re up against a lot of technical requirements,” says <a href="https://www.themuse.com/coaches/write-in-color">Melody Godfred</a>, a Muse career coach and founder of <a href="https://www.writeincolor.com/" rel="nofollow" target="_blank">Write in Color</a> who’s read thousands of cover letters over the course of her career, “whereas in a cover letter you have an opportunity to craft a narrative that aligns you not only with the position you’re applying to but also the company you’re applying to.”</p>
-  <p><br /></p>
-  <div class="quote">
-  <div class="quote-text"><blockquote>
-  <p>When you’re writing a resume you’re oftentimes confined by space, by resume speak, by keywords—you’re up against a lot of technical requirements, whereas in a cover letter you have an opportunity to craft a narrative that aligns you not only with the position you’re applying to but also the company you’re applying to.<br></p></p>
-  </blockquote></div>
-  </div>
-  <p><br /></p>`;
+ 
   const { first_name, last_name, emailId } = props.data;
 
   const back = () => {
     setIsSingleCandidate(false);
   };
 
+  console.log(props.data)
   return (
     <div>
       <Button onClick={back}> {"<"} Back</Button>
@@ -98,7 +93,8 @@ export const Candidate = props => {
             <Grid item>
               <Avatar
                 alt="Remy Sharp"
-                src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"
+                // src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"
+                src={avatar}
                 className={classes.avatar}
               />
             </Grid>

@@ -80,7 +80,7 @@ export default function JobCard(props) {
         <hr style={{ borderColor: "#c9c7c761" }} />
       </Grid>
       <Grid item container xs={11} alignItems="center" justify="flex-end">
-        <Grid item xs={5} lg={6} md={6}>
+        <Grid item xs={4} lg={4} md={4} xl={3}>
           <Button color="primary" fullWidth size="small" onClick={() => editSingleJob()}>
             Edit Add
           </Button>

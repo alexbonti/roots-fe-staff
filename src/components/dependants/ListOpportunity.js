@@ -8,18 +8,20 @@ import { HomeContext, CandidateContext } from "contexts";
 import { ListOfCandidatesOfASingleJob } from "./ListOfCandidatesOfASingleJob";
 import { AddButtonCard } from "../index";
 import { Candidate } from "./Candidate";
-
-const useStyles = makeStyles({
-  title: {
-    fontSize: 30,
-    //padding: "10px 0",
-    fontWeight: "bolder",
-    //margin: "3rem 0",
+const useStyles = makeStyles(theme => ({
+  tile: {
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: "100%",
+    },
+    maxWidth: "380px"
   },
   container: {
     backgroundColor: "white",
   },
-});
+  
+}));
+
+
 
 export function ListOpportunity(props) {
   const classes = useStyles();
@@ -74,7 +76,7 @@ export function ListOpportunity(props) {
       <>
         <Grid container justify="center">
           <Grid item xs={12} md={9} lg={9} container justify="flex-end">
-            <Grid item xs={12} sm={12} md={4} lg={3} xl={3}>
+            <Grid item xs={12} sm={12} md={4} lg={3} xl={2}>
               <AddButtonCard />
             </Grid>
           </Grid>
@@ -100,7 +102,7 @@ export function ListOpportunity(props) {
               const deltaDate = thisDate.getTime() - new Date();
               if (deltaDate > 0) {
                 return (
-                  <Grid item key={Math.random()}  xs={12} lg={4} md={5}>
+                  <Grid key={Math.random()} item className={classes.tile}    xs={12} sm={6}lg={4} md={5} xl={3}>
                     <JobCard  data={element} />
                   </Grid>
                 );
@@ -116,8 +118,8 @@ export function ListOpportunity(props) {
           <Grid item xs={12} md={9} lg={9} container justify="flex-start" spacing={1}>
             {listDraft.map(element => {
               return (
-                <Grid key={Math.random()} item  xs={12} lg={4} md={5}>
-                  <JobCardDraft  data={element} />
+                <Grid key={Math.random()} className={classes.tile} item  xs={12} sm={6}lg={4} md={5} xl={3}>
+                  <JobCardDraft data={element} />
                 </Grid>
               );
             })}
@@ -132,8 +134,8 @@ export function ListOpportunity(props) {
               const deltaDate = thisDate.getTime() - new Date();
               if (deltaDate < 0) {
                 return (
-                  <Grid item key={Math.random()}  xs={12} lg={4} md={5}>
-                    <JobCard data={element} type={"elapsed"} />
+                  <Grid item key={Math.random()} className={classes.tile}  xs={12} sm={6}lg={4} md={5} xl={3}>
+                    <JobCard  data={element} type={"elapsed"} />
                   </Grid>
                 );
               } else {
