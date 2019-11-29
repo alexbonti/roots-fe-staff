@@ -8,31 +8,31 @@ import {
   Typography,
   Button,
   Box,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import { LoginContext } from "contexts";
 import { notify } from "components";
 import { API } from "helpers/index";
-import { Header } from "../../../components/dependants/Header";
+import { Header2 } from "../../../components/dependants/Header2";
 import { ThemeProvider } from "@material-ui/styles";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.dark
-    }
+      backgroundColor: theme.palette.common.dark,
+    },
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   loginBox: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(10)
+    marginTop: theme.spacing(10),
   },
 
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   buttons: {
     color: "white",
@@ -40,17 +40,18 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #087b94",
     backgroundColor: "#087b94 !important",
     width: "80%",
-    margin: "1rem"
+    margin: "1rem",
+    // minWidth: "100px"
   },
   developMessage: {
     position: "absolute",
-    bottom: "2vh"
+    bottom: "2vh",
   },
   inputText: {
     ".MuiInput-underline:after": {
-      borderBottom: "2px solid green"
-    }
-  }
+      borderBottom: "2px solid green",
+    },
+  },
 }));
 
 const theme = createMuiTheme({
@@ -64,8 +65,8 @@ const theme = createMuiTheme({
     // Used to shift a color's luminance by approximately
     // two indexes within its tonal palette.
     // E.g., shift from Red 500 to Red 300 or Red 700.
-    tonalOffset: 0.2
-  }
+    tonalOffset: 0.2,
+  },
 });
 
 export const Login = () => {
@@ -77,7 +78,7 @@ export const Login = () => {
   const performLogin = async () => {
     const data = {
       emailId,
-      password
+      password,
     };
     const otp = await API.loginEmployer(data, setAccessToken);
     if (!otp) {
@@ -116,7 +117,7 @@ export const Login = () => {
   let content = (
     <ThemeProvider theme={theme}>
       <div>
-        <Header />
+        <Header2 />
         <Grid
           container
           spacing={0}
@@ -124,7 +125,16 @@ export const Login = () => {
           alignItems="center"
           style={{ height: "65vh" }}
         >
-          <Grid className={classes.loginBox} item xs={10} lg={2}>
+          <Grid
+            className={classes.loginBox}
+            item
+            xs={10}
+            md={5}
+            lg={5}
+            
+            justify="center"
+
+          >
             <form noValidate>
               <TextField
                 margin="normal"
@@ -149,6 +159,9 @@ export const Login = () => {
                 onChange={e => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
+            </form>
+            <Grid container justify="center">
+            <Grid item xs={6} md={4} lg={6}>
               <Button
                 fullWidth
                 variant="contained"
@@ -157,6 +170,8 @@ export const Login = () => {
               >
                 Login
               </Button>
+            </Grid>
+            <Grid item xs={6} md={4} lg={6}>
               <Button
                 fullWidth
                 variant="contained"
@@ -166,7 +181,8 @@ export const Login = () => {
               >
                 Register
               </Button>
-            </form>
+            </Grid>
+            </Grid>
           </Grid>
 
           <Grid item xs={12} className={classes.developMessage}>

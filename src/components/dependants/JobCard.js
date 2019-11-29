@@ -6,34 +6,40 @@ import {
   CardContent,
   Button,
   Typography,
-  Grid
+  Grid,
 } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
+
   cell: {
     borderRadius: "10px",
     border: "1px dashed black",
     maxWidth: "240px",
-    minHeight: "300px"
+    minHeight: "200px",
   },
+
   gridMain: {
-    minHeight: "230px"
+    minHeight: "230px",
   },
 
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   button: {
     borderRadius: "25px",
     border: "1px solid #087b94",
     color: "#087b94",
-    width: "80%"
+    width: "80%",
+  },
+  topBarCard: {
+    border: "1px solid #b1afafbf",
+    borderTop: "none",
+    borderRadius: "2px",
+    backgroundColor: "snow", 
+    boxShadow: "1px 2px 1px #d0d0d082"
   }
 }));
 
@@ -47,53 +53,41 @@ export default function JobCard(props) {
     setJobView(true);
   };
 
+  const colorTile = props.type === "elapsed" ? "rgba(255, 119, 98, 0.9)" : "#b1afafbf";
+
   return (
-    <div>
-      <Card className={classes.cell}>
-        <Grid
-          className={classes.gridMain}
-          container
-          direction="row"
-          alignItems="flex-end"
-        >
-          <Grid item xs={12}>
-            <CardContent>
-              <Typography variant="h5" component="h2" align="center">
-                {positionTitle}
-              </Typography>
-              <Typography
-                className={classes.pos}
-                color="textSecondary"
-                align="center"
-              >
-                {seniority}
-              </Typography>
-              <Typography variant="body2" component="p" align="center">
-                {}
-                Open on: {publishDate.substring(0, 10)}
-                <br />
-                {} <br />
-                Ends on: {endDate.substring(0, 10)}
-              </Typography>
-            </CardContent>
-          </Grid>
-          <Grid
-            item
-            container
-            direction="row"
-            justify="center"
-            alignItems="flex-end"
+    <Grid container justify="center" style={{border: `1px solid ${colorTile}`}} className={classes.topBarCard}>
+      <Grid item xs={12} style={{backgroundColor: "#087B94", height: ".5vh", borderRadius: "2px 2px 0px 0px", }}>
+
+      </Grid>
+      <Grid item xs={11}>
+        <Typography style={{fontWeight: "500"}}>{positionTitle}</Typography>
+      </Grid>
+      <Grid  item xs={11}>
+        <Typography variant="caption">{seniority}</Typography>
+      </Grid>
+      <Grid  item xs={11}>
+        <Typography variant="caption">
+          Published on: {publishDate.substring(0, 10)} <br />
+          End: {endDate.substring(0, 10)}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <hr style={{borderColor: "#c9c7c761"}}/>
+      </Grid>
+      <Grid item container  xs={11} alignItems="center" justify="flex-end" >
+        <Grid item xs={5} lg={6} md={6}>
+          <Button
+            fullWidth
+            size="small"
+            color="primary"
+            onClick={() => openSingleJob()}
           >
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={() => openSingleJob()}
-            >
-              View Add
-            </Button>
-          </Grid>
+            View Add
+          </Button>
+
         </Grid>
-      </Card>
-    </div>
+      </Grid>
+    </Grid>
   );
 }

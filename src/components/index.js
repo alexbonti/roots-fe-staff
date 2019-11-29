@@ -1,6 +1,7 @@
 import Notification, { notify } from "./common/Notification";
 import { DevModeSwitch } from "./common/DevModeSwitch";
 import { Header } from "./dependants/Header";
+import { Header2 } from "./dependants/Header2";
 import { SideMenuItems } from "./dependants/SideMenuItems";
 import { AddOpportunity } from "../components/dependants/AddOpportunity";
 import { ListOpportunity } from "../components/dependants/ListOpportunity";
@@ -13,6 +14,7 @@ import { ExperienceCV } from "./dependants/cv/ExperienceCV";
 import { EducationCV } from "./dependants/cv/EducationCV";
 import { CoverLetterCV } from "./dependants/cv/CoverLetterCV";
 import { VolunteerCV } from "./dependants/cv/VolunteerCV";
+import {Spinner} from "./common/Spinner"
 
 export {
   AddOpportunity,
@@ -30,5 +32,7 @@ export {
   ExperienceCV,
   EducationCV,
   CoverLetterCV,
-  VolunteerCV
+  VolunteerCV,
+  Spinner,
+  Header2
 };

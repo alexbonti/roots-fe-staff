@@ -7,48 +7,46 @@ import {
   Button,
   Box,
   Grid,
-  createMuiTheme
+  createMuiTheme,
 } from "@material-ui/core";
 import { notify } from "components";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
-import { Header } from "../../../components/dependants/Header";
+import { Header2 } from "../../../components/dependants/Header2";
 import { withRouter } from "react-router-dom";
-import {MyCompanyContext} from '../../../contexts/dependants/MyCompanyContext'
+import { MyCompanyContext } from "../../../contexts/dependants/MyCompanyContext";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   registerBox: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   buttons: {
     marginTop: theme.spacing(1),
-    borderRadius: "1rem"
+    borderRadius: "1rem",
   },
-  developMessage: {
-    position: "absolute",
-    bottom: "1vh"
-  },
+  // developMessage: {
+  //   position: "absolute",
+  //   bottom: "1vh"
+  // },
   blockTop: {
     color: "black",
-    fontSize: "20px",
+    fontSize: "1.5rem",
     height: "20vh",
     backgroundColor: "rgba(8, 123, 148, 0.08)",
-    margin: "30px 0",
-    maxWidth: "100%"
   },
   text: {
     fontFamily: "Lato, Helvetica, Arial, sans-serif",
-    fontSize: "2.5rem",
-    fontWeight: "600"
-  }
+    fontSize: "1.5rem",
+    fontWeight: "600",
+  },
 }));
 const theme = createMuiTheme({
   palette: {
@@ -61,8 +59,8 @@ const theme = createMuiTheme({
     // Used to shift a color's luminance by approximately
     // two indexes within its tonal palette.
     // E.g., shift from Red 500 to Red 300 or Red 700.
-    tonalOffset: 0.2
-  }
+    tonalOffset: 0.2,
+  },
 });
 const Register = props => {
   // const { setLoginStatus } = React.useContex(LoginContext);
@@ -78,7 +76,12 @@ const Register = props => {
   const [accessToken, setAccessToken] = useState("");
   const [emailVerified, setEmailVerified] = useState("");
 
-  const {companyLogo, companyDescription, companyIndustry, companyLocation} = useContext(MyCompanyContext)
+  const {
+    companyLogo,
+    companyDescription,
+    companyIndustry,
+    companyLocation,
+  } = useContext(MyCompanyContext);
 
   // const { setOpenModal } = useContext(LoginContext);
 
@@ -88,16 +91,18 @@ const Register = props => {
       last_name: lastName,
       companyId: companyId.toLowerCase(),
       emailId,
-      password
+      password,
     };
 
     const triggerAPI = async () => {
-
-      
       const registerData = await API.registerEmployer(data);
-      setAccessToken(registerData.response.accessToken);
-      setEmailVerified(registerData.response.employerDetails.emailVerified);
-      setRedirect(true);
+      console.log(registerData.response.statusCode)
+      if (registerData.response.statusCode === 200 || registerData.response.statusCode === 201) {
+        setAccessToken(registerData.response.data.accessToken);
+        setEmailVerified(registerData.response.data.employerDetails.emailVerified);
+        setRedirect(true);
+      }
+
     };
     triggerAPI();
   };
@@ -135,27 +140,27 @@ const Register = props => {
     <Redirect
       to={{
         pathname: "/registerSuccess",
-        state: { accessToken, emailVerified, emailId }
+        state: { accessToken, emailVerified, emailId },
       }}
     />
   ) : (
     <ThemeProvider theme={theme}>
       <div>
-        <Header />
+        <Header2 />
         <Grid
           className={classes.blockTop}
           container
           alignContent="center"
           justify="center"
         >
-          <Grid item xs={5}>
+          <Grid item xs={8} lg={5} md={5}>
             <Typography className={classes.text}>
               {"Great, Let 's do this"}
             </Typography>
           </Grid>
         </Grid>
         <Grid container spacing={0} justify="center">
-          <Grid className={classes.registerBox} item xs={5}>
+          <Grid className={classes.registerBox} item xs={8} lg={5} md={5}>
             <Typography component="h1" variant="h5">
               {pageHeading}
             </Typography>

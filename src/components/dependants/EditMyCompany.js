@@ -75,10 +75,8 @@ export function EditMyCompany() {
 
   const { description } = useContext(TextEditorContext);
   const {
-    //isPreview,
-    //setIsPreview,
+  
     styleEdit,
-    //setStyleEdit,
     setIsEditMycompany,
     setMainTitle,
   } = useContext(HomeContext);
@@ -94,7 +92,7 @@ export function EditMyCompany() {
   const autoFill = async event => {
     setInputPosition(event.target.value);
     let suggestions = await API.getAddress(inputPosition);
-    setPositionSuggestions(suggestions);
+    setPositionSuggestions(suggestions.suggestions);
   };
 
   // const activePreview = () => {
@@ -243,8 +241,7 @@ export function EditMyCompany() {
                             setSuggestions(event);
                           }}
                         >
-                          {suggestion.address.country},{" "}
-                          {suggestion.address.city}, {suggestion.address.state}
+                          {suggestion.label}
                         </div>
                       );
                     })}

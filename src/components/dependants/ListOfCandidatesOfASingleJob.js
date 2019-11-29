@@ -16,9 +16,7 @@ import { StarRate, StarBorder, Star } from "@material-ui/icons/";
 import { LoginContext } from "contexts/index";
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
+ 
   card: {
     minWidth: 275,
   },

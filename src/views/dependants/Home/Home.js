@@ -25,8 +25,6 @@ import { ListOfCandidatesOfASingleJob } from "components/dependants/ListOfCandid
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    flexGrow: 1,
     padding: "0"
   },
   icon: {
@@ -38,17 +36,6 @@ const useStyles = makeStyles(theme => ({
       color: "red"
     }
   },
-  topSpace: {
-    display: "flex",
-    height: "15vh",
-    backgroundColor: "white",
-    fontSize: 30,
-    padding: "10px 0",
-    fontWeight: "bolder",
-    margin: 0,
-    width: "100vw",
-    maxWidth: "none"
-  }
 }));
 
 function TabPanel(props) {
@@ -162,11 +149,11 @@ export const Home = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <Container className={classes.topSpace}>
+        
           <Grid container justify="center" alignItems="center">
-            <Grid item>{mainTitle} </Grid>
+            <Grid item xs={12} lg={12}>{mainTitle} </Grid>
           </Grid>
-        </Container>
+        
         <AppBar position="static" color="primary">
           <Tabs
             value={value}

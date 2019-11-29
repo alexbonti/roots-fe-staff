@@ -1,10 +1,32 @@
 import { AccessToken } from "contexts/helpers";
 import axios from "axios";
 import { axiosInstance } from "helpers";
+import {notify} from 'components';
 
 let config = {
   headers: { authorization: "Bearer " + AccessToken },
 };
+const errorHelper = (error, variant) => {
+  if (error.response === undefined) {
+    notify("Network Error");
+    return false;
+  }
+  if (error.response.statusCode === 401) {
+    if (variant === "login")
+      return notify("Invalid Credentials");
+    notify("You may have been logged out");
+    //logout();
+    return false;
+  }
+  if (error.response.data.message !== "") {
+    notify(error.response.data.message);
+    return false;
+  }
+  if (error.response.statusText !== "") {
+    notify(error.response.statusText);
+    return false;
+  }
+}
 
 class API {
   loginEmployer = async (data, setAccessToken) => {
@@ -45,11 +67,12 @@ class API {
       data,
     })
       .then(response => {
-        return { response: response.data.data };
+        console.log(response)
+        return { response: response.data };
       })
       .catch(error => {
-        console.log(error);
-        return false;
+        errorHelper(error);
+        return error;
       });
   };
 
@@ -64,7 +87,7 @@ class API {
       .then(response => {
         return response.status;
       })
-      .catch(error => console.log(error));
+      .catch(error => errorHelper(error));
   };
 
   postOpportunity = data => {
@@ -76,14 +99,14 @@ class API {
         },
       } )
       .then(response => response)
-      .catch(error => console.log(error));
+      .catch(error => errorHelper(error));
   };
 
   postOpportunityDraft = data => {
     axiosInstance
       .post("/jobs/opportunityDraft", data, config)
       .then(response => response)
-      .catch(error => console.log(error));
+      .catch(error => errorHelper(error));
   };
 
   createMyCompany = async (data, accessToken ) => {
@@ -95,7 +118,7 @@ class API {
         },
       })
       .then(response => {return response})
-      .catch(error => console.log(error));
+      .catch(error => errorHelper(error));
   };
 
   getOpportunity = async (accessToken) => {
@@ -110,7 +133,7 @@ class API {
         return { response: response.data.data.jobsData, status: true };
       })
       .catch(error => {
-        console.log(error);
+        errorHelper(error);
         return { status: false };
       });
   };
@@ -130,7 +153,7 @@ class API {
         };
       })
       .catch(error => {
-        console.log(error);
+        errorHelper(error);
         return { status: false };
       });
   };
@@ -150,7 +173,7 @@ class API {
       .then(response => {
         return ({"response": response.data.data});
       })
-      .catch(error => console.log(error));
+      .catch(error => errorHelper(error));
   };
 
 
@@ -166,7 +189,7 @@ class API {
         return {"response": response.data.data.customerData}
       })
       .catch(error => {
-        return {"error": error}
+       return errorHelper(error)
       })
   }
 
@@ -181,7 +204,7 @@ class API {
         return { "response": response };
       })
       .catch(error => {
-        return { "error": error };
+        return errorHelper(error);
       });
   };
 
@@ -192,9 +215,27 @@ class API {
       method: "get",
       url: ` http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id=${app_id}&app_code=${app_code}&query=${input}`,
     })
-      .then(response => response.data.suggestions)
-      .catch(error => console.log(error));
+      .then(response => response.data)
+      .catch(error => errorHelper(error));
   };
+
+  getLatLong = async input => {
+    const app_id = "TUbNW3GcKxN51q3zZJB0";
+    const app_code = "SOaMBDA1FYyc8mAtg7STgg";
+    return await axios({
+      method: "get",
+      url: ` http://geocoder.api.here.com/6.2/geocode.json?locationid=${input}&jsonattributes=1&gen=9&app_id=${app_id}&app_code=${app_code}`,
+    })
+      .then(response => {
+        return {
+          "response":
+            response.data.response.view[0].result[0].location.displayPosition,
+        };
+      })
+      .catch(error => errorHelper(error));
+  };
+
+
 
   getCompanyDetails = async auth => {
     let accessToken = localStorage.getItem("accessToken");
@@ -209,7 +250,7 @@ class API {
         return { "response": response.data.data.companyData };
       })
       .catch(error => {
-        return { "error": error };
+        return errorHelper(error);
       });
   };
 
@@ -226,7 +267,7 @@ class API {
         return { "response": response };
       })
       .catch(error => {
-        return { "error": error };
+        return errorHelper(error);
       });
   };
 
@@ -243,7 +284,7 @@ class API {
         return { "response": response };
       })
       .catch(error => {
-        return { "error": error };
+        return errorHelper(error);
       });
   }
 

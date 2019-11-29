@@ -7,6 +7,7 @@ export const HomeProvider = props => {
   const [jobView, setJobView] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [isEditMyCompany, setIsEditMycompany] = useState(false);
+  const [isEditOpportunity, setIsEditOpporinity] = useState(false);
   const [singleJobData, setSingleJobData] = useState("");
   const [styleEdit, setStyleEdit] = useState({ display: "block" });
   const [tabNumber, setTabNumber] = useState(0);
@@ -42,7 +43,9 @@ export const HomeProvider = props => {
         mainTitle,
         setMainTitle,
         isUpdated,
-        setIsUpdated
+        setIsUpdated,
+        isEditOpportunity, 
+        setIsEditOpporinity
       }}
     >
       {children}

@@ -1,22 +1,22 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { Header } from "components";
+import { Header2 } from "components";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
+    //display: "flex",
     backgroundColor: "rgba(8, 123, 148, 0.08)"
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    height: "100vh",
+ 
+    height: "94vh",
     overflow: "auto"
   },
-  container: {
-    // paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(4)
-  }
+  // container: {
+  //   // paddingTop: theme.spacing(5),
+  //   paddingBottom: theme.spacing(4)
+  // }
 }));
 
 export const Layout = props => {
@@ -24,9 +24,9 @@ export const Layout = props => {
 
   let content = (
     <div className={classes.root}>
-      <Header />
+      <Header2 />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        {/* <div className={classes.appBarSpacer} /> */}
         <div className={classes.container}>{props.children}</div>
       </main>
     </div>

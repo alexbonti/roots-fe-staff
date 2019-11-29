@@ -17,39 +17,37 @@ import {
   ListOpportunity,
   MyCompany,
   EditMyCompany,
-  AddButtonCard,
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
 import SingleJob from "../../../components/dependants/SingleJob";
 import { ListOfCandidatesOfASingleJob } from "components/dependants/ListOfCandidatesOfASingleJob";
+import { Spinner } from "components";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    flexGrow: 1,
-    padding: "0",
-  },
-  icon: {
-    margin: theme.spacing(0),
-  },
-  iconHover: {
-    margin: theme.spacing(0),
-    "&:hover": {
-      color: "red",
-    },
-  },
-  topSpace: {
-    display: "flex",
-    height: "15vh",
-    backgroundColor: "white",
-    fontSize: 30,
-    padding: "10px 0",
-    fontWeight: "bolder",
-    margin: 0,
-    width: "100vw",
-    maxWidth: "none",
-  },
+  // root: {
+  //   padding: "0",
+  // },
+  // icon: {
+  //   margin: theme.spacing(0),
+  // },
+  // iconHover: {
+  //   margin: theme.spacing(0),
+  //   "&:hover": {
+  //     color: "red",
+  //   },
+  // },
+  // topSpace: {
+  //   display: "flex",
+  //   height: "15vh",
+  //   backgroundColor: "white",
+  //   fontSize: 30,
+  //   padding: "10px 0",
+  //   fontWeight: "bolder",
+  //   margin: 0,
+  //   width: "100vw",
+  //   maxWidth: "none",
+  // },
 }));
 
 function TabPanel(props) {
@@ -92,7 +90,6 @@ export const Home2 = props => {
     addOpportunity,
     jobView,
     setTabNumber,
-    setIsEditMycompany,
     isListCanditatesOfAJob,
     isEditMyCompany,
     mainTitle,
@@ -111,8 +108,7 @@ export const Home2 = props => {
     setIsUploaded,
   } = useContext(MyCompanyContext);
 
-
-  //-----------theme settings 
+  //-----------theme settings
   const theme = createMuiTheme({
     palette: {
       primary: { main: "#087B94", light: "#FFD922" },
@@ -129,7 +125,6 @@ export const Home2 = props => {
       tonalOffset: 0.2,
     },
   });
-
 
   //-----------table change settings--------------
 
@@ -149,15 +144,13 @@ export const Home2 = props => {
 
   const handleChangeIndex = index => setValue(index);
 
-
   //-----if logged get company data and set them in the context
+
   useEffect(() => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-        console.log(profileData);
-        const companyData = await API.getCompanyDetails(accessToken);
-        console.log(companyData)
+        //const companyData = await API.getCompanyDetails(accessToken);
         setDataMyCompany(profileData.response[1]);
         setCompanyId(profileData.response[0].companyId);
         setIsUploaded(false);
@@ -172,7 +165,6 @@ export const Home2 = props => {
     setDataMyCompany,
     setIsUploaded,
   ]);
-
 
   //----------------get opportunities created
   useEffect(() => {
@@ -191,76 +183,62 @@ export const Home2 = props => {
     setIsUpdated(false);
   }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
 
-  
-
-
-
-  // ------if there are no data opportunity will just show a loader 
+  // ------if there are no data opportunity will just show a loader
   const list = !addOpportunity ? (
     dataJobs && dataJobsDraft !== "" ? (
       <ListOpportunity data={dataJobs} data2={dataJobsDraft} />
     ) : (
-      "loading" && <AddButtonCard />
+      <Spinner /> // && <AddButtonCard />
     )
   ) : (
     <AddOpportunity data={companyId} />
   );
 
-
-
-  //?----render-----
   return (
     <>
       <ThemeProvider theme={theme}>
-        <div className={classes.root}>
-          <Container className={classes.topSpace}>
-            <Grid
-              container
-              justify="flex-start"
-              alignItems="center"
-              style={{ padding: "0 22vh" }}
-            >
-              <Grid item>{mainTitle} </Grid>
-            </Grid>
-          </Container>
-          <AppBar position="static" color="primary">
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              indicatorColor="secondary"
-              textColor="inherit"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Your Opportunity" {...a11yProps(0)} />
-              <Tab label="Candidates" {...a11yProps(1)} />
-              <Tab label="My Company" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-          <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={value}
-            onChangeIndex={handleChangeIndex}
+        <Grid container justify="center" alignItems="center" style={{padding: "24px", backgroundColor: "white"}}>
+          <Grid item xs={12} md={9} lg={9}>
+            <Typography style={{fontSize: "1.5rem", fontWeight:"500"}}>{mainTitle}{" "}</Typography>
+          </Grid>
+        </Grid>
+        <AppBar position="static" color="primary">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="secondary"
+            textColor="inherit"
+            variant="fullWidth"
+            aria-label="full width tabs example"
           >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <Grid container className={classes.root} spacing={2}>
-                <Grid item xs={12}>
-                  {jobView ? <SingleJob /> : list}
-                </Grid>
+            <Tab label="Your Opportunity" {...a11yProps(0)} />
+            <Tab label="Candidates" {...a11yProps(1)} />
+            <Tab label="My Company" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <Grid container>
+              <Grid item xs={12}>
+                {jobView ? <SingleJob /> : list}
               </Grid>
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              {isEditMyCompany ? (
-                <EditMyCompany />
-              ) : (
-                <MyCompany data={(isMyCompany, dataMyCompany)} />
-              )}
-            </TabPanel>
-          </SwipeableViews>
-        </div>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            {isEditMyCompany ? (
+              <EditMyCompany />
+            ) : (
+              <MyCompany data={(isMyCompany, dataMyCompany)} />
+            )}
+          </TabPanel>
+        </SwipeableViews>
       </ThemeProvider>
     </>
   );

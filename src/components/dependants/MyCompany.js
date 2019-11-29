@@ -49,15 +49,8 @@ const useStyles = makeStyles({
 
 export default function MyCompany(props) {
   const classes = useStyles();
-  // const {
-  //   //companyName,
-  //   //companyLogo,
-  //   //companyDescription,
-  //   //companyIndustry,
-  //   //companyLocation
-  // } = useContext(MyCompanyContext);
 
-  // const {description} = useContext(TextEditorContext)
+
 
   const { setIsEditMycompany } = useContext(HomeContext);
 
@@ -66,13 +59,8 @@ export default function MyCompany(props) {
   };
 
   const companyData = props.data.companyDetails;
-  console.log(props.data);
 
-  // const {companyDescription, companyName, companyIndustry, companyLogo, location, } = props.data.companyDetails;
-
-  // if (!companyData) {
-  //   setIsEditMycompany(true);
-  // }
+ 
 
   let content = companyData ? (
     <div style={{padding: "2vh 18vh"}}>

@@ -4,7 +4,7 @@ import ReactHtmlParser from "react-html-parser";
 import { Grid } from "@material-ui/core/";
 
 import "react-quill/dist/quill.snow.css";
-import { TextEditorContext } from "contexts/index";
+import { TextEditorContext, HomeContext } from "contexts/index";
 
 const modules = {
   toolbar: [
@@ -24,10 +24,11 @@ const modules = {
 
 export const TextEditor = (props) => {
   const { setDescription, setDescriptionOpportunity } = useContext(TextEditorContext);
+  const {isEditOpportunity} = useContext(HomeContext);
   const [nodeRedData] = useState("");
 
   const handleTextEditorChange = value => {
-    console.log(props.data)
+    
     if(props.data === "opportunity"){
       return setDescriptionOpportunity(value);
     }
@@ -36,6 +37,8 @@ export const TextEditor = (props) => {
     }
   };
 
+
+  const toBeEdit = isEditOpportunity ? props.editData : "";
 
 
   return (
@@ -49,6 +52,7 @@ export const TextEditor = (props) => {
           }}
           theme="snow"
           placeholder="Description ..."
+          defaultValue={toBeEdit}
         />
         <div className="textEditorContent">
           <div>{ReactHtmlParser(nodeRedData)}</div>

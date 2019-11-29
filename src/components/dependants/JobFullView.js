@@ -61,6 +61,8 @@ export default function FullViewCard() {
     editSkills,
     industryField,
     location,
+    longitude,
+    latitude,
   } = useContext(EditOpportunityContext);
 
   const {descriptionOpportunity} = useContext(TextEditorContext);
@@ -82,6 +84,8 @@ export default function FullViewCard() {
       industryField,
       description: descriptionOpportunity,
       location,
+      latitude,
+      longitude
     };
     setAddOpportunity(false);
     API.postOpportunity(data);

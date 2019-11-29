@@ -8,86 +8,106 @@ import {
   Button,
   Typography,
   Grid,
-  Icon
+  Icon,
 } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
+ 
   cell: {
     borderRadius: "10px",
     border: "1px dashed black",
     maxWidth: "240px",
-    minHeight: "300px"
+    minHeight: "300px",
   },
   gridMain: {
-    minHeight: "230px"
+    minHeight: "230px",
   },
 
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   button: {
-    borderRadius: "25px",
+    borderRadius: "0px !important",
     border: "1px solid #087b94",
-    color: "#087b94",
-    width: "80%"
+
+  },
+  containerAddButton: {
+    border: "1px solid grey"
   }
 }));
 
 export default function AddButtonCard(props) {
   const classes = useStyles();
-  const { setAddOpportunity } = useContext(HomeContext);
+  const { setAddOpportunity, setIsEditOpporinity } = useContext(HomeContext);
 
   const openEdit = () => {
+    setIsEditOpporinity(false);
     setAddOpportunity(true);
   };
 
   return (
-    <div>
-      <Card className={classes.cell}>
-        <Grid
-          className={classes.gridMain}
-          container
-          direction="row"
-          alignItems="flex-end"
+    <Grid container alignItems="center" justify="center"className={classes.containerAddButton}>
+      <Grid item xs={5} lg={4} md={4}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={() => {
+            openEdit();
+          }}
         >
-          <Grid item xs={12}>
-            <CardContent>
-              <Typography variant="h5" component="h2" align="center">
-                Create a new Opportunity
-              </Typography>
-              <Typography
-                className={classes.pos}
-                color="textSecondary"
-                align="center"
-              ></Typography>
-            </CardContent>
-          </Grid>
-          <Grid
-            item
-            container
-            direction="row"
-            justify="center"
-            alignItems="flex-end"
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                openEdit();
-              }}
-            >
-              {" "}
-              <Icon className={classes.icon}>add_circle_outline</Icon>
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-    </div>
+          {" "}
+          <Icon className={classes.icon}>add_circle_outline</Icon>
+        </Button>
+
+      </Grid>
+      <Grid item container  xs={7} md={8} lg={8}>
+        <Typography variant="caption">Create a new Opportunity</Typography>
+      </Grid>
+    </Grid>
+    // <div>
+    //   <Card className={classes.cell}>
+    //     <Grid
+    //       className={classes.gridMain}
+    //       container
+    //       direction="row"
+    //       alignItems="flex-end"
+    //     >
+    //       <Grid item xs={12}>
+    //         <CardContent>
+    //           <Typography variant="h5" component="h2" align="center">
+    //             Create a new Opportunity
+    //           </Typography>
+    //           <Typography
+    //             className={classes.pos}
+    //             color="textSecondary"
+    //             align="center"
+    //           ></Typography>
+    //         </CardContent>
+    //       </Grid>
+    //       <Grid
+    //         item
+    //         container
+    //         direction="row"
+    //         justify="center"
+    //         alignItems="flex-end"
+    //       >
+    //         <Button
+    //           variant="contained"
+    //           color="primary"
+    //           onClick={() => {
+    //             openEdit();
+    //           }}
+    //         >
+    //           {" "}
+    //           <Icon className={classes.icon}>add_circle_outline</Icon>
+    //         </Button>
+    //       </Grid>
+    //     </Grid>
+    //   </Card>
+    // </div>
   );
 }

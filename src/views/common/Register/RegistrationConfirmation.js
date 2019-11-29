@@ -5,54 +5,14 @@ import {
   Button,
   Grid,
   TextField,
-  createMuiTheme
+  createMuiTheme,
+  Typography,
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import { API } from "helpers/index";
 import { LoginContext } from "../../../contexts/common/LoginContext";
 
-const useStyles = makeStyles(theme => ({
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
-  registerBox: {
-    width: "100%", // Fix IE 11 issue.
-    height: "50vh",
-    marginTop: theme.spacing(2),
-    backgroundColor: "azure"
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
-  buttons: {
-    marginTop: theme.spacing(1),
-    borderRadius: "1rem",
-    backgroundColor: "#087B94",
-    color: "white"
-  },
-  developMessage: {
-    position: "absolute",
-    bottom: "1vh"
-  },
-  blockTop: {
-    color: "black",
-    fontSize: "20px",
-    height: "20vh",
-    backgroundColor: "rgba(8, 123, 148, 0.08)",
-    margin: "30px 0",
-    maxWidth: "100%"
-  },
-  text: {
-    fontFamily: "Lato, Helvetica, Arial, sans-serif",
-    fontSize: "large",
-    fontWeight: "600"
-  },
-  containerButton: {
-    lineHeight: "5rem",
-    textAlign: "center"
-  }
-}));
+const useStyles = makeStyles(theme => ({}));
 
 const theme = createMuiTheme({
   palette: {
@@ -63,12 +23,12 @@ const theme = createMuiTheme({
     error: { main: "#D0011B" },
     contrastThreshold: 3,
 
-    tonalOffset: 0.2
-  }
+    tonalOffset: 0.2,
+  },
 });
 
-const RegistrationConfirmation = ({...props}) => {
-  console.log(props)
+const RegistrationConfirmation = ({ ...props }) => {
+  console.log(props);
   const classes = useStyles();
   const [code, setCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -109,18 +69,32 @@ const RegistrationConfirmation = ({...props}) => {
     <ThemeProvider theme={theme}>
       <Grid
         container
-        className={classes.registerBox}
-        alignItems="center"
         justify="center"
-        direction="column"
+        alignItems="center"
+        style={{ padding: "3vh 0" }}
       >
-        <Grid item xs={3} className={classes.text}>
-          Your account has been verified{" "}
-        </Grid>
-        <Grid item xs={3} container spacing={2}>
-          <Grid item xs={6} className={classes.containerButton}>
-            <Button className={classes.buttons}>
-              <Link to="/">Home</Link>
+        <Grid
+          item
+          container
+          xs={11}
+          lg={4}
+          md={4}
+          justify="space-evenly"
+          style={{
+            padding: "5vh 0",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            boxShadow: "-1px -1px 2px #44434385",
+          }}
+        >
+          <Grid item xs={12} lg={11} md={11} style={{ padding: "2vh 3vw" }}>
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              Your account has been verified
+            </Typography>
+          </Grid>
+          <Grid item xs={11} lg={11} md={11} style={{ padding: "3vh 3vw" }}>
+            <Button variant="contained" color="primary" fullWidth>
+              <Link to="/" style={{textDecoration: "none", color: "white"}}>Home</Link >
             </Button>
           </Grid>
         </Grid>
@@ -130,29 +104,53 @@ const RegistrationConfirmation = ({...props}) => {
     <ThemeProvider theme={theme}>
       <Grid
         container
-        className={classes.registerBox}
-        alignItems="center"
         justify="center"
-        direction="column"
+        alignItems="center"
+        style={{ padding: "3vh 0" }}
       >
-        <Grid item xs={3} className={classes.text}>
-          A verification code has been sent to {props.location.state.emailId}
-        </Grid>
-        <Grid item xs={3} container spacing={2}>
-          <Grid item xs={6}>
+        <Grid
+          item
+          container
+          xs={11}
+          lg={5}
+          md={5}
+          justify="space-evenly"
+          style={{
+            padding: "5vh 0",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            boxShadow: "-1px -1px 2px #44434385",
+          }}
+        >
+          <Grid item xs={12} lg={11} md={11} style={{ padding: "2vh 3vw" }}>
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              A verification code has been sent to: <br />
+            </Typography>
+            <Typography
+              style={{ textAlign: "center" }}
+              variant="h6"
+              color="primary"
+            >
+              {props.location.state.emailId}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} lg={6} md={6} style={{ padding: "2vh 3vw" }}>
             <TextField
               margin="normal"
               required
               fullWidth
+              color="primary"
               id="otpCode"
               label="Verification Code"
               name="Verification Code"
               onChange={e => setCode(e.target.value)}
             ></TextField>
           </Grid>
-          <Grid item xs={6} className={classes.containerButton}>
+          <Grid item xs={11} lg={11} md={11} style={{ padding: "3vh 3vw" }}>
             <Button
-              className={classes.buttons}
+              fullWidth
+              variant="contained"
+              color="primary"
               onClick={() => {
                 sendCode();
               }}

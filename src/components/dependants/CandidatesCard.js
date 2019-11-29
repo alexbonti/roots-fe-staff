@@ -9,38 +9,36 @@ import {
   Typography,
   Badge,
   Grid,
-  Icon
+  Icon,
 } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
+
   cell: {
     borderRadius: "10px",
-    border: "1px dashed black"
+    border: "1px dashed black",
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   icon: {
-    margin: theme.spacing(0)
+    margin: theme.spacing(0),
   },
   iconHover: {
     margin: theme.spacing(0),
     "&:hover": {
-      color: "red"
-    }
+      color: "red",
+    },
   },
-  button: {
-    borderRadius: "25px",
-    border: "1px solid #087b94",
-    width: "100%",
-    color: "#087b94"
-  }
+  // button: {
+  //   borderRadius: "25px",
+  //   border: "1px solid #087b94",
+  //   width: "100%",
+  //   color: "#087b94",
+  // },
 }));
 
 export default function CandidatesCard(props) {
@@ -51,9 +49,10 @@ export default function CandidatesCard(props) {
     employmentType,
     publishDate,
     numberOfApplications,
-    _id
+    _id,
+    seniority
   } = props.data;
-  console.log(props.data)
+  console.log(props.data);
 
   const { setIsSingle } = useContext(HomeContext);
   const requestApplicantsInfo = () => {
@@ -62,54 +61,65 @@ export default function CandidatesCard(props) {
 
   const statusButton = numberOfApplications < 1 ? true : false;
   return (
-    <div>
-      <Card className={classes.cell}>
-        <CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
+    <Grid
+      container
+      justify="center"
+      style={{
+        border: "1px solid #b1afafbf",
+        borderTop: "none",
+        borderRadius: "2px",
+        backgroundColor: "snow",
+        boxShadow: "1px 2px 1px #d0d0d082",
+      }}
+    >
+      <Grid
+        item
+        xs={12}
+        style={{
+          backgroundColor: "#087B94",
+          height: ".5vh",
+          borderRadius: "2px 2px 0px 0px",
+        }}
+      ></Grid>
+      <Grid item xs={11}>
+        <Typography variant="caption">{company}</Typography>
+      </Grid>
+      <Grid item xs={11}>
+        <Typography style={{fontWeight: "500"}}>{positionTitle}</Typography>
+      </Grid>
+      <Grid item xs={11}>
+        <Typography variant="caption">{employmentType}</Typography>
+      </Grid>
+      <Grid item xs={11}>
+        <Typography variant="caption" >{seniority}</Typography>
+      </Grid>
+      <Grid item xs={11}>
+        <Typography variant="caption">
+          Published on: {publishDate.substring(0, 10)} <br />
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <hr style={{ borderColor: "#c9c7c761" }} />
+      </Grid>
+      <Grid item container xs={11} alignItems="flex-start" justify="space-between">
+        <Grid item xs={5} lg={8} md={8}>
+          <Button
+            disabled={statusButton}
+            size="small"
+            color="primary"
+            onClick={() => requestApplicantsInfo(_id)}
           >
-            {company}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {positionTitle}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {employmentType}
-          </Typography>
-          <Typography variant="body2" component="p">
-            {}
-            <br />
-            {publishDate.substring(0, 10)}
-          </Typography>
-        </CardContent>
-        <Grid container className={classes.root} spacing={2}>
-          <Grid item xs={1} />
-          <Grid item xs={10}>
-            <CardActions>
-              <Button
-                disabled={statusButton}
-                size="small"
-                onClick={() => requestApplicantsInfo(_id)}
-                className={classes.button}
-              >
-                View Candidates
-              </Button>
-            </CardActions>
-          </Grid>
-          <Grid item xs={1} />
-
-          <Grid item xs={12}>
-            <Badge badgeContent={numberOfApplications} color="primary">
-              <Button disabled={statusButton}>
-                <Icon className={classes.icon}>how_to_reg</Icon>
-              </Button>
-            </Badge>
-          </Grid>
+            View Candidates
+          </Button>
         </Grid>
-      </Card>
-    </div>
+        <Grid item xs={5} lg={4} md={4}>
+            <Button disabled={true}>
+              <Icon >how_to_reg</Icon>
+            </Button>
+          <Badge badgeContent={numberOfApplications} color="primary"/>
+        </Grid>
+      </Grid>
+    </Grid>
   );
   // return <div>{list}</div>;
 }
