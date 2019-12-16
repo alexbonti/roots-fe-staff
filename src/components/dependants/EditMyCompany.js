@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { TextField, Grid, Button } from "@material-ui/core/";
+import { TextField, Grid, Button, MenuItem } from "@material-ui/core/";
 // import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import API from "../../helpers/api";
 import pink from "@material-ui/core/colors/pink";
@@ -17,38 +17,8 @@ import MyDropzone from "./DropDrag";
 import { TextEditor } from "./QuillEditor";
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  root: {
-    backgroundColor: "white",
-    marginTop: "1vh",
-    borderRadius: "10px",
-  },
   textField: {
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1),
-    // width: "100%",
-  },
-  textareaAutosize: {
-    width: "70%",
-    margin: "2%",
-    height: "25vh !important",
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  location: {
-    //width: "55% !important",
-  },
-  suggestion: {
-    border: "1px solid grey",
-    borderRadius: "2px",
-    display: "block",
+    padding: "2vh 0",
   },
 }));
 
@@ -67,19 +37,14 @@ const theme = createMuiTheme({
   },
 });
 
-export function EditMyCompany() {
+export function EditMyCompany(props) {
   const classes = useStyles();
 
   //-------------------context
   const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
   const { description } = useContext(TextEditorContext);
-  const {
-  
-    styleEdit,
-    setIsEditMycompany,
-    setMainTitle,
-  } = useContext(HomeContext);
+  const {setIsEditMycompany, isEditMyCompany, setMainTitle } = useContext(HomeContext);
 
   //--------------------- usestates
   const [companyName, setCompanyName] = useState("");
@@ -88,6 +53,7 @@ export function EditMyCompany() {
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
 
+  console.log(props);
   //--------------------- functions
   const autoFill = async event => {
     setInputPosition(event.target.value);
@@ -95,24 +61,16 @@ export function EditMyCompany() {
     setPositionSuggestions(suggestions.suggestions);
   };
 
-  // const activePreview = () => {
-  //   setIsPreview(true);
-  //   setStyleEdit({ display: "none" });
-  // };
+
+  const dataMyCompany = props.data
 
   if (!companyId) {
     setMainTitle("First let's create your Company profile");
   }
 
-  const submitToApi = async accesstoken => {
+  const submitToApi = async () => {
+    
     const data = {
-      companyName,
-      companyLogo: tempLogo,
-      location: companyLocation,
-      companyDescription: description,
-      companyIndustry,
-    };
-    const data2 = {
       companyId,
       companyName,
       companyLogo: tempLogo,
@@ -122,22 +80,15 @@ export function EditMyCompany() {
     };
 
     if (companyId !== null && companyId !== "") {
-      console.log(companyId);
-      const updateDataCompany = await API.updateCompanyDetails(
-        data2,
-        accesstoken
-      );
-      notify("Company Details Saved");
-      console.log("update company details", updateDataCompany);
-      closeEdit();
-      setIsUploaded(true);
-    } 
-    else {
-      const postDataCompany = await API.postMyCompanyDetails(data, accesstoken);
-      notify("Company Details Created");
-      console.log(postDataCompany);
-      closeEdit();
-      setIsUploaded(true);
+      const updateDataCompany = await API.updateCompanyDetails(data);
+      if(updateDataCompany){
+        if(updateDataCompany.response.status === 200 ){
+          notify("Company Details Saved");
+          setIsEditMycompany(false);
+          setIsUploaded(true);
+        }
+      }
+      
     }
   };
 
@@ -148,163 +99,165 @@ export function EditMyCompany() {
     setPositionSuggestions("");
   };
 
-  const closeEdit = () => {
-    setIsEditMycompany(false);
-  };
+  
 
   return (
-    <Grid style={styleEdit}>
-      <ThemeProvider theme={theme}>
-        {/* BUTTON */}
-        <Grid container alignContent="flex-start">
-          <Button onClick={closeEdit}> {"<"} Back</Button>
-        </Grid>
+    //<Grid style={styleEdit}>
+    <ThemeProvider theme={theme}>
+      {/* BUTTON */}
 
-        {/* //MAIN center the page */}
-        <Grid container direction="column" alignItems="center">
-          {/* root gives size  */}
+      <Grid container alignContent="flex-start">
+        <Button onClick={() =>setIsEditMycompany(false)}> {"<"} Back</Button>
+      </Grid>
+
+      {/* //MAIN center the page */}
+      <Grid container justify="center">
+        <Grid
+          container
+          item
+          xs={11}
+          md={11}
+          lg={6}
+          justify="center"
+          style={{ padding: "1vh 0", backgroundColor: "white",borderRadius:"10px" }}
+        >
+          <Grid item xs={11} md={11} lg={7}>
+            <TextField
+              className={classes.textField}
+              required
+              fullWidth
+              defaultValue={dataMyCompany.companyName}
+              id="standard-required"
+              label="Company Name"
+              placeholder="Company Name"
+              onChange={event => {
+                setCompanyName(event.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item xs={11} md={11} lg={7}>
+            <MyDropzone />
+          </Grid>
+          <Grid item xs={11} md={11} lg={7}>
+            <TextField
+              id="free-solo-demo2"
+              select
+              fullWidth
+              label="Industry Field"
+              value={companyIndustry}
+              className={classes.textField}
+              onChange={e => setCompanyIndustry(e.target.value)}
+            >
+              {jobs.map(option => (
+                <MenuItem key={Math.random()} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={11} md={11} lg={7}>
+            <TextField
+              required
+              id="standard-required"
+              label="Location"
+              value={inputPosition}
+              fullWidth
+              placeholder="Company Location"
+              className={classes.textField}
+              onChange={event => {
+                event.preventDefault();
+                autoFill(event);
+              }}
+            />
+            <div>
+              {positionSuggestions !== null &&
+              positionSuggestions !== undefined &&
+              positionSuggestions !== "" ? (
+                <div className={classes.suggestion}>
+                  {positionSuggestions.map(suggestion => {
+                    return (
+                      <div
+                        key={Math.random()}
+                        onClick={event => {
+                          event.preventDefault();
+                          setSuggestions(event);
+                        }}
+                      >
+                        {suggestion.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={11}
+            md={11}
+            lg={7}
+            style={{ padding: "2vh 0", height: "20vh", overflow: "scroll"  }}
+          >
+            <TextEditor editData={dataMyCompany.companyDescription}/>{" "}
+          </Grid>
           <Grid
             container
-            alignItems="center"
-            justify="center"
-            direction="row"
-            className={classes.root}
-            spacing={3}
             item
-            xs={8}
+            xs={11}
+            md={11}
+            lg={7}
+            justify="center"
+            style={{ padding: "1vh"}}
           >
-            {/* company name */}
-            <Grid item xs={8}>
-              <TextField
-                // className={classes.textField}
-                required
-                fullWidth
-                id="standard-required"
-                label="Company Name"
-                placeholder="Company Name"
-                margin="normal"
-                onChange={event => {
-                  setCompanyName(event.target.value);
+            <Grid item xs={6} md={4} lg={4}>
+              <Button
+                onClick={() => {
+                  submitToApi(AccessToken);
                 }}
-              />
-            </Grid>
-
-            {/* Logo upload */}
-            <Grid item xs={8}>
-              <MyDropzone />
-            </Grid>
-
-            {/* industry */}
-            <Grid item xs={8}>
-              <TextField
-                required
                 fullWidth
-                id="standard-required"
-                label="Company Industry"
-                defaultValue=""
-                placeholder="Company Industry  Field "
-                // className={classes.textField}
-                margin="normal"
-                onChange={event => {
-                  setCompanyIndustry(event.target.value);
-                }}
-              />{" "}
-            </Grid>
-
-            {/* location */}
-            <Grid item xs={8}>
-              <TextField
-                required
-                id="standard-required"
-                label="Location"
-                value={inputPosition}
-                fullWidth
-                placeholder="Company Location"
-                className={classes.textField}
-                margin="normal"
-                onChange={event => {
-                  event.preventDefault();
-                  autoFill(event);
-                }}
-              />
-              <div>
-                {positionSuggestions !== null &&
-                positionSuggestions !== undefined &&
-                positionSuggestions !== "" ? (
-                  <div className={classes.suggestion}>
-                    {positionSuggestions.map(suggestion => {
-                      return (
-                        <div
-                          key={Math.random()}
-                          onClick={event => {
-                            event.preventDefault();
-                            setSuggestions(event);
-                          }}
-                        >
-                          {suggestion.label}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </Grid>
-
-            {/* description */}
-            <Grid item xs={8}>
-              <TextEditor />{" "}
-            </Grid>
-
-            {/* Buttons */}
-            <Grid
-              container
-              spacing={2}
-              alignItems="center"
-              justify="center"
-              item
-              xs={8}
-              direction="row"
-            >
-              <Grid
-                item
-                xs={6}
-                container
-                direction="column"
-                alignContent="center"
-                spacing={2}
+                variant="contained"
+                color="primary"
               >
-                {/* <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      activePreview();
-                    }}
-                    style={{ width: "100%" }}
-                  >
-                    Preview
-                  </Button>
-                </Grid> */}
-                <Grid item xs={12}>
-                  <Button
-                    onClick={() => {
-                      submitToApi(AccessToken);
-                    }}
-                    variant="contained"
-                    color="primary"
-                    style={{ width: "100%" }}
-                  >
-                    Save
-                  </Button>
-                </Grid>
-              </Grid>
+                Save
+              </Button>
             </Grid>
           </Grid>
         </Grid>
-      </ThemeProvider>
-      {/* {isPreview ? <MyCompanyFullView  /> : ""} */}
-    </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
+
+const jobs = [
+  { key: 0, label: "Accounting" },
+  { key: 1, label: "Administration & Office Support" },
+  { key: 2, label: "Agriculture, Horticulture, Animal & Fishing" },
+  { key: 3, label: "Banking, Superannuation & Finance" },
+  { key: 4, label: "Construction" },
+  { key: 5, label: "Customer Service & Call Centre" },
+  { key: 6, label: "Design & Architecture" },
+  { key: 7, label: "Editorial, Media & Creative Arts" },
+  { key: 8, label: "Education, Training & Childcare" },
+  { key: 9, label: "Engineering" },
+  { key: 10, label: "Executive Management & Consulting" },
+  { key: 11, label: "Government, Emergency Services & Defence" },
+  { key: 12, label: "Healthcare & Medical" },
+  { key: 13, label: "Hospitality, Tourism & Food Services" },
+  { key: 14, label: "Human Resources (HR) & Recruitment" },
+  { key: 15, label: "Information Technology (IT)" },
+  { key: 16, label: "Insurance" },
+  { key: 17, label: "Legal" },
+  { key: 18, label: "Manufacturing, Production & Operations" },
+  { key: 19, label: "Marketing & Advertising" },
+  { key: 20, label: "Mining & Energy" },
+  { key: 21, label: "Property & Real Estate" },
+  { key: 22, label: "Retail" },
+  { key: 23, label: "Sales" },
+  { key: 24, label: "Science, Technology & Environment" },
+  { key: 25, label: "Social Work & Community Services" },
+  { key: 26, label: "Trades & Services" },
+  { key: 27, label: "Transport & Logistics" },
+  { key: 28, label: "Work From Home & Self Employed" },
+];

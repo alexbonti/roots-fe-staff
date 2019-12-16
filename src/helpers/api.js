@@ -40,7 +40,7 @@ class API {
         return response.data.data.employerDetails;
       })
       .catch(error => {
-        console.log(error);
+        errorHelper(error);
         return false;
       });
   };
@@ -90,9 +90,9 @@ class API {
       .catch(error => errorHelper(error));
   };
 
-  postOpportunity = data => {
+  postOpportunity = async (data) => {
     let accessToken = localStorage.getItem("accessToken");
-    axiosInstance
+    return await axiosInstance
       .post("/jobs/opportunities", data, {
         headers: {
           authorization: "Bearer " + accessToken,
@@ -102,12 +102,28 @@ class API {
       .catch(error => errorHelper(error));
   };
 
-  postOpportunityDraft = data => {
-    axiosInstance
+  postOpportunityDraft = async (data) => {
+    return await axiosInstance
       .post("/jobs/opportunityDraft", data, config)
       .then(response => response)
       .catch(error => errorHelper(error));
   };
+
+  updateOpportunityDraft = async (data) => {
+    return await axiosInstance
+      .put("/jobs/updatOpportunityDraft", data, config)
+      .then(response => response)
+      .catch(error => errorHelper(error));
+  };
+
+  draftToOpportunity = async (data) => {
+    return await axiosInstance
+      .post("/jobs/postDraftToOpportunities", data, config)
+      .then(response => response)
+      .catch(error => errorHelper(error));
+  };
+
+  
 
   createMyCompany = async (data, accessToken ) => {
     console.log(accessToken)
@@ -254,7 +270,7 @@ class API {
       });
   };
 
-  updateCompanyDetails = async (data, auth) => {
+  updateCompanyDetails = async (data) => {
     let accessToken = localStorage.getItem("accessToken");
 
     return await axiosInstance
@@ -286,6 +302,35 @@ class API {
       .catch(error => {
         return errorHelper(error);
       });
+  }
+
+
+  deleteOppDraft = async (data) => {
+    let accessToken = localStorage.getItem("accessToken");
+    return await axiosInstance
+    .delete(`jobs/deleteOpportunityDraft`, 
+     {
+      headers: {
+        "authorization": `bearer ${accessToken}`,
+      },
+      data
+    })
+    .then(response => response)
+    .catch(error => errorHelper(error))
+  }
+
+  deleteOpp = async (data) => {
+    let accessToken = localStorage.getItem("accessToken");
+    return await axiosInstance
+    .delete(`jobs/deleteOpportunities`, 
+     {
+      headers: {
+        "authorization": `bearer ${accessToken}`,
+      },
+      data
+    })
+    .then(response => response)
+    .catch(error => errorHelper(error))
   }
 
 }

@@ -5,17 +5,17 @@ export const EditOpportunityContext = createContext();
 export const EditOpportunityProvider = props => {
   
 
-  const [position, setPosition] = useState("Administrator");
+  const [position, setPosition] = useState("");
   const [seniority, setSeniority] = useState("");
-  const [employmentType, setEmploymentType] = useState("Full-Time");
+  const [employmentType, setEmploymentType] = useState("");
   const [start, setStart] = useState("10 Jun. 2019");
-  const [stop, setStop] = useState("30 Jun. 2019");
+  const [stop, setStop] = useState("30 Jun. 2030");
   const [description, setDescription] = useState("");
-  const [editSkills, setEditSkills] = useState(["React", "Javascript"]);
-  const [industryField, setIndustryField] = useState("Information Technology (IT)");
-  const [location, setLocation] = useState("Burwood, Melbourne");
-  const [longitude, setLongitude] = useState(145.1136143);
-  const [latitude, setLatitude] = useState(-37.8485326);
+  const [editSkills, setEditSkills] = useState([""]);
+  const [industryField, setIndustryField] = useState("");
+  const [location, setLocation] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
   const { children } = props;
 
   return (

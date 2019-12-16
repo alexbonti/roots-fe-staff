@@ -14,7 +14,8 @@ import { ExperienceCV } from "./dependants/cv/ExperienceCV";
 import { EducationCV } from "./dependants/cv/EducationCV";
 import { CoverLetterCV } from "./dependants/cv/CoverLetterCV";
 import { VolunteerCV } from "./dependants/cv/VolunteerCV";
-import {Spinner} from "./common/Spinner"
+import {Spinner} from "./common/Spinner";
+import {EditDraft} from "./dependants/EditDraft";
 
 export {
   AddOpportunity,
@@ -34,5 +35,6 @@ export {
   CoverLetterCV,
   VolunteerCV,
   Spinner,
-  Header2
+  Header2,
+  EditDraft
 };

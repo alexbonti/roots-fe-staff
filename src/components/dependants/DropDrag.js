@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { API } from "helpers/index";
 import { Grid } from "@material-ui/core/";
 import { MyCompanyContext } from "../../contexts/";
+import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 
 export default function Accept() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
@@ -29,25 +30,26 @@ export default function Accept() {
     }
   }, [acceptedFiles, setTempLogo]);
 
-  let logo = tempLogo === "" ? companyLogo : tempLogo
+  let icon = companyLogo === "https://s3.au-syd.cloud-object-storage.appdomain.cloud/refugee-bucket/image/profilePicture/thumb/Thumb_Profile_lFu6zRW9TBxB.png"? <CameraAltOutlinedIcon fontSize="large" /> : <img src={logo} alt="backgroundImage" /> ;
+  
+  let logo = tempLogo === "" ? icon : tempLogo;
+  
+
   return (
     <Grid
       container
       direction="row"
       className="container"
-      spacing={2}
+      justify="center"
       alignItems="center"
       {...getRootProps({ className: "dropzone" })}
-      style={{border: "solid 1px #d0d0d0"}}
+      style={{border: " 1px  dashed #d0d0d0", height: "15vh"}}
     >
-      <Grid item xs={4} >
-        <img src={logo} alt="backgroundImage" />
-      </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={4} style={{textAlign: "center"}} >
+        {icon}
         <input {...getInputProps()} />
-        <p>Drag and drop a logo image here, or click to select files</p>
-        <em>(Only *.jpeg and *.png images will be accepted)</em>
       </Grid>
+     
     </Grid>
   );
 }

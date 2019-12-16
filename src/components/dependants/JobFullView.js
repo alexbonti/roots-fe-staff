@@ -1,7 +1,11 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Button, Grid } from "@material-ui/core/";
-import { HomeContext, EditOpportunityContext, TextEditorContext } from "contexts/index";
+import {
+  HomeContext,
+  EditOpportunityContext,
+  TextEditorContext,
+} from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 import { Send, Edit } from "@material-ui/icons/";
 import { AccessToken } from "../../contexts/helpers/";
@@ -25,7 +29,7 @@ const useStyles = makeStyles({
     fontSize: 34,
   },
   subText: {
-    fontSize: 12,
+    fontSize: 14,
   },
   pos: {
     marginBottom: 12,
@@ -47,55 +51,85 @@ const useStyles = makeStyles({
   },
 });
 
-export default function FullViewCard() {
+export default function FullViewCard(props) {
   const classes = useStyles();
-  const { setIsPreview, setStyleEdit, setAddOpportunity, setIsUpdated } = useContext(
-    HomeContext
-  );
+
   const {
-    position,
-    seniority,
-    employmentType,
-    start,
-    stop,
+    setIsPreview,
+    setStyleEdit,
+    setAddOpportunity,
+    setIsUpdated,
+    setIsEditOpportunity,
+    setJobView,
+  } = useContext(HomeContext);
+
+  const {
+    editEmploymentType,
+    editPositionTitle,
+    editEndDate,
+    editIntustryField,
+    editLocation,
+    editSeniority,
     editSkills,
-    industryField,
-    location,
-    longitude,
-    latitude,
-  } = useContext(EditOpportunityContext);
+    editStartDate,
+    editLongitude,
+    editLatitude,
+    _id
+  } = props.data;
 
-  const {descriptionOpportunity} = useContext(TextEditorContext);
+  console.log(editLongitude, editLatitude)
 
+  console.log(props.data)
+
+  const { descriptionOpportunity } = useContext(TextEditorContext);
 
   const closePreview = () => {
     setStyleEdit({ display: "block" });
     setIsPreview(false);
   };
 
-  const submitToApi = () => {
+
+
+  const submitToApi = async () => {
     const data = {
-      positionTitle: position,
-      employmentType,
+      positionTitle: editPositionTitle,
+      employmentType: editEmploymentType,
       skills: editSkills,
-      seniority,
-      startDate: new Date(start).toISOString(),
-      endDate: new Date(stop).toISOString(),
-      industryField,
+      seniority: editSeniority,
+      startDate: new Date(editStartDate).toISOString(),
+      endDate: new Date(editEndDate).toISOString(),
+      industryField: editIntustryField,
       description: descriptionOpportunity,
-      location,
-      latitude,
-      longitude
+      location: editLocation,
+      latitude: editLatitude,
+      longitude: editLongitude,
     };
-    setAddOpportunity(false);
-    API.postOpportunity(data);
-    setIsUpdated(true);
-    notify("Job Saved");
-    // window.location.reload();
+    if(props.comesFromDraft){
+      const postData = await API.draftToOpportunity({draftId: _id});
+  
+      if (postData) {
+        setIsUpdated(true);
+        notify("Job Created");
+        //setAddOpportunity(false);
+        //setIsEditOpportunity(false);
+        setJobView(false);
+        closePreview();
+      }
+    }else{
+      const postData = await API.postOpportunity(data);
+      if (postData) {
+        setIsUpdated(true);
+        notify("Job Created");
+        setAddOpportunity(false);
+        //setIsEditOpportunity(false);
+        setJobView(false);
+        closePreview();
+      }
+    }
   };
 
   return (
-    <div>
+    <>
       <Button
         className={classes.back}
         size="small"
@@ -105,73 +139,89 @@ export default function FullViewCard() {
       >
         {"<"} Back
       </Button>
-      <Container className={classes.container}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.title}>
-            {position}
-          </Grid>
-          <Grid item xs={4}>
-            {seniority}
-          </Grid>
-          <Grid item xs={4}>
-            {start.substring(0, 10)} - {stop.substring(0, 10)}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.subText}>
-            {location}
-          </Grid>
-          <Grid item xs={4} className={classes.subText}>
-            {position} - {industryField}
-          </Grid>
-          <Grid item xs={4} className={classes.subText}>
-            {employmentType}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.containerBottom}>
+      <Grid container justify="center">
         <Grid
+          item
           container
-          direction="column"
+          xs={11}
+          md={6}
+          lg={6}
           justify="center"
-          alignItems="center"
-          spacing={3}
+          style={{
+            backgroundColor: "snow",
+            borderRadius: "10px",
+            padding: "1vh 0",
+          }}
         >
-          <Grid item xs={12} className={classes.subText}>
+          <Grid item xs={11} className={classes.title}>
+            {editPositionTitle}
+          </Grid>
+          <Grid item xs={11}>
+            {editSeniority}
+          </Grid>
+          <Grid item xs={11}>
+            {editStartDate.substring(0, 10)} - {editEndDate.substring(0, 10)}
+          </Grid>
+
+          <Grid
+            container
+            justify="center"
+            style={{ backgroundColor: "#e7f0f1", padding: "1vh 0" }}
+          >
+            <Grid item xs={11}>
+              {" "}
+              {editLocation}
+            </Grid>
+
+            <Grid item xs={11}>
+              {editPositionTitle} - {editIntustryField}
+            </Grid>
+            <Grid item xs={11}>
+              {editEmploymentType}
+            </Grid>
+          </Grid>
+
+          <Grid item xs={11} className={classes.subText}>
             {ReactHtmlParser(descriptionOpportunity)}
           </Grid>
-          <Grid item xs={12}>
-            <Button
-              size="medium"
-              variant="contained"
-              color="primary"
-              className={classes.button2}
-              onClick={() => {
-                submitToApi(AccessToken);
-              }}
-            >
-              Publish
-              <Send className={classes.rightIcon} />
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              className={classes.button1}
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                closePreview();
-              }}
-            >
-              Edit
-              <Edit className={classes.rightIcon} />
-            </Button>
+          <Grid
+            container
+            item
+            xs={11}
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid item xs={5}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.button2}
+                onClick={() => {
+                  submitToApi(AccessToken);
+                }}
+              >
+                Publish
+                <Send className={classes.rightIcon} />
+              </Button>
+            </Grid>
+            <Grid item xs={5}>
+              <Button
+                fullWidth
+                className={classes.button1}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  closePreview();
+                }}
+              >
+                Edit
+                <Edit className={classes.rightIcon} />
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Container>
-    </div>
+      </Grid>
+    </>
   );
 }

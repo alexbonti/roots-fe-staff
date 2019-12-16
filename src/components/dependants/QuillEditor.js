@@ -13,9 +13,6 @@ const modules = {
     ["blockquote"],
     [
       { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" }
     ],
     [{ align: [] }],
     [{ color: [] }, { background: [] }]
@@ -24,9 +21,8 @@ const modules = {
 
 export const TextEditor = (props) => {
   const { setDescription, setDescriptionOpportunity } = useContext(TextEditorContext);
-  const {isEditOpportunity} = useContext(HomeContext);
+  const {isEditOpportunity, isEditMyCompany} = useContext(HomeContext);
   const [nodeRedData] = useState("");
-  console.log(props)
 
   const handleTextEditorChange = value => {
     
@@ -39,14 +35,13 @@ export const TextEditor = (props) => {
   };
 
 
-  const toBeEdit = isEditOpportunity ? props.editData : "";
+  const toBeEdit = isEditOpportunity || isEditMyCompany ? props.editData : "";
 
 
   return (
     <Grid container direction="row" justify="center" alignItems="center">
-      <Grid item xs={12}  >
+      <Grid item xs={12} >
         <ReactQuill
-          style={{height: "30vh", marginBottom: "2rem" }}
           onChange={handleTextEditorChange}
           modules={{
             toolbar: modules.toolbar

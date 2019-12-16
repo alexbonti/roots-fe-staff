@@ -7,7 +7,7 @@ export const HomeProvider = props => {
   const [jobView, setJobView] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [isEditMyCompany, setIsEditMycompany] = useState(false);
-  const [isEditOpportunity, setIsEditOpporinity] = useState(false);
+  const [isEditOpportunity, setIsEditOpportunity] = useState(false);
   const [singleJobData, setSingleJobData] = useState("");
   const [styleEdit, setStyleEdit] = useState({ display: "block" });
   const [tabNumber, setTabNumber] = useState(0);
@@ -16,7 +16,8 @@ export const HomeProvider = props => {
   const [mainTitle, setMainTitle] = useState(
     "Let's create an opportunity and start making a difference"
   );
-  const [isUpdated, setIsUpdated] = useState(true)
+  const [isUpdated, setIsUpdated] = useState(true);
+  const [cardId, setCardId] = useState("");
 
   const { children } = props;
   return (
@@ -45,7 +46,9 @@ export const HomeProvider = props => {
         isUpdated,
         setIsUpdated,
         isEditOpportunity, 
-        setIsEditOpporinity
+        setIsEditOpportunity,
+        cardId, 
+        setCardId
       }}
     >
       {children}

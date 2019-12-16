@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import ReactHtmlParser from "react-html-parser";
+import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -20,8 +21,6 @@ import {
   //VolunteerCV,
   CoverLetterCV,
 } from "../index";
-
-
 
 const useStyles = makeStyles({
   container: {
@@ -65,7 +64,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 export const Candidate = props => {
   const classes = useStyles();
   const { setIsSingleCandidate } = useContext(CandidateContext);
@@ -74,22 +72,33 @@ export const Candidate = props => {
     workExperience,
     education,
     avatar,
-    coverLetter
+    coverLetter,
+    resumeURL,
   } = props.data.UserExtendedProfile;
- 
+
   const { first_name, last_name, emailId } = props.data;
 
   const back = () => {
     setIsSingleCandidate(false);
   };
 
-  console.log(props.data)
+  console.log(props.data);
   return (
     <div>
-      <Button onClick={back}> {"<"} Back</Button>
-      <Container className={classes.container}>
-        <Grid container direction="row" justify="space-between">
-          <Grid container item xs={11} alignItems="center">
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs={12}>
+          <Button onClick={back}> {"<"} Back</Button>
+        </Grid>
+        <Grid
+          container
+          item
+          xs={12}
+          md={8}
+          lg={7}
+          className={classes.container}
+          justify="space-between"
+        >
+          <Grid container item xs={12} alignItems="center">
             <Grid item>
               <Avatar
                 alt="Remy Sharp"
@@ -99,33 +108,33 @@ export const Candidate = props => {
               />
             </Grid>
 
-            <Grid  item xs={4}>
+            <Grid item xs={4}>
               <Typography variant="h4">
-                {first_name} {last_name} <Icon>cloud_download</Icon>
+                {first_name} {last_name}{" "}
+                <a
+                  target="_blank"
+                  href={resumeURL}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <Icon fontSize="large">cloud_download</Icon>
+                </a>
               </Typography>
+
               <Typography variant="body2">{emailId}</Typography>
             </Grid>
           </Grid>
-
-          <Grid item xs={1} style={{ textAlign: "end" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  icon={<StarBorder />}
-                  checkedIcon={<StarRate />}
-                  value="checkedH"
-                  onClick={e => {
-                    console.log(e.target);
-                  }}
-                />
-              }
-            />
-          </Grid>
         </Grid>
-      </Container>
-      <CoverLetterCV data={coverLetter} />
-      <ExperienceCV data={workExperience} />
-      <EducationCV data={education} />
+        <Grid item xs={12} md={8} lg={7}>
+          <CoverLetterCV data={coverLetter} />
+        </Grid>
+        <Grid item xs={12} md={8} lg={7}>
+          <ExperienceCV data={workExperience} />
+        </Grid>
+        <Grid item xs={12} md={8} lg={7}>
+          <EducationCV data={education} />
+        </Grid>
+      </Grid>
+
       {/* <VolunteerCV data={volunteer} /> */}
     </div>
   );

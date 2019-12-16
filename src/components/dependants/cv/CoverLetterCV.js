@@ -10,7 +10,6 @@ const useStyles = makeStyles({
   },
   containerBottom: {
     backgroundColor: "white",
-    borderRadius: "0px 0px 10px 10px ",
     padding: "32px 70px 32px 32px "
   },
   transparentContainer: {

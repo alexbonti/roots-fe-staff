@@ -56,7 +56,6 @@ const useStyles = makeStyles({
 
 export const VolunteerCV = props => {
   const classes = useStyles();
-  console.log(props.data);
 
   return props.data.length > 0 ? (
     <>

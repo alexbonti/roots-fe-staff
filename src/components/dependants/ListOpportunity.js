@@ -8,6 +8,9 @@ import { HomeContext, CandidateContext } from "contexts";
 import { ListOfCandidatesOfASingleJob } from "./ListOfCandidatesOfASingleJob";
 import { AddButtonCard } from "../index";
 import { Candidate } from "./Candidate";
+
+
+
 const useStyles = makeStyles(theme => ({
   tile: {
     [theme.breakpoints.down('xs')]: {
@@ -32,7 +35,6 @@ export function ListOpportunity(props) {
   useEffect(() => {
     setIsSingle(false);
   }, [tabNumber, setIsSingle]);
-
   const draftTitle =
     listDraft.length === 0 || undefined ? (
       ""
@@ -53,7 +55,7 @@ export function ListOpportunity(props) {
     );
 
   const expiredTitle =
-    listDraft.length === 0 || undefined ? (
+    list.length === 0 || undefined ? (
       ""
     ) : (
       <Grid
@@ -132,6 +134,7 @@ export function ListOpportunity(props) {
             {list.map(element => {
               let thisDate = new Date(element.endDate);
               const deltaDate = thisDate.getTime() - new Date();
+              
               if (deltaDate < 0) {
                 return (
                   <Grid item key={Math.random()} className={classes.tile}  xs={12} sm={6}lg={4} md={5} xl={3}>
@@ -170,8 +173,8 @@ export function ListOpportunity(props) {
               const deltaDate = thisDate.getTime() - new Date();
               if (deltaDate > 0) {
                 return (
-                  <Grid item xs={12} lg={4} md={5}>
-                    <CanditatesCard key={Math.random()} data={element} />
+                  <Grid key={Math.random()} item xs={12} lg={4} md={5}>
+                    <CanditatesCard  data={element} />
                   </Grid>
                 );
               } else {

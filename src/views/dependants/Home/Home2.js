@@ -9,7 +9,6 @@ import {
   Typography,
   Box,
   Grid,
-  Container,
 } from "@material-ui/core/";
 import { HomeContext, LoginContext, MyCompanyContext } from "contexts";
 import {
@@ -17,6 +16,7 @@ import {
   ListOpportunity,
   MyCompany,
   EditMyCompany,
+  EditDraft
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
@@ -70,6 +70,7 @@ export const Home2 = props => {
     setTabNumber,
     isListCanditatesOfAJob,
     isEditMyCompany,
+    isEditOpportunity,
     mainTitle,
     setMainTitle,
     isUpdated,
@@ -86,7 +87,6 @@ export const Home2 = props => {
     setIsUploaded,
   } = useContext(MyCompanyContext);
 
-  console.log(dataMyCompany);
 
   //-----------theme settings
   const theme = createMuiTheme({
@@ -131,7 +131,6 @@ export const Home2 = props => {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
         const companyData = await API.getCompanyDetails(accessToken);
-        console.log(companyData)
         setDataMyCompany(profileData.response[1]);
         setCompanyId(profileData.response[0].companyId);
         setIsUploaded(false);
@@ -164,6 +163,8 @@ export const Home2 = props => {
     setIsUpdated(false);
   }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
 
+
+
   // ------if there are no data opportunity will just show a loader
   const list = !addOpportunity ? (
     dataJobs && dataJobsDraft !== "" ? (
@@ -172,14 +173,16 @@ export const Home2 = props => {
       <Spinner /> // && <AddButtonCard />
     )
   ) : (
-    <AddOpportunity data={companyId} />
+    <AddOpportunity />
   );
+
+  const isEdit = isEditOpportunity ? <EditDraft data={dataJobsDraft} /> : <SingleJob />;
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <Grid container justify="center" alignItems="center" style={{padding: "24px", backgroundColor: "white"}}>
-          <Grid item xs={12} md={9} lg={9}>
+          <Grid item xs={11} md={9} lg={9}>
             <Typography style={{fontSize: "1.5rem", fontWeight:"500"}}>{mainTitle}{" "}</Typography>
           </Grid>
         </Grid>
@@ -205,7 +208,7 @@ export const Home2 = props => {
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Grid container>
               <Grid item xs={12}>
-                {jobView ? <SingleJob /> : list}
+                {jobView ? isEdit : list}
               </Grid>
             </Grid>
           </TabPanel>
@@ -213,11 +216,7 @@ export const Home2 = props => {
             {isListCanditatesOfAJob ? <ListOfCandidatesOfASingleJob /> : list}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            {isEditMyCompany ? (
-              <EditMyCompany />
-            ) : (
-              <MyCompany data={(isMyCompany, dataMyCompany)} />
-            )}
+            <MyCompany data={dataMyCompany} />
           </TabPanel>
         </SwipeableViews>
       </ThemeProvider>

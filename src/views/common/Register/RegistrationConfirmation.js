@@ -28,7 +28,6 @@ const theme = createMuiTheme({
 });
 
 const RegistrationConfirmation = ({ ...props }) => {
-  console.log(props);
   const classes = useStyles();
   const [code, setCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -41,7 +40,6 @@ const RegistrationConfirmation = ({ ...props }) => {
       : false
   );
 
-  console.log(props);
 
   let accessToken =
     props.location.state && props.location.state.hasOwnProperty("accessToken")

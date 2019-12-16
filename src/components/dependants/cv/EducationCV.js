@@ -56,7 +56,6 @@ const useStyles = makeStyles({
 
 export const EducationCV = props => {
   const classes = useStyles();
-  console.log(props.data);
 
   return props.data.length > 0 ? (
     <div>

@@ -12,7 +12,6 @@ const useStyles = makeStyles({
   },
   containerBottom: {
     backgroundColor: "white",
-    borderRadius: "0px 0px 10px 10px ",
     padding: "32px 70px 32px 32px "
   },
   transparentContainer: {
@@ -59,7 +58,6 @@ const useStyles = makeStyles({
 
 export const ExperienceCV = props => {
   const classes = useStyles();
-  console.log(props.data);
 
   return props.data.length > 0 ? (
     <div>

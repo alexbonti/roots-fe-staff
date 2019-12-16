@@ -13,26 +13,27 @@ import {
 } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
-
-  cell: {
-    borderRadius: "10px",
-    border: "1px dashed black",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  icon: {
-    margin: theme.spacing(0),
-  },
-  iconHover: {
-    margin: theme.spacing(0),
+  card: {
+    borderRadius: "2px",
+    border: "1px solid #b1afafbf",
+    borderTop: "none",
+    backgroundColor: "snow",
+    boxShadow: "none",
     "&:hover": {
-      color: "red",
+      boxShadow: "-1px 0px 6px #6a6a6a",
+      backgroundColor: "#c3e5cc6e",
     },
+    transition: "all .3s ease",
   },
+
+  cardDefault: {
+    borderRadius: "2px",
+    border: "1px solid #b1afafbf",
+    borderTop: "none",
+    backgroundColor: "#f2f2f2",
+    boxShadow: "none"
+  }
+
   // button: {
   //   borderRadius: "25px",
   //   border: "1px solid #087b94",
@@ -50,27 +51,28 @@ export default function CandidatesCard(props) {
     publishDate,
     numberOfApplications,
     _id,
-    seniority
+    seniority,
   } = props.data;
-  console.log(props.data);
 
   const { setIsSingle } = useContext(HomeContext);
+
+  
   const requestApplicantsInfo = () => {
+    console.log(_id);
     setIsSingle({ view: true, id: _id });
   };
 
   const statusButton = numberOfApplications < 1 ? true : false;
+
+  const styleCardDefault = !statusButton ? classes.card : classes.cardDefault;
+   
+
   return (
     <Grid
       container
       justify="center"
-      style={{
-        border: "1px solid #b1afafbf",
-        borderTop: "none",
-        borderRadius: "2px",
-        backgroundColor: "snow",
-        boxShadow: "1px 2px 1px #d0d0d082",
-      }}
+      className={styleCardDefault}
+      onClick={!statusButton ? () => requestApplicantsInfo(_id) : () => {console.log("no candidates");}}
     >
       <Grid
         item
@@ -85,13 +87,13 @@ export default function CandidatesCard(props) {
         <Typography variant="caption">{company}</Typography>
       </Grid>
       <Grid item xs={11}>
-        <Typography style={{fontWeight: "500"}}>{positionTitle}</Typography>
+        <Typography style={{ fontWeight: "500" }}>{positionTitle}</Typography>
       </Grid>
       <Grid item xs={11}>
         <Typography variant="caption">{employmentType}</Typography>
       </Grid>
       <Grid item xs={11}>
-        <Typography variant="caption" >{seniority}</Typography>
+        <Typography variant="caption">{seniority}</Typography>
       </Grid>
       <Grid item xs={11}>
         <Typography variant="caption">
@@ -101,8 +103,14 @@ export default function CandidatesCard(props) {
       <Grid item xs={12}>
         <hr style={{ borderColor: "#c9c7c761" }} />
       </Grid>
-      <Grid item container xs={11} alignItems="flex-start" justify="space-between">
-        <Grid item xs={5} lg={8} md={8}>
+      <Grid
+        item
+        container
+        xs={11}
+        alignItems="flex-start"
+        justify="space-between"
+      >
+        <Grid item xs={8} sm={8}lg={8} md={8}>
           <Button
             disabled={statusButton}
             size="small"
@@ -112,11 +120,11 @@ export default function CandidatesCard(props) {
             View Candidates
           </Button>
         </Grid>
-        <Grid item xs={5} lg={4} md={4}>
-            <Button disabled={true}>
-              <Icon >how_to_reg</Icon>
-            </Button>
-          <Badge badgeContent={numberOfApplications} color="primary"/>
+        <Grid item xs={3} >
+          <Button disabled={true}>
+            <Icon>how_to_reg</Icon>
+          </Button>
+          <Badge badgeContent={numberOfApplications} color="primary" />
         </Grid>
       </Grid>
     </Grid>

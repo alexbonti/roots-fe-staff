@@ -45,7 +45,6 @@ export const Header2 = () => {
       window.localStorage.clear();
       setLoginStatus(false);
       setAccessToken("");
-      console.log(putLogout);
     };
 
     logOut(accessToken);

@@ -69,71 +69,65 @@ export default function FullViewCard() {
   } = singleJobData;
 
   return (
-    <div>
-      <CardActions>
-        <Button
-          className={classes.back}
-          size="small"
-          onClick={() => {
-            closePreview();
-          }}
-        >
-          {"<"} Back
-        </Button>
-      </CardActions>
-      <Container className={classes.container}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.title}>
-            {positionTitle}
-          </Grid>
-          <Grid item xs={4}>
-            {seniority}
-          </Grid>
-          <Grid item xs={4}>
-            {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
-          </Grid>
+    <>
+    <Button
+    className={classes.back}
+    size="small"
+    onClick={() => {
+      closePreview();
+    }}
+  >
+    {"<"} Back
+  </Button>
+      
+        
+      
+    <Grid container justify="center">
+      <Grid
+        item
+        container
+        xs={10}
+        md={6}
+        lg={6}
+        justify="center"
+        style={{
+          backgroundColor: "snow",
+          borderRadius: "10px",
+          padding: "1vh 0",
+        }}
+      >
+        <Grid item xs={11} className={classes.title}>
+          {positionTitle}
         </Grid>
-      </Container>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.subText}>
+        <Grid item xs={11}>
+          {seniority}
+        </Grid>
+        <Grid item xs={11}>
+          {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
+        </Grid>
+
+        <Grid
+          container
+          justify="center"
+          style={{ backgroundColor: "#e7f0f1", padding: "1vh 0" }}
+        >
+          <Grid item xs={11}>
+            {" "}
             {location}
           </Grid>
-          <Grid item xs={4} className={classes.subText}>
+
+          <Grid item xs={11}>
             {positionTitle} - {industryField}
           </Grid>
-          <Grid item xs={4} className={classes.subText}>
+          <Grid item xs={11}>
             {employmentType}
           </Grid>
         </Grid>
-      </Container>
-      <Container className={classes.containerBottom}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          spacing={3}
-        >
-          <Grid item xs={12} className={classes.subText}>
-            {ReactHtmlParser(description)}
-          </Grid>
-          {/* <Grid item xs={12}>
-            <Button
-              className={classes.button1}
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                closePreview();
-              }}
-            >
-              Edit
-              <Edit className={classes.rightIcon} />
-            </Button>
-          </Grid> */}
+
+        <Grid item xs={11} className={classes.subText}>
+          {ReactHtmlParser(description)}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={11}>
           <Typography>
             {skills.map(skill => {
               return (
@@ -149,51 +143,14 @@ export default function FullViewCard() {
             })}
           </Typography>
         </Grid>
-      </Container>
-      {/* <CardActions className={classes.card}>
-        <Grid container className={classes.root} space={1}>
-          <CardContent>
-            <Container>
-              <Grid item xs={12}>
-                <Typography variant="h3" component="h3">
-                  {positionTitle}
-                </Typography>
-                <Typography color="textSecondary">{location}</Typography>
-                <Typography color="textSecondary">
-                  {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
-                </Typography>
-              </Grid>
-            </Container>
+        
+      </Grid>
+    </Grid>
+     
+    </>
+    
+    
 
-            <Typography className={classes.pos} color="textSecondary">
-              {location} <br />
-              {industryField} <br />
-              {employmentType} {seniority}
-            </Typography>
-            <Typography
-              variant="body2"
-              component="p"
-              className={classes.description}
-            >
-              {description}
-            </Typography>
-            <Typography>
-              {skills.map(skill => {
-                return (
-                  <Button
-                    className={classes.button}
-                    color="primary"
-                    disabled
-                    key={Math.random()}
-                  >
-                    {skill}
-                  </Button>
-                );
-              })}
-            </Typography>
-          </CardContent>
-        </Grid>
-      </CardActions> */}
-    </div>
+
   );
 }

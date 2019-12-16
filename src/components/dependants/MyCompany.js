@@ -1,16 +1,15 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Container } from "@material-ui/core/";
+import { Button, Grid, Typography } from "@material-ui/core/";
 import { HomeContext, MyCompanyContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
+import { EditMyCompany } from "./EditMyCompany";
 
 const useStyles = makeStyles({
-  container: {
-    backgroundColor: "white",
-    borderRadius: "10px 10px 0 0 ",
-  },
   contatinerHead: {
     padding: "3vh 0",
+    backgroundColor: "white",
+    borderRadius: "10px 10px 0 0",
   },
   containerBottom: {
     backgroundColor: "white",
@@ -50,75 +49,78 @@ const useStyles = makeStyles({
 export default function MyCompany(props) {
   const classes = useStyles();
 
-
-
-  const { setIsEditMycompany } = useContext(HomeContext);
+  const { isEditMyCompany, setIsEditMycompany } = useContext(HomeContext);
 
   const openEdit = () => {
     setIsEditMycompany(true);
   };
 
-  console.log(props.data);
   const companyData = props.data.companyDetails;
 
- 
-
-  let content = companyData ? (
-    <div style={{padding: "2vh 18vh"}}>
-      <Container className={classes.container}>
-        <Grid container className={classes.contatinerHead} direction="column">
-          <Grid item xs={4}>
-            <img
-              alt="Remy Sharp"
-              src={companyData.companyLogo }
-              className={classes.avatar}
-            />
-          </Grid>
-          <Grid item xs={4} className={classes.title}>
-            {companyData.companyName}
-          </Grid>
-          <Grid item xs={4}>
-            {/* {seniority} */}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
-          <Grid item xs={4} className={classes.subText}>
-            {companyData.location}
-          </Grid>
-          <Grid item xs={4} className={classes.subText}>
-            {companyData.companyIndustry}
-          </Grid>
-        </Grid>
-      </Container>
-      <Container className={classes.containerBottom}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="flex-start"
-          spacing={3}
-        >
-          <Grid item xs={12} className={classes.subText}>
-            {ReactHtmlParser(companyData.companyDescription)}
-          </Grid>
-        </Grid>
-        <Grid container justify="center">
-          <Button
-            className={classes.button1}
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => openEdit()}
+  let content =
+    companyData !== undefined ? (
+      <>
+        <Grid container justify="center" alignItems="center">
+          <Grid
+            container
+            item
+            xs={10}
+            md={9}
+            lg={7}
+            className={classes.contatinerHead}
           >
-            Edit
-            {/* <Edit className={classes.rightIcon} /> */}
-          </Button>
-        </Grid>
-      </Container>
-    </div>
-  ) : <div>Loading</div>;
+            <Grid item xs={5}>
+              <img
+                alt="Remy Sharp"
+                src={companyData.companyLogo}
+                className={classes.avatar}
+              />
+            </Grid>
+            <Grid item container xs={5} alignItems="center" className={classes.title}>
+              <Typography variant="h4">{companyData.companyName}</Typography>
+            </Grid>
+          </Grid>
 
-  return content;
+          <Grid item container justify="center" xs={10} md={9} lg={7} style={{padding: "1vh 0"}}>
+            <Grid item xs={11}>
+              {companyData.location}
+            </Grid>
+            <Grid item xs={11}>
+              {companyData.companyIndustry}
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            justify="center"
+            alignItems="center"
+            item
+            xs={10}
+            md={9}
+            lg={7}
+            style={{ backgroundColor: "white", borderRadius: "0 0 10px 10px", padding:"1vh 0" }}
+          >
+            <Grid item xs={11} >
+              {ReactHtmlParser(companyData.companyDescription)}
+            </Grid>
+
+            <Grid item xs={10} md={4} lg={3} style={{padding: "2vh 0"}}>
+              <Button
+                className={classes.button1}
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => openEdit()}
+              >
+                Edit
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </>
+    ) : (
+      <div>Loading</div>
+    );
+
+  return isEditMyCompany ? <EditMyCompany data={companyData} /> : content;
 }

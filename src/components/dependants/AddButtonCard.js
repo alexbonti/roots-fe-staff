@@ -46,17 +46,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function AddButtonCard(props) {
   const classes = useStyles();
-  const { setAddOpportunity, setIsEditOpporinity } = useContext(HomeContext);
+  const { setAddOpportunity, setIsEditOpportunity } = useContext(HomeContext);
 
   const openEdit = () => {
-    setIsEditOpporinity(false);
+    setIsEditOpportunity(false);
     setAddOpportunity(true);
   };
 
   return (
     <Grid container alignItems="center" justify="flex-end">
       <Grid
-        //className={classes.containerAddButton}
         item
         container
       >
@@ -71,63 +70,9 @@ export default function AddButtonCard(props) {
         >
           Create a new Opportunity +
         </Button>
-        {/* <Typography color="primary" variant="caption">Create a new Opportunity + </Typography> */}
       </Grid>
 
-      {/* <Grid item xs={5} lg={3} md={4}>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={() => {
-            openEdit();
-          }}
-        >
-          {" "}
-          <Icon className={classes.icon}>add_circle_outline</Icon>
-        </Button>
-      </Grid> */}
     </Grid>
-    // <div>
-    //   <Card className={classes.cell}>
-    //     <Grid
-    //       className={classes.gridMain}
-    //       container
-    //       direction="row"
-    //       alignItems="flex-end"
-    //     >
-    //       <Grid item xs={12}>
-    //         <CardContent>
-    //           <Typography variant="h5" component="h2" align="center">
-    //             Create a new Opportunity
-    //           </Typography>
-    //           <Typography
-    //             className={classes.pos}
-    //             color="textSecondary"
-    //             align="center"
-    //           ></Typography>
-    //         </CardContent>
-    //       </Grid>
-    //       <Grid
-    //         item
-    //         container
-    //         direction="row"
-    //         justify="center"
-    //         alignItems="flex-end"
-    //       >
-    //         <Button
-    //           variant="contained"
-    //           color="primary"
-    //           onClick={() => {
-    //             openEdit();
-    //           }}
-    //         >
-    //           {" "}
-    //           <Icon className={classes.icon}>add_circle_outline</Icon>
-    //         </Button>
-    //       </Grid>
-    //     </Grid>
-    //   </Card>
-    // </div>
+    
   );
 }

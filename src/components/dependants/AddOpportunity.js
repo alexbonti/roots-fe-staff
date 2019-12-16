@@ -6,53 +6,16 @@ import API from "../../helpers/api";
 import { arrayfy } from "../../helpers/arrayfy";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
-import { EditOpportunityContext, HomeContext, TextEditorContext } from "../../contexts";
+import {
+  HomeContext,
+  TextEditorContext,
+} from "../../contexts";
 import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  root: {
-    textAlign: "center",
-    backgroundColor: "white",
-    width: "80vw",
-    margin: "1vh auto",
-    borderRadius: "10px",
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "58% !important",
-    textAlign: "left !important",
-  },
-  textareaAutosize: {
-    width: "70%",
-    margin: "2%",
-    height: "25vh !important",
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  location: {
-    width: "58% !important",
-  },
-  suggestion: {
-    border: "1px solid grey",
-    borderRadius: "2px",
-    display: "block",
-  },
-  back: {
-    margin: 15,
-  },
-}));
+const useStyles = makeStyles(theme => ({}));
 
 const theme = createMuiTheme({
   palette: {
@@ -70,32 +33,24 @@ const theme = createMuiTheme({
 });
 
 export function AddOpportunity(props) {
+  console.log(props);
   const classes = useStyles();
-  const {
-    position,
-    setPosition,
-    seniority,
-    setSeniority,
-    employmentType,
-    setEmploymentType,
-    start,
-    setStart,
-    stop,
-    setStop,
-    editSkills,
-    setEditSkills,
-    industryField,
-    setIndustryField,
-    location,
-    setLocation,
-    longitude,
-    setLongitude,
-    latitude,
-    setLatitude,
-  } = useContext(EditOpportunityContext);
-  const {descriptionOpportunity} = useContext(TextEditorContext);
+
+  const { descriptionOpportunity } = useContext(TextEditorContext);
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
+  const [editEmploymentType, setEditEmploymentType] = useState("");
+  const [editPositionTitle, setPositionTitle] = useState("");
+  const [editEndDate, setEditEndDate] = useState("");
+  const [editIntustryField, setEditIndustryField] = useState("");
+  const [editLocation, setEditLocation] = useState("");
+  const [editSeniority, setEditSeniority] = useState("");
+  const [editSkills, setEditSkills] = useState("");
+  const [editStartDate, setEditStartDate] = useState("");
+  const [editLongitude, setEditLongitude] = useState("");
+  const [editLatitude, setEditLatitude] = useState("");
+  const [errorStartDate, setErrorStartDate] = useState(false);
+  const [errorEndDate, setErrorEndDate] = useState(false);
 
   const {
     isPreview,
@@ -109,8 +64,6 @@ export function AddOpportunity(props) {
     isEditOpportunity,
   } = useContext(HomeContext);
 
-  console.log("singleJobData", singleJobData)
-
   const autoFill = async event => {
     setInputPosition(event.target.value);
     let suggestions = await API.getAddress(inputPosition);
@@ -118,37 +71,48 @@ export function AddOpportunity(props) {
   };
 
   const activePreview = () => {
-    setIsPreview(true);
-    setStyleEdit({ display: "none" });
+    if (
+      editLocation === "" ||
+      editIntustryField === "" ||
+      editEndDate === "" ||
+      editStartDate === "" ||
+      editEmploymentType === "" ||
+      editSeniority === "" ||
+      editPositionTitle === ""
+    ) {
+      return notify("Please fill all the required fields");
+    } else {
+      setIsPreview(true);
+      setStyleEdit({ display: "none" });
+    }
   };
-
 
   useEffect(() => {
     tabNumber !== 0 ? setAddOpportunity(false) : setAddOpportunity(true);
   }, [tabNumber, setAddOpportunity]);
 
-  const submitToApi = () => {
-    if (props.data) {
-      const data = {
-        positionTitle: position,
-        employmentType,
-        skills: editSkills,
-        seniority,
-        startDate: new Date(start).toISOString(),
-        endDate: new Date(stop).toISOString(),
-        industryField,
-        description: descriptionOpportunity,
-        location,
-        latitude,
-        longitude,
-      };
-      console.log(data);
-      setAddOpportunity(false);
-      API.postOpportunityDraft(data);
+  const submitToApi = async () => {
+    const data = {
+      positionTitle: editPositionTitle === "" ? "Draft" : editPositionTitle,
+      employmentType: editEmploymentType,
+      skills: editSkills,
+      seniority: editSeniority,
+      startDate: new Date(editStartDate).toISOString(),
+      endDate: new Date(editEndDate).toISOString(),
+      industryField: editIntustryField,
+      description: descriptionOpportunity,
+      location: editLocation,
+      latitude: editLatitude,
+      longitude: editLongitude,
+    };
+
+    const oppDataCall = await API.postOpportunityDraft(data);
+    if (oppDataCall) {
       setIsUpdated(true);
       notify("Job Saved");
+      setAddOpportunity(false);
     } else {
-      notify("Please first complete your Company profile");
+      notify("Something went wrong");
     }
   };
 
@@ -160,15 +124,33 @@ export function AddOpportunity(props) {
   const setSuggestions = event => {
     event.persist();
     setInputPosition(event.target.innerText);
-    setLocation(event.target.innerText);
+    setEditLocation(event.target.innerText);
     setPositionSuggestions("");
   };
 
   const getLongLat = async input => {
     const data = await API.getLatLong(input.locationId);
-    setLatitude(data.response.latitude);
-    setLongitude(data.response.longitude);
+    setEditLatitude(data.response.latitude);
+    setEditLongitude(data.response.longitude);
   };
+
+  let dataForFullView = {
+    editEmploymentType,
+    editPositionTitle,
+    editEndDate,
+    editIntustryField,
+    editLocation,
+    editSeniority,
+    editSkills,
+    editStartDate,
+    editLongitude,
+    editLatitude,
+  };
+
+  function prepareDate(d) {
+    let date = d.split("-"); //Split the string
+    return [date[0], date[1] - 1, date[2]]; //Return as an array with y,m,d sequence
+  }
 
   const content = (
     <div>
@@ -184,33 +166,43 @@ export function AddOpportunity(props) {
             {"< Back"}
           </Button>
           <ThemeProvider theme={theme}>
-            <div className={classes.root}>
-              <Grid container spacing={3} alignItems="center" justify="center">
-                <Grid item xs={12}>
+            <Grid container justify="center" alignItems="center">
+              <Grid
+                container
+                item
+                xs={12}
+                md={6}
+                lg={6}
+                alignItems="center"
+                justify="center"
+                style={{ backgroundColor: "snow", borderRadius: "10px" }}
+              >
+                <Grid item xs={11} md={7} lg={7}>
                   <TextField
                     className={classes.textField}
                     required
-                    defaultValue={isEditOpportunity ? singleJobData.positionTitle : ""}
                     id="standard-required"
                     label="Position Title"
                     placeholder="Position Title"
                     margin="normal"
+                    fullWidth
                     onChange={event => {
-                      setPosition(event.target.value);
+                      setPositionTitle(event.target.value);
                     }}
                   />{" "}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={7} lg={7}>
                   <TextField
                     id="free-solo-demo2"
                     select
-                    defaultValue={isEditOpportunity ? singleJobData.seniority : ""}
-                    value={seniority}
-                    helperText="Please select Seniority Level"
+                    label="Seniority"
+                    value={editSeniority}
                     margin="normal"
+                    fullWidth
+                    required
                     className={classes.textField}
                     placeholder="Seniority"
-                    onChange={e => setSeniority(e.target.value)}
+                    onChange={e => setEditSeniority(e.target.value)}
                   >
                     {seniorityOption.map(option => (
                       <MenuItem key={Math.random()} value={option.label}>
@@ -219,16 +211,18 @@ export function AddOpportunity(props) {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={7} lg={7}>
                   <TextField
                     id="free-solo-demo2"
-                    defaultValue={isEditOpportunity ? singleJobData.employmentType : ""}
                     select
-                    value={employmentType}
+                    label="Employment type"
+                    value={editEmploymentType}
                     margin="normal"
+                    required
                     className={classes.textField}
                     placeholder="Seniority"
-                    onChange={e => setEmploymentType(e.target.value)}
+                    fullWidth
+                    onChange={e => setEditEmploymentType(e.target.value)}
                   >
                     {type.map(option => (
                       <MenuItem key={Math.random()} value={option.label}>
@@ -237,65 +231,122 @@ export function AddOpportunity(props) {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="date"
-                    label="Start "
-                    type="date"
-                    defaultValue={isEditOpportunity ? singleJobData.startDate : ""}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={event => {
-                      setStart(event.target.value);
-                    }}
-                  />
+                <Grid
+                  container
+                  item
+                  justify="space-between"
+                  xs={11}
+                  md={7}
+                  lg={7}
+                >
+                  <Grid item xs={11} md={11} lg={11}>
+                    <TextField
+                      id="date"
+                      label="Start "
+                      type="date"
+                      required
+                      fullWidth
+                      error={errorStartDate}
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={event => {
+                        let pickedDay = new Date(
+                          ...prepareDate(event.target.value)
+                        );
+                        let today = new Date();
+                        if (
+                          pickedDay.getTime() - Date.now() < 0 &&
+                          pickedDay.getDate() !== today.getDate()
+                        ) {
+                          setErrorStartDate(true);
+                          notify("Wrong day");
+                        } else if (
+                          editEndDate !== "" &&
+                          new Date(...prepareDate(editEndDate)) <
+                            pickedDay.getTime()
+                        ) {
+                          setErrorStartDate(true);
+                          notify("Start date can't be after End date");
+                        } else {
+                          setErrorStartDate(false);
+                          setEditStartDate(event.target.value);
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={11} md={11} lg={11}>
+                    <TextField
+                      id="date"
+                      fullWidth
+                      label="End"
+                      required
+                      type="date"
+                      error={errorEndDate}
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      onChange={event => {
+                        let pickedDay = new Date(
+                          ...prepareDate(event.target.value)
+                        );
+                        let today = new Date();
+
+                        if (
+                          pickedDay.getTime() - Date.now() < 0 &&
+                          pickedDay.getDate() !== today.getDate()
+                        ) {
+                          setErrorEndDate(true);
+                          notify("Wrong day");
+                        } else if (
+                          editStartDate !== "" &&
+                          new Date(...prepareDate(editStartDate)) >
+                            pickedDay.getTime()
+                        ) {
+                          setErrorEndDate(true);
+                          notify("End date can't be before Start date");
+                        } else {
+                          setErrorEndDate(false);
+                          setEditEndDate(event.target.value);
+                        }
+                      }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="date"
-                    label="End"
-                    type="date"
-                    defaultValue={isEditOpportunity ? singleJobData.endDate : ""}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={event => {
-                      setStop(event.target.value);
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={11} md={7} lg={7} style={{ padding: "3vh 0" }}>
                   {" "}
-                  <TextEditor data={"opportunity"} editData={singleJobData.description}/>{" "}
+                  <TextEditor
+                    data={"opportunity"}
+                    editData={singleJobData.description}
+                  />{" "}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={7} lg={7}>
                   <TextField
                     required
+                    fullWidth
                     id="standard-required"
-                    defaultValue={isEditOpportunity ? singleJobData.skills : ""}
                     label="Required Skills"
                     placeholder="Write your skills separated by a coma"
                     className={classes.textField}
-                    margin="normal"
                     onChange={event => {
                       event.preventDefault();
                       getSkill(event);
                     }}
-                    
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={7} lg={7}>
                   <TextField
                     id="free-solo-demo2"
                     select
-                    value={industryField}
-                    helperText="Select Industry field"
+                    fullWidth
+                    label="Industry Field"
+                    required
+                    value={editIntustryField}
                     margin="normal"
                     className={classes.textField}
-                    onChange={e => setIndustryField(e.target.value)}
+                    onChange={e => setEditIndustryField(e.target.value)}
                   >
                     {jobs.map(option => (
                       <MenuItem key={Math.random()} value={option.label}>
@@ -304,10 +355,11 @@ export function AddOpportunity(props) {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={11} md={7} lg={7}>
                   <div>
                     <TextField
                       required
+                      fullWidth
                       id="standard-required"
                       label="Location"
                       value={inputPosition}
@@ -352,22 +404,22 @@ export function AddOpportunity(props) {
                 <Grid
                   container
                   item
-                  xs={12}
+                  xs={11}
+                  md={8}
+                  lg={8}
                   alignItems="center"
                   justify="center"
-                  direction="row"
-                  spacing={2}
                 >
                   <Grid
                     container
                     item
-                    xs={8}
+                    xs={12}
                     alignContent="center"
-                    justify="space-evenly"
+                    justify="center"
+                    style={{ padding: "3vh 0" }}
                   >
-                    <Grid item xs={10} md={4} lg={4}>
+                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
                       <Button
-                        style={{ width: "100% !important" }}
                         onClick={() => {
                           submitToApi(AccessToken);
                         }}
@@ -378,9 +430,8 @@ export function AddOpportunity(props) {
                         Save For Later
                       </Button>
                     </Grid>
-                    <Grid item xs={10} md={4} lg={4}>
+                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
                       <Button
-                        style={{ width: "100% !important" }}
                         variant="contained"
                         fullWidth
                         color="primary"
@@ -394,11 +445,11 @@ export function AddOpportunity(props) {
                   </Grid>
                 </Grid>
               </Grid>
-            </div>
+            </Grid>
           </ThemeProvider>
         </div>
       </div>
-      {isPreview ? <JobFullView /> : ""}
+      {isPreview ? <JobFullView data={dataForFullView} /> : ""}
     </div>
   );
   return content;
