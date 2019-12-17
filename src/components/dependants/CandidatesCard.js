@@ -2,9 +2,6 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { HomeContext } from "../../contexts/dependants/HomeContext";
 import {
-  Card,
-  CardActions,
-  CardContent,
   Button,
   Typography,
   Badge,

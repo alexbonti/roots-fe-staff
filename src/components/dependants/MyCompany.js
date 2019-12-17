@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Typography } from "@material-ui/core/";
-import { HomeContext, MyCompanyContext } from "contexts/index";
+import { HomeContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 import { EditMyCompany } from "./EditMyCompany";
 
@@ -68,20 +68,37 @@ export default function MyCompany(props) {
             md={9}
             lg={7}
             className={classes.contatinerHead}
+            justify="center"
           >
-            <Grid item xs={5}>
-              <img
-                alt="Remy Sharp"
-                src={companyData.companyLogo}
-                className={classes.avatar}
-              />
-            </Grid>
-            <Grid item container xs={5} alignItems="center" className={classes.title}>
-              <Typography variant="h4">{companyData.companyName}</Typography>
+            <Grid item container xs={11}>
+              <Grid item xs={5}>
+                <img
+                  alt="Remy Sharp"
+                  src={companyData.companyLogo}
+                  className={classes.avatar}
+                />
+              </Grid>
+              <Grid
+                item
+                container
+                xs={5}
+                alignItems="center"
+                className={classes.title}
+              >
+                <Typography variant="h4">{companyData.companyName}</Typography>
+              </Grid>
             </Grid>
           </Grid>
 
-          <Grid item container justify="center" xs={10} md={9} lg={7} style={{padding: "1vh 0"}}>
+          <Grid
+            item
+            container
+            justify="center"
+            xs={10}
+            md={9}
+            lg={7}
+            style={{ padding: "1vh 0" }}
+          >
             <Grid item xs={11}>
               {companyData.location}
             </Grid>
@@ -98,13 +115,17 @@ export default function MyCompany(props) {
             xs={10}
             md={9}
             lg={7}
-            style={{ backgroundColor: "white", borderRadius: "0 0 10px 10px", padding:"1vh 0" }}
+            style={{
+              backgroundColor: "white",
+              borderRadius: "0 0 10px 10px",
+              padding: "1vh 0",
+            }}
           >
-            <Grid item xs={11} >
+            <Grid item xs={11}>
               {ReactHtmlParser(companyData.companyDescription)}
             </Grid>
 
-            <Grid item xs={10} md={4} lg={3} style={{padding: "2vh 0"}}>
+            <Grid item xs={10} md={4} lg={3} style={{ padding: "2vh 0" }}>
               <Button
                 className={classes.button1}
                 variant="contained"

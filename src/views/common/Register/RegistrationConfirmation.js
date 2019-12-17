@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import {
-  makeStyles,
   Button,
   Grid,
   TextField,
@@ -12,7 +11,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { API } from "helpers/index";
 import { LoginContext } from "../../../contexts/common/LoginContext";
 
-const useStyles = makeStyles(theme => ({}));
 
 const theme = createMuiTheme({
   palette: {
@@ -28,10 +26,9 @@ const theme = createMuiTheme({
 });
 
 const RegistrationConfirmation = ({ ...props }) => {
-  const classes = useStyles();
   const [code, setCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const { setLoginStatus, setAccessToken } = useContext(LoginContext);
+  const { setLoginStatus } = useContext(LoginContext);
   const [hasGotRights] = useState(
     props.location.state &&
       props.location.state.hasOwnProperty("accessToken") &&

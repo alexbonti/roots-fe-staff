@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Button, Grid } from "@material-ui/core/";
+import {  Button, Grid } from "@material-ui/core/";
 import {
   HomeContext,
-  EditOpportunityContext,
   TextEditorContext,
 } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
@@ -59,7 +58,6 @@ export default function FullViewCard(props) {
     setStyleEdit,
     setAddOpportunity,
     setIsUpdated,
-    setIsEditOpportunity,
     setJobView,
   } = useContext(HomeContext);
 

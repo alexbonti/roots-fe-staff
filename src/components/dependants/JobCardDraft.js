@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { HomeContext } from "../../contexts/dependants/HomeContext";
 import { Button, Typography, Grid, Modal } from "@material-ui/core/";
 import { API } from "helpers";
-import { notify, EditDraft } from "components/index";
+import { notify } from "components/index";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles(theme => ({
@@ -48,9 +48,6 @@ export default function JobCard(props) {
   const classes = useStyles();
   const { positionTitle, seniority, _id } = props.data;
   const {
-    setSingleJobData,
-    setAddOpportunity,
-    isEditOpportunity,
     setIsEditOpportunity,
     setIsUpdated,
     setJobView,
@@ -69,7 +66,7 @@ export default function JobCard(props) {
       opportunityId: props.data._id,
     };
 
-    const deleteData = await API.deleteOppDraft(data);
+    await API.deleteOppDraft(data);
     notify("Deleted");
     setIsUpdated(true);
   };

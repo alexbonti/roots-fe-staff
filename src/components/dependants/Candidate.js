@@ -1,20 +1,14 @@
 import React, { useContext } from "react";
-import ReactHtmlParser from "react-html-parser";
-import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Grid,
-  Container,
   Icon,
-  Checkbox,
-  FormControlLabel,
   Avatar,
   Typography,
 } from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
-import { StarRate, StarBorder } from "@material-ui/icons/";
 import {
   ExperienceCV,
   EducationCV,
@@ -112,7 +106,7 @@ export const Candidate = props => {
               <Typography variant="h4">
                 {first_name} {last_name}{" "}
                 <a
-                  target="_blank"
+                  target="blank"
                   href={resumeURL}
                   style={{ textDecoration: "none", color: "black" }}
                 >

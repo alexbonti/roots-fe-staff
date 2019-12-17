@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState, useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 import {
   AppBar,
   Tabs,
@@ -15,7 +15,6 @@ import {
   AddOpportunity,
   ListOpportunity,
   MyCompany,
-  EditMyCompany,
   EditDraft
 } from "../../../components/index";
 import API from "../../../helpers/api";
@@ -24,9 +23,7 @@ import SingleJob from "../../../components/dependants/SingleJob";
 import { ListOfCandidatesOfASingleJob } from "components/dependants/ListOfCandidatesOfASingleJob";
 import { Spinner } from "components";
 
-const useStyles = makeStyles(theme => ({
 
-}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,17 +56,14 @@ function a11yProps(index) {
 }
 
 export const Home2 = props => {
-  const classes = useStyles();
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
   const [dataJobsDraft, setDataJobsDraft] = useState("");
-  const [isMyCompany, setIsMyCompany] = useState(true);
   const {
     addOpportunity,
     jobView,
     setTabNumber,
     isListCanditatesOfAJob,
-    isEditMyCompany,
     isEditOpportunity,
     mainTitle,
     setMainTitle,
@@ -79,7 +73,6 @@ export const Home2 = props => {
 
   const { loginStatus, accessToken } = useContext(LoginContext);
   const {
-    companyId,
     setCompanyId,
     dataMyCompany,
     setDataMyCompany,
@@ -130,7 +123,7 @@ export const Home2 = props => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
-        const companyData = await API.getCompanyDetails(accessToken);
+        //const companyData = await API.getCompanyDetails(accessToken);
         setDataMyCompany(profileData.response[1]);
         setCompanyId(profileData.response[0].companyId);
         setIsUploaded(false);

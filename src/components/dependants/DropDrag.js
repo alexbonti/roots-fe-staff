@@ -11,6 +11,7 @@ export default function Accept() {
   });
 
   const { companyLogo, tempLogo, setTempLogo } = useContext(MyCompanyContext);
+  console.log("companyLogo ======>", companyLogo, "tempLogo ======>", tempLogo);
 
   // const acceptedFilesItems = acceptedFiles.map(file => (
   //   <li key={file.path}>
@@ -30,10 +31,10 @@ export default function Accept() {
     }
   }, [acceptedFiles, setTempLogo]);
 
-  let icon = companyLogo === "https://s3.au-syd.cloud-object-storage.appdomain.cloud/refugee-bucket/image/profilePicture/thumb/Thumb_Profile_lFu6zRW9TBxB.png"? <CameraAltOutlinedIcon fontSize="large" /> : <img src={logo} alt="backgroundImage" /> ;
+  // let icon = companyLogo === "https://s3.au-syd.cloud-object-storage.appdomain.cloud/refugee-bucket/image/profilePicture/thumb/Thumb_Profile_lFu6zRW9TBxB.png" ? <CameraAltOutlinedIcon fontSize="large" /> : <img src={""} alt="backgroundImage" /> ;
   
-  let logo = tempLogo === "" ? icon : tempLogo;
   
+  let icon = tempLogo !== "" ?  <img src={tempLogo} alt="backgroundImage" style={{ height: "100%"}} /> : <CameraAltOutlinedIcon fontSize="large" />;
 
   return (
     <Grid
@@ -43,9 +44,9 @@ export default function Accept() {
       justify="center"
       alignItems="center"
       {...getRootProps({ className: "dropzone" })}
-      style={{border: " 1px  dashed #d0d0d0", height: "15vh"}}
+      style={{border: " 1px  dashed #d0d0d0", minHeight: "15vh"}}
     >
-      <Grid item xs={4} style={{textAlign: "center"}} >
+      <Grid item xs={10} style={{textAlign: "center"}}  >
         {icon}
         <input {...getInputProps()} />
       </Grid>

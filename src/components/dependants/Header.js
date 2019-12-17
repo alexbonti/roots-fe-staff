@@ -138,7 +138,7 @@ export const Header = () => {
   const logout = () => {
 
     const logOut = async (auth) => {
-      const putLogout = await API.logout(auth);
+      await API.logout(auth);
       window.localStorage.clear();
       setLoginStatus(false);
       setAccessToken("");

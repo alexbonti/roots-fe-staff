@@ -61,7 +61,6 @@ export function AddOpportunity(props) {
     tabNumber,
     setIsUpdated,
     singleJobData,
-    isEditOpportunity,
   } = useContext(HomeContext);
 
   const autoFill = async event => {

@@ -1,13 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, {  useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import API from "../../helpers/api";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import { LoginContext } from "contexts";
@@ -41,7 +39,7 @@ export const Header2 = () => {
   const logout = () => {
 
     const logOut = async (auth) => {
-      const putLogout = await API.logout(auth);
+      await API.logout(auth);
       window.localStorage.clear();
       setLoginStatus(false);
       setAccessToken("");

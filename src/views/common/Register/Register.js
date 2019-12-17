@@ -76,12 +76,7 @@ const Register = props => {
   const [accessToken, setAccessToken] = useState("");
   const [emailVerified, setEmailVerified] = useState("");
 
-  const {
-    companyLogo,
-    companyDescription,
-    companyIndustry,
-    companyLocation,
-  } = useContext(MyCompanyContext);
+
 
   // const { setOpenModal } = useContext(LoginContext);
 

@@ -84,7 +84,7 @@ export default function JobCard(props) {
       opportunityId: props.data._id,
     };
 
-    const deleteData = await API.deleteOpp(data);
+    await API.deleteOpp(data);
     notify("Deleted");
     setIsUpdated(true);
   };

@@ -42,7 +42,7 @@ export function ListOfCandidatesOfASingleJob(props) {
 
   useEffect(() => {
     setIsUpdated(false);
-  }, [isUpdated]);
+  }, [isUpdated, setIsUpdated]);
 
   useEffect(() => {
     const data = {
@@ -76,7 +76,7 @@ export function ListOfCandidatesOfASingleJob(props) {
       : shortListedData.push(userId);
 
     const triggerShortListAPI = async () => {
-      const updateShortListAPI = await API.updateShortList(data);
+      await API.updateShortList(data);
       setIsUpdated(true);
     };
     triggerShortListAPI();
@@ -188,7 +188,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                   </Card>
                 </Grid>
               );
-            }
+            }else{return "";}
           })}
         </Grid>
         <Grid item xs={12} lg={9} md={9} style={{ padding: "2vh 0" }}>
@@ -322,7 +322,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                 </Card>
               </Grid>
             );
-          }
+          }else{return "";}
         })}
       </Grid>
     </Grid>

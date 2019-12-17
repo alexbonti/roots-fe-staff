@@ -39,21 +39,23 @@ const theme = createMuiTheme({
 
 export function EditMyCompany(props) {
   const classes = useStyles();
+  const dataMyCompany = props.data
+
+  
 
   //-------------------context
   const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
-  const { description } = useContext(TextEditorContext);
-  const {setIsEditMycompany, isEditMyCompany, setMainTitle } = useContext(HomeContext);
-
+  const { description, setDescription } = useContext(TextEditorContext);
+  const {setIsEditMycompany, setMainTitle } = useContext(HomeContext);
+  if(props.data !== undefined){setDescription(props.data.companyDescription)};
   //--------------------- usestates
-  const [companyName, setCompanyName] = useState("");
+  const [companyName, setCompanyName] = useState(props.data.companyName);
   const [companyIndustry, setCompanyIndustry] = useState("");
-  const [companyLocation, setCompanyLocation] = useState("");
+  const [companyLocation, setCompanyLocation] = useState(props.data.location);
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
 
-  console.log(props);
   //--------------------- functions
   const autoFill = async event => {
     setInputPosition(event.target.value);
@@ -62,14 +64,11 @@ export function EditMyCompany(props) {
   };
 
 
-  const dataMyCompany = props.data
 
   if (!companyId) {
     setMainTitle("First let's create your Company profile");
   }
-
   const submitToApi = async () => {
-    
     const data = {
       companyId,
       companyName,
