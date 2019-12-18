@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import {
   TextField,
@@ -14,7 +14,6 @@ import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
 import { Header2 } from "../../../components/dependants/Header2";
 import { withRouter } from "react-router-dom";
-import { MyCompanyContext } from "../../../contexts/dependants/MyCompanyContext";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
