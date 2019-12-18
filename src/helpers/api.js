@@ -30,19 +30,16 @@ const errorHelper = (error, variant) => {
 
 class API {
   loginEmployer = async (data, setAccessToken) => {
-    return await axios({
-      method: "post",
-      url: "http://localhost:8031/api/employer/login",
-      data,
+    return await axiosInstance
+    .post("/employer/login",data)
+    .then(response => {
+      setAccessToken(response.data.data.accessToken);
+      return response.data.data.employerDetails;
     })
-      .then(response => {
-        setAccessToken(response.data.data.accessToken);
-        return response.data.data.employerDetails;
-      })
-      .catch(error => {
-        errorHelper(error);
-        return false;
-      });
+    .catch(error => {
+      errorHelper(error);
+      return false;
+    });
   };
 
 
@@ -61,11 +58,9 @@ class API {
   }
 
   registerEmployer = async data => {
-    return await axios({
-      method: "post",
-      url: "http://localhost:8031/api/employer/register",
-      data,
-    })
+    return await axiosInstance
+    .post("employer/register",data,
+    )
       .then(response => {
         console.log(response)
         return { response: response.data };
@@ -78,8 +73,8 @@ class API {
 
   sendOTP = async (data, accessToken) => {
     //accessToken = localStorage.getItem("accessToken");
-    return await axios
-      .put("http://localhost:8031/api/employer/verifyOTP", data, {
+    return await axiosInstance
+      .put("employer/verifyOTP", data, {
         headers: {
           authorization: "Bearer " + accessToken,
         },
