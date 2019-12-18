@@ -10,6 +10,7 @@ export default function Accept() {
   const { acceptedFiles, getRootProps, getInputProps} = useDropzone({
     accept: "image/jpeg, image/png",
   });
+  const [imgUrl, setImgUrl] = useState("");
 
   const { companyLogo, tempLogo, setTempLogo } = useContext(MyCompanyContext);
   console.log("companyLogo ======>", companyLogo, "tempLogo ======>", tempLogo);
@@ -36,6 +37,8 @@ export default function Accept() {
   
   
   let icon = tempLogo !== "" ?  <img src={tempLogo} alt="backgroundImage" style={{ height: "100%"}} /> : <CameraAltOutlinedIcon fontSize="large" />;
+
+  useEffect(() => {}, [imgUrl]);
 
   return (
     <Grid
