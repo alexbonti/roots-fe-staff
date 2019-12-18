@@ -6,7 +6,8 @@ import { MyCompanyContext } from "../../contexts/";
 import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 
 export default function Accept() {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  
+  const { acceptedFiles, getRootProps, getInputProps} = useDropzone({
     accept: "image/jpeg, image/png",
   });
 
