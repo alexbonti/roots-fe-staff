@@ -35,8 +35,14 @@ const useStyles = makeStyles({
   button1: {
     borderRadius: "20px",
     backgroundColor: "white",
+    boxShadow: "none",
     border: "1px solid #087B94",
     color: "#087B94",
+    transition: " all .1s ease",
+    "&:hover": {
+      color: "white",
+      backgroundColor: "#087B94"
+    },
   },
   button2: {
     borderRadius: "20px",
@@ -97,7 +103,11 @@ export default function MyCompany(props) {
             xs={10}
             md={9}
             lg={7}
-            style={{ padding: "1vh 0" }}
+            style={{
+              padding: "1vh 0",
+              color: "white",
+              backgroundColor: "#087b9473",
+            }}
           >
             <Grid item xs={11}>
               {companyData.location}

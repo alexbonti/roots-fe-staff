@@ -15,7 +15,10 @@ const useStyles = makeStyles({
     padding: "32px 70px 32px 32px "
   },
   transparentContainer: {
-    padding: "10px 32px "
+    padding: "10px 32px",
+    color: "white",
+    backgroundColor: "#087b9473",
+
   },
   title: {
     fontSize: 34
