@@ -20,6 +20,18 @@ const useStyles = makeStyles(theme => ({
   textField: {
     padding: "2vh 0",
   },
+  button1: {
+    borderRadius: "20px",
+    backgroundColor: "white",
+    border: "1px solid #087B94",
+    color: "#087B94",
+    transition: " all .1s ease", 
+    boxShadow: "none",
+    "&:hover": {
+      color: "white",
+      backgroundColor: "#087B94"
+    },
+  },
 }));
 
 const theme = createMuiTheme({
@@ -118,7 +130,7 @@ export function EditMyCompany(props) {
           md={11}
           lg={6}
           justify="center"
-          style={{ padding: "1vh 0", backgroundColor: "white",borderRadius:"10px" }}
+          style={{ padding: "1vh 0", backgroundColor: "white",borderRadius:"10px", boxShadow: "1px 1px 3px #d0d0d0" }}
         >
           <Grid item xs={11} md={11} lg={7}>
             <TextField
@@ -134,7 +146,7 @@ export function EditMyCompany(props) {
               }}
             />
           </Grid>
-          <Grid item xs={11} md={11} lg={7}>
+          <Grid item xs={11} md={11} lg={7} style={{padding: "1vh 0"}}>
             <MyDropzone />
           </Grid>
           <Grid item xs={11} md={11} lg={7}>
@@ -197,7 +209,7 @@ export function EditMyCompany(props) {
             xs={11}
             md={11}
             lg={7}
-            style={{ padding: "2vh 0", height: "20vh", overflow: "scroll"  }}
+            style={{ padding: "2vh 0"  }}
           >
             <TextEditor editData={dataMyCompany.companyDescription}/>{" "}
           </Grid>
@@ -218,6 +230,7 @@ export function EditMyCompany(props) {
                 fullWidth
                 variant="contained"
                 color="primary"
+                className={classes.button1}
               >
                 Save
               </Button>

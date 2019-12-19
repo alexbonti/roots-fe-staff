@@ -15,7 +15,28 @@ import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  button1: {
+    borderRadius: "20px",
+    backgroundColor: "white",
+    border: "1px solid #087B94",
+    color: "#087B94",
+    transition: " all .1s ease", 
+    "&:hover": {
+      color: "white",
+      backgroundColor: "#087B94"
+    },
+  },
+  button2: {
+    borderRadius: "20px",
+    backgroundColor: "#087B94",
+    border: "1px solid #087B94",
+    color: "white",
+    transition: " all .1s ease", 
+    
+  },
+
+}));
 
 const theme = createMuiTheme({
   palette: {
@@ -174,7 +195,7 @@ export function AddOpportunity(props) {
                 lg={6}
                 alignItems="center"
                 justify="center"
-                style={{ backgroundColor: "snow", borderRadius: "10px" }}
+                style={{ backgroundColor: "snow", borderRadius: "10px", boxShadow: "1px 1px 3px #d0d0d0" }}
               >
                 <Grid item xs={11} md={7} lg={7}>
                   <TextField
@@ -417,7 +438,7 @@ export function AddOpportunity(props) {
                     justify="center"
                     style={{ padding: "3vh 0" }}
                   >
-                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
+                    <Grid item xs={12} sm={6} style={{padding: "1vh"}}>
                       <Button
                         onClick={() => {
                           submitToApi(AccessToken);
@@ -425,12 +446,14 @@ export function AddOpportunity(props) {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        className={classes.button1}
                       >
                         Save For Later
                       </Button>
                     </Grid>
-                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
+                    <Grid item xs={12} sm={6} style={{padding: "1vh"}}>
                       <Button
+                        className={classes.button2}
                         variant="contained"
                         fullWidth
                         color="primary"

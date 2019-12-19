@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {  Button, Grid } from "@material-ui/core/";
-import {
-  HomeContext,
-  TextEditorContext,
-} from "contexts/index";
+import { Button, Grid } from "@material-ui/core/";
+import { HomeContext, TextEditorContext } from "contexts/index";
 import ReactHtmlParser from "react-html-parser";
 import { Send, Edit } from "@material-ui/icons/";
 import { AccessToken } from "../../contexts/helpers/";
@@ -41,6 +38,9 @@ const useStyles = makeStyles({
     backgroundColor: "white",
     border: "1px solid #087B94",
     color: "#087B94",
+    "&:hover": {
+      color: "white",
+    },
   },
   button2: {
     borderRadius: "20px",
@@ -72,12 +72,12 @@ export default function FullViewCard(props) {
     editStartDate,
     editLongitude,
     editLatitude,
-    _id
+    _id,
   } = props.data;
 
-  console.log(editLongitude, editLatitude)
+  console.log(editLongitude, editLatitude);
 
-  console.log(props.data)
+  console.log(props.data);
 
   const { descriptionOpportunity } = useContext(TextEditorContext);
 
@@ -85,8 +85,6 @@ export default function FullViewCard(props) {
     setStyleEdit({ display: "block" });
     setIsPreview(false);
   };
-
-
 
   const submitToApi = async () => {
     const data = {
@@ -102,9 +100,9 @@ export default function FullViewCard(props) {
       latitude: editLatitude,
       longitude: editLongitude,
     };
-    if(props.comesFromDraft){
-      const postData = await API.draftToOpportunity({draftId: _id});
-  
+    if (props.comesFromDraft) {
+      const postData = await API.draftToOpportunity({ draftId: _id });
+
       if (postData) {
         setIsUpdated(true);
         notify("Job Created");
@@ -113,7 +111,7 @@ export default function FullViewCard(props) {
         setJobView(false);
         closePreview();
       }
-    }else{
+    } else {
       const postData = await API.postOpportunity(data);
       if (postData) {
         setIsUpdated(true);
@@ -149,6 +147,7 @@ export default function FullViewCard(props) {
             backgroundColor: "snow",
             borderRadius: "10px",
             padding: "1vh 0",
+            boxShadow: "1px 1px 3px #d0d0d0",
           }}
         >
           <Grid item xs={11} className={classes.title}>
@@ -164,7 +163,11 @@ export default function FullViewCard(props) {
           <Grid
             container
             justify="center"
-            style={{ backgroundColor: "#e7f0f1", padding: "1vh 0" }}
+            style={{
+              padding: "1vh 0",
+              color: "white",
+              backgroundColor: "#087b9473",
+            }}
           >
             <Grid item xs={11}>
               {" "}

@@ -76,7 +76,9 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
-  console.log(props.data);
+  const cursor = resumeURL === "" || resumeURL === "string" ? "not-allowed" : "pointer";
+
+  const coverLetterCard = coverLetter === "" ? "" : <CoverLetterCV data={coverLetter}/>
   return (
     <div>
       <Grid container justify="center" alignItems="center">
@@ -108,7 +110,7 @@ export const Candidate = props => {
                 <a
                   target="blank"
                   href={resumeURL}
-                  style={{ textDecoration: "none", color: "black" }}
+                  style={{ textDecoration: "none", color: "black", cursor: cursor }}
                 >
                   <Icon fontSize="large">cloud_download</Icon>
                 </a>
@@ -119,7 +121,7 @@ export const Candidate = props => {
           </Grid>
         </Grid>
         <Grid item xs={12} md={8} lg={7}>
-          <CoverLetterCV data={coverLetter} />
+          {coverLetterCard}
         </Grid>
         <Grid item xs={12} md={8} lg={7}>
           <ExperienceCV data={workExperience} />
