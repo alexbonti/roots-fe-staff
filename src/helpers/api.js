@@ -66,8 +66,8 @@ class API {
         return { response: response.data };
       })
       .catch(error => {
-        errorHelper(error);
-        return error;
+        return errorHelper(error);
+        
       });
   };
 

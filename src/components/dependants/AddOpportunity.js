@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { TextField, Grid, Button, MenuItem } from "@material-ui/core/";
@@ -54,7 +54,6 @@ const theme = createMuiTheme({
 });
 
 export function AddOpportunity(props) {
-  console.log(props);
   const classes = useStyles();
 
   const { descriptionOpportunity } = useContext(TextEditorContext);
@@ -68,8 +67,8 @@ export function AddOpportunity(props) {
   const [editSeniority, setEditSeniority] = useState("");
   const [editSkills, setEditSkills] = useState("");
   const [editStartDate, setEditStartDate] = useState("");
-  const [editLongitude, setEditLongitude] = useState("");
-  const [editLatitude, setEditLatitude] = useState("");
+  const [editLongitude, setEditLongitude] = useState(0);
+  const [editLatitude, setEditLatitude] = useState(0);
   const [errorStartDate, setErrorStartDate] = useState(false);
   const [errorEndDate, setErrorEndDate] = useState(false);
 
@@ -98,9 +97,10 @@ export function AddOpportunity(props) {
       editStartDate === "" ||
       editEmploymentType === "" ||
       editSeniority === "" ||
-      editPositionTitle === ""
+      editPositionTitle === "" ||
+      descriptionOpportunity === ""
     ) {
-      return notify("Please fill all the required fields");
+      return notify("Please fill all the * required fields");
     } else {
       setIsPreview(true);
       setStyleEdit({ display: "none" });
@@ -111,29 +111,38 @@ export function AddOpportunity(props) {
     tabNumber !== 0 ? setAddOpportunity(false) : setAddOpportunity(true);
   }, [tabNumber, setAddOpportunity]);
 
-  const submitToApi = async () => {
-    const data = {
-      positionTitle: editPositionTitle === "" ? "Draft" : editPositionTitle,
-      employmentType: editEmploymentType,
-      skills: editSkills,
-      seniority: editSeniority,
-      startDate: new Date(editStartDate).toISOString(),
-      endDate: new Date(editEndDate).toISOString(),
-      industryField: editIntustryField,
-      description: descriptionOpportunity,
-      location: editLocation,
-      latitude: editLatitude,
-      longitude: editLongitude,
-    };
+  useEffect(() => {
+    positionTitleRef.current.focus();
+  }, []);
 
-    const oppDataCall = await API.postOpportunityDraft(data);
-    if (oppDataCall) {
-      setIsUpdated(true);
-      notify("Job Saved");
-      setAddOpportunity(false);
-    } else {
-      notify("Something went wrong");
+  const submitToApi = async () => {
+    if(editStartDate === "" || editEndDate === ""){
+      return notify("date can not be empty");
+    }else {
+
+      const data = {
+        positionTitle: editPositionTitle === "" ? "Draft" : editPositionTitle,
+        employmentType: editEmploymentType,
+        skills: editSkills,
+        seniority: editSeniority,
+        startDate: new Date(editStartDate).toISOString(),
+        endDate: new Date(editEndDate).toISOString(),
+        industryField: editIntustryField,
+        description: descriptionOpportunity,
+        location: editLocation,
+        latitude: editLatitude,
+        longitude: editLongitude,
+      };
+      const oppDataCall = await API.postOpportunityDraft(data);
+      if (oppDataCall) {
+        setIsUpdated(true);
+        notify("Job Saved");
+        setAddOpportunity(false);
+      } else {
+        notify("Something went wrong");
+      }
     }
+
   };
 
   const getSkill = event => {
@@ -172,6 +181,24 @@ export function AddOpportunity(props) {
     return [date[0], date[1] - 1, date[2]]; //Return as an array with y,m,d sequence
   }
 
+  const positionTitleRef = useRef(null);
+  const seniorityRef = useRef(null);
+  const employmentTypeRef = useRef(null);
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const skillsRef = useRef(null);
+  const industryFieldRef = useRef(null);
+  const locationRef = useRef(null);
+
+
+  const keyDown = (e, ref) =>  {
+    if(e.key === "Enter"){
+      ref.current.focus();
+    }
+  };
+
+
   const content = (
     <div>
       <div style={styleEdit}>
@@ -206,6 +233,8 @@ export function AddOpportunity(props) {
                     placeholder="Position Title"
                     margin="normal"
                     fullWidth
+                    onKeyDown={(e) => keyDown(e, seniorityRef)}
+                    inputRef={positionTitleRef}
                     onChange={event => {
                       setPositionTitle(event.target.value);
                     }}
@@ -222,6 +251,8 @@ export function AddOpportunity(props) {
                     required
                     className={classes.textField}
                     placeholder="Seniority"
+                    onKeyDown={(e) => keyDown(e, employmentTypeRef)}
+                    inputRef={seniorityRef}
                     onChange={e => setEditSeniority(e.target.value)}
                   >
                     {seniorityOption.map(option => (
@@ -242,6 +273,8 @@ export function AddOpportunity(props) {
                     className={classes.textField}
                     placeholder="Seniority"
                     fullWidth
+                    onKeyDown={(e) => keyDown(e, startDateRef)}
+                    inputRef={employmentTypeRef}
                     onChange={e => setEditEmploymentType(e.target.value)}
                   >
                     {type.map(option => (
@@ -271,6 +304,8 @@ export function AddOpportunity(props) {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      onKeyDown={(e) => keyDown(e, endDateRef)}
+                      inputRef={startDateRef}
                       onChange={event => {
                         let pickedDay = new Date(
                           ...prepareDate(event.target.value)
@@ -308,6 +343,7 @@ export function AddOpportunity(props) {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      inputRef={endDateRef}
                       onChange={event => {
                         let pickedDay = new Date(
                           ...prepareDate(event.target.value)
@@ -339,6 +375,7 @@ export function AddOpportunity(props) {
                   {" "}
                   <TextEditor
                     data={"opportunity"}
+                    inputRef={descriptionRef}
                     editData={singleJobData.description}
                   />{" "}
                 </Grid>
@@ -350,6 +387,8 @@ export function AddOpportunity(props) {
                     label="Required Skills"
                     placeholder="Write your skills separated by a coma"
                     className={classes.textField}
+                    onKeyDown={(e) => keyDown(e, industryFieldRef)}
+                    inputRef={skillsRef}
                     onChange={event => {
                       event.preventDefault();
                       getSkill(event);
@@ -366,6 +405,8 @@ export function AddOpportunity(props) {
                     value={editIntustryField}
                     margin="normal"
                     className={classes.textField}
+                    onKeyDown={(e) => keyDown(e, locationRef)}
+                    inputRef={industryFieldRef}
                     onChange={e => setEditIndustryField(e.target.value)}
                   >
                     {jobs.map(option => (
@@ -386,6 +427,7 @@ export function AddOpportunity(props) {
                       placeholder="Location"
                       className={classes.textField}
                       margin="normal"
+                      inputRef={locationRef}
                       onChange={event => {
                         event.preventDefault();
                         autoFill(event);
@@ -395,25 +437,26 @@ export function AddOpportunity(props) {
                       {positionSuggestions !== null &&
                       positionSuggestions !== undefined &&
                       positionSuggestions !== "" ? (
-                        <div className={classes.suggestion}>
-                          {positionSuggestions.map(suggestion => {
-                            return (
-                              <div
-                                key={Math.random()}
-                                onClick={event => {
-                                  event.preventDefault();
-                                  setSuggestions(event);
-                                  getLongLat(suggestion);
-                                }}
-                              >
-                                {suggestion.label}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                          <div className={classes.suggestion}>
+                            {positionSuggestions.map(suggestion => {
+                              return (
+                                <div
+                                  key={Math.random()}
+                                  onClick={event => {
+                                    event.preventDefault();
+                                    locationRef.current.focus();
+                                    setSuggestions(event);
+                                    getLongLat(suggestion);
+                                  }}
+                                >
+                                  {suggestion.label}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                     </div>
                     <div />
                   </div>
@@ -457,6 +500,7 @@ export function AddOpportunity(props) {
                         variant="contained"
                         fullWidth
                         color="primary"
+                        
                         onClick={() => {
                           activePreview();
                         }}

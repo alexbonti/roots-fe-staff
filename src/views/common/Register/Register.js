@@ -90,6 +90,7 @@ const Register = props => {
 
     const triggerAPI = async () => {
       const registerData = await API.registerEmployer(data);
+      console.log(registerData);
       if (registerData) {
         setAccessToken(registerData.response.data.accessToken);
         setEmailVerified(registerData.response.data.employerDetails.emailVerified);
@@ -118,13 +119,25 @@ const Register = props => {
     }
     let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let emailPatternTest = emailPattern.test(emailId);
+    
+    const namePattern = /^[a-zA-Z]*$/;
+    
+    const firstNamePatternTest = namePattern.test(firstName);
+    const lastNamePatternTest = namePattern.test(lastName);
+
+    if(!firstNamePatternTest || !lastNamePatternTest){
+      notify("First Name or Last Name should not include numbers or symbols");
+    }
+    
+
+
     if (!emailPatternTest) {
       notify("Email not in proper format");
     }
     if (password !== confirmPassword) {
       return notify("Passwords don't match.");
     }
-    if (emailPatternTest) {
+    if (emailPatternTest && firstNamePatternTest && lastNamePatternTest) {
       return registerEmployer();
     }
   };

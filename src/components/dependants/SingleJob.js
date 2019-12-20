@@ -121,7 +121,7 @@ export default function FullViewCard() {
             </Grid>
           </Grid>
 
-          <Grid item xs={11} className={classes.subText}>
+          <Grid item xs={11} className={classes.subText} style={{minHeight: "40vh", paddingTop: "3vh"}}>
             {ReactHtmlParser(description)}
           </Grid>
           <Grid item xs={11}>

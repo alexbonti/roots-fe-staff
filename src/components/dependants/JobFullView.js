@@ -182,7 +182,7 @@ export default function FullViewCard(props) {
             </Grid>
           </Grid>
 
-          <Grid item xs={11} className={classes.subText}>
+          <Grid item xs={11} className={classes.subText} style={{minHeigth: "40vh",paddingTop: "3vh"}}>
             {ReactHtmlParser(descriptionOpportunity)}
           </Grid>
           <Grid
@@ -191,6 +191,8 @@ export default function FullViewCard(props) {
             xs={11}
             justify="space-between"
             alignItems="center"
+            style={{padding: "2vh"}}
+            
           >
             <Grid item xs={5}>
               <Button
