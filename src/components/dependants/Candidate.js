@@ -1,13 +1,7 @@
 import React, { useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Grid,
-  Icon,
-  Avatar,
-  Typography,
-} from "@material-ui/core/";
+import { Button, Grid, Icon, Avatar, Typography } from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
 import {
   ExperienceCV,
@@ -15,6 +9,7 @@ import {
   //VolunteerCV,
   CoverLetterCV,
 } from "../index";
+import DescriptionIcon from "@material-ui/icons/Description";
 
 const useStyles = makeStyles({
   container: {
@@ -76,9 +71,23 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
-  const cursor = resumeURL === "" || resumeURL === "string" ? "not-allowed" : "pointer";
+  const coverLetterCard =
+    coverLetter !== "" && coverLetter.substring(0, 6) !== "https:" ? (
+      <CoverLetterCV data={coverLetter} />
+    ) : (
+      ""
+    );
 
-  const coverLetterCard = coverLetter === "" ? "" : <CoverLetterCV data={coverLetter}/>
+  const coverLetterFileIcon =
+    coverLetter !== "" && coverLetter.substring(0, 6) === "https:" ? (
+      <DescriptionIcon
+        fontSize="large"
+        style={{ color: "rgba(8, 123, 148, 0.45)" }}
+      />
+    ) : (
+      ""
+    );
+  console.log(coverLetterFileIcon);
   return (
     <div>
       <Grid container justify="center" alignItems="center">
@@ -86,51 +95,77 @@ export const Candidate = props => {
           <Button onClick={back}> {"<"} Back</Button>
         </Grid>
         <Grid
+          justify="center"
           container
           item
           xs={12}
           md={8}
           lg={7}
-          className={classes.container}
-          justify="space-between"
+          style={{ borderRadius: "10px", boxShadow: "1px 1px 2px #d0d0d0" }}
         >
-          <Grid container item xs={12} alignItems="center">
-            <Grid item>
-              <Avatar
-                alt="Remy Sharp"
-                // src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Bearded_Man-17-512.png"
-                src={avatar}
-                className={classes.avatar}
-              />
-            </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            md={12}
+            lg={12}
+            className={classes.container}
+            justify="space-between"
+          >
+            <Grid container item xs={12} alignItems="center">
+              <Grid item>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={avatar}
+                  className={classes.avatar}
+                />
+              </Grid>
 
-            <Grid item xs={4}>
-              <Typography variant="h4">
-                {first_name} {last_name}{" "}
-                <a
-                  target="blank"
-                  href={resumeURL}
-                  style={{ textDecoration: "none", color: "black", cursor: cursor }}
-                >
-                  <Icon fontSize="large">cloud_download</Icon>
-                </a>
-              </Typography>
+              <Grid item xs={8}>
+                <Typography variant="h4">
+                  {first_name} {last_name}{" "}
+                  <a
+                    target="blank"
+                    href={resumeURL}
+                    style={{
+                      textDecoration: "none",
+                      color: "black",
+                    }}
+                  >
+                    <Icon
+                      fontSize="large"
+                      style={{ color: "rgba(8, 123, 148, 0.45)" }}
+                    >
+                      cloud_download
+                    </Icon>
+                  </a>
+                  <a
+                    target="blank"
+                    href={resumeURL}
+                    style={{
+                      textDecoration: "none",
+                      color: "black",
+                    }}
+                  >
+                    {coverLetterFileIcon}
+                  </a>
+                </Typography>
 
-              <Typography variant="body2">{emailId}</Typography>
+                <Typography variant="body2">{emailId}</Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={8} lg={7}>
-          {coverLetterCard}
-        </Grid>
-        <Grid item xs={12} md={8} lg={7}>
-          <ExperienceCV data={workExperience} />
-        </Grid>
-        <Grid item xs={12} md={8} lg={7}>
-          <EducationCV data={education} />
+          <Grid item xs={12}>
+            {coverLetterCard}
+          </Grid>
+          <Grid item xs={12}>
+            <ExperienceCV data={workExperience} />
+          </Grid>
+          <Grid item xs={12}>
+            <EducationCV data={education} />
+          </Grid>
         </Grid>
       </Grid>
-
       {/* <VolunteerCV data={volunteer} /> */}
     </div>
   );

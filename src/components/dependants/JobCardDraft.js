@@ -8,6 +8,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles(theme => ({
   card: {
+    minHeight: "148px",
     border: "1px solid #b1afafbf",
     borderRadius: "2px",
     backgroundColor: "snow",

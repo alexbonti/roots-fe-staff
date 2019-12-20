@@ -127,7 +127,7 @@ export function EditMyCompany(props) {
           container
           item
           xs={11}
-          md={11}
+          md={6}
           lg={6}
           justify="center"
           style={{ padding: "1vh 0", backgroundColor: "white",borderRadius:"10px", boxShadow: "1px 1px 3px #d0d0d0" }}
