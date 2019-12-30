@@ -43,7 +43,6 @@ class API {
   //       errorHelper(error);
   //       return false;
   //     });
-  };
   loginEmployer = async (data, setAccessToken) => {
     return await axiosInstance
     .post("/employer/login", data, {})
