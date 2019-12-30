@@ -95,8 +95,8 @@ const Register = props => {
       const registerData = await API.registerEmployer(data);
       console.log(registerData);
       if (registerData) {
-        setAccessToken(registerData.response.data.accessToken);
-        setEmailVerified(registerData.response.data.employerDetails.emailVerified);
+        setAccessToken(registerData.response.accessToken);
+        setEmailVerified(registerData.response.employerDetails.emailVerified);
         setRedirect(true);
       }
 
