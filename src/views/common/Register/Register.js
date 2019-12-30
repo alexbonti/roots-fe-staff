@@ -79,7 +79,7 @@ const Register = props => {
 
   // const errors 
 
-  const [emailFieldError, setEmailFieldError] = useState(true);
+  const [emailFieldError, setEmailFieldError] = useState(false);
   // const { setOpenModal } = useContext(LoginContext);
 
   const registerEmployer = () => {
