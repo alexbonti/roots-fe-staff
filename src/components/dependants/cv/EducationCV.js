@@ -79,13 +79,13 @@ export const EducationCV = props => {
               justify="center"
               spacing={3}
             >
-              <Grid item xs={12} className={classes.title2}>
+              <Grid item xs={12} className={classes.title2} style={{color:"#545353"}}>
                 {school}
               </Grid>
-              <Grid item xs={12} className={classes.subText}>
+              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
                 {degree}, {major}
               </Grid>
-              <Grid item xs={12} className={classes.subText}>
+              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
                 {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
               </Grid>
               <Grid item xs={12} style={{ width: "100%" }}>

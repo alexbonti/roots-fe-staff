@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     marginTop: theme.spacing(1),
     borderRadius: "1rem",
+    height: "55px"
   },
   // developMessage: {
   //   position: "absolute",
@@ -76,7 +77,9 @@ const Register = props => {
   const [emailVerified, setEmailVerified] = useState("");
 
 
+  // const errors 
 
+  const [emailFieldError, setEmailFieldError] = useState(false);
   // const { setOpenModal } = useContext(LoginContext);
 
   const registerEmployer = () => {
@@ -92,8 +95,8 @@ const Register = props => {
       const registerData = await API.registerEmployer(data);
       console.log(registerData);
       if (registerData) {
-        setAccessToken(registerData.response.data.accessToken);
-        setEmailVerified(registerData.response.data.employerDetails.emailVerified);
+        setAccessToken(registerData.response.accessToken);
+        setEmailVerified(registerData.response.employerDetails.emailVerified);
         setRedirect(true);
       }
 
@@ -102,6 +105,12 @@ const Register = props => {
   };
 
   const validationCheck = () => {
+
+    if(emailId.length < 0 ){
+      setEmailFieldError(true);
+      return notify("Email is required");
+    }
+
     if (
       emailId.length < 0 ||
       password.length < 0 ||
@@ -115,8 +124,10 @@ const Register = props => {
       firstName === "" ||
       lastName === ""
     ) {
+        
       return notify("Please fill in all the details.");
     }
+
     let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let emailPatternTest = emailPattern.test(emailId);
     
@@ -126,12 +137,14 @@ const Register = props => {
     const lastNamePatternTest = namePattern.test(lastName);
 
     if(!firstNamePatternTest || !lastNamePatternTest){
+
       notify("First Name or Last Name should not include numbers or symbols");
     }
     
 
 
     if (!emailPatternTest) {
+      setEmailFieldError(true);
       notify("Email not in proper format");
     }
     if (password !== confirmPassword) {
@@ -195,6 +208,7 @@ const Register = props => {
               <TextField
                 margin="normal"
                 required
+                error={emailFieldError}
                 fullWidth
                 id="email"
                 label="Email Address"

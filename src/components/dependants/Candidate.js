@@ -1,7 +1,14 @@
 import React, { useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Icon, Avatar, Typography } from "@material-ui/core/";
+import {
+  Button,
+  Grid,
+  Icon,
+  Avatar,
+  Typography,
+  ListItem,
+} from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
 import {
   ExperienceCV,
@@ -72,18 +79,76 @@ export const Candidate = props => {
   };
 
   const coverLetterCard =
-    coverLetter !== "" && coverLetter.substring(0, 6) !== "https:" ? (
+    coverLetter !== "" && coverLetter.includes("http") !== "https:" ? (
       <CoverLetterCV data={coverLetter} />
     ) : (
       ""
     );
 
-  const coverLetterFileIcon =
-    coverLetter !== "" && coverLetter.substring(0, 6) === "https:" ? (
-      <DescriptionIcon
-        fontSize="large"
-        style={{ color: "rgba(8, 123, 148, 0.45)" }}
-      />
+  let coverLetterFileIcon =
+    coverLetter !== "" && coverLetter.includes("http")  ? (
+      <Grid
+        item
+        xs={6}
+        container
+        alignItems="baseline"
+        // style={{ padding: "2vh 0" }}
+      >
+        <Grid item xs={11}>
+          <a
+            target="blank"
+            href={resumeURL}
+            style={{
+              textDecoration: "none",
+              color: "black",
+            }}
+          >
+            <DescriptionIcon
+              fontSize="large"
+              style={{ color: "rgba(8, 123, 148, 0.45)" }}
+            />
+          </a>
+        </Grid>
+        <Grid item xs={11}>
+          <Typography color="primary" variant="caption">
+            Cover Letter
+          </Typography>
+        </Grid>
+      </Grid>
+    ) : (
+      ""
+    );
+
+  let resumeURLFileIcon =
+    resumeURL !== "" ? (
+      <Grid
+        item
+        xs={6}
+        container
+        alignItems="center"
+        // style={{ padding: "2vh 0" }}
+      >
+        <Grid item xs={11}>
+          <a
+            target="blank"
+            href={resumeURL}
+            style={{
+              textDecoration: "none",
+              color: "black",
+            }}
+          >
+            <DescriptionIcon
+              fontSize="large"
+              style={{ color: "rgba(8, 123, 148, 0.45)" }}
+            />
+          </a>
+        </Grid>
+        <Grid item xs={11}>
+          <Typography color="primary" variant="caption">
+            Resume
+          </Typography>
+        </Grid>
+      </Grid>
     ) : (
       ""
     );
@@ -121,37 +186,36 @@ export const Candidate = props => {
                 />
               </Grid>
 
-              <Grid item xs={8}>
-                <Typography variant="h4">
-                  {first_name} {last_name}{" "}
-                  <a
-                    target="blank"
-                    href={resumeURL}
-                    style={{
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                  >
-                    <Icon
-                      fontSize="large"
-                      style={{ color: "rgba(8, 123, 148, 0.45)" }}
+              <Grid
+                item
+                container
+                alignItems="baseline"
+                xs={8}
+                justify="space-between"
+              >
+                <Grid item xs={6} style={{ paddingTop: "2vh 0" }}>
+                  <Typography variant="h4" style={{ color: "#545353" }}>
+                    {first_name} {last_name}{" "}
+                  </Typography>
+                </Grid>
+                <Grid container item xs={4}>
+                  {resumeURLFileIcon}
+                  {coverLetterFileIcon}
+                </Grid>
+                <Grid item xs={11}>
+                  <ListItem color="primary" style={{ padding: "0" }}>
+                    <a
+                      href={`mailto:${emailId}`}
+                      target="_top"
+                      style={{
+                        textDecoration: "none",
+                        color: "#087B94",
+                      }}
                     >
-                      cloud_download
-                    </Icon>
-                  </a>
-                  <a
-                    target="blank"
-                    href={resumeURL}
-                    style={{
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                  >
-                    {coverLetterFileIcon}
-                  </a>
-                </Typography>
-
-                <Typography variant="body2">{emailId}</Typography>
+                      {emailId}
+                    </a>
+                  </ListItem>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

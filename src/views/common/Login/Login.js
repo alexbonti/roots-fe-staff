@@ -131,9 +131,7 @@ export const Login = () => {
             xs={10}
             md={5}
             lg={5}
-            
             justify="center"
-
           >
             <form noValidate>
               <TextField
@@ -161,27 +159,27 @@ export const Login = () => {
               />
             </form>
             <Grid container justify="center">
-            <Grid item xs={6} md={4} lg={6}>
-              <Button
-                fullWidth
-                variant="contained"
-                className={classes.buttons}
-                onClick={validationCheck}
-              >
-                Login
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={4} lg={6}>
-              <Button
-                fullWidth
-                variant="contained"
-                className={classes.buttons}
-                component={Link}
-                to="/register"
-              >
-                Register
-              </Button>
-            </Grid>
+              <Grid item xs={6} md={4} lg={6}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className={classes.buttons}
+                  onClick={validationCheck}
+                >
+                  Login
+                </Button>
+              </Grid>
+              <Grid item xs={6} md={4} lg={6}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  className={classes.buttons}
+                  component={Link}
+                  to="/register"
+                >
+                  Sign Up
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
 
