@@ -59,12 +59,8 @@ class API {
 
   registerEmployer = async data => {
     return await axiosInstance
-<<<<<<< HEAD
     .post("employer/register",data,
     )
-=======
-      .post("/employer/register", data)
->>>>>>> development
       .then(response => {
         console.log(response);
         return { response: response.data.data };
@@ -78,11 +74,7 @@ class API {
   sendOTP = async (data, accessToken) => {
     //accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
-<<<<<<< HEAD
       .put("employer/verifyOTP", data, {
-=======
-      .put("/employer/verifyOTP", data, {
->>>>>>> development
         headers: {
           authorization: "Bearer " + accessToken,
         },
