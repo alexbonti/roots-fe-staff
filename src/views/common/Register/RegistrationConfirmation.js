@@ -88,8 +88,8 @@ const RegistrationConfirmation = ({ ...props }) => {
             </Typography>
           </Grid>
           <Grid item xs={11} lg={11} md={11} style={{ padding: "3vh 3vw" }}>
-            <Button variant="contained" color="primary" fullWidth>
-              <Link to="/" style={{textDecoration: "none", color: "white"}}>Home</Link >
+            <Button component={Link} to="/"variant="contained" color="primary" fullWidth style={{textDecoration: "none"}}>
+              Home
             </Button>
           </Grid>
         </Grid>
