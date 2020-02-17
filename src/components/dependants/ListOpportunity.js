@@ -42,8 +42,7 @@ export function ListOpportunity(props) {
       <Grid
         item
         xs={12}
-        md={9}
-        lg={9}
+        lg={8}
         container
         justify="flex-start"
         style={{ padding: "3vh 0" }}
@@ -61,8 +60,8 @@ export function ListOpportunity(props) {
       <Grid
         item
         xs={12}
-        md={9}
-        lg={9}
+        md={8}
+        lg={8}
         container
         justify="flex-start"
         style={{ padding: "3vh 0" }}
@@ -77,19 +76,19 @@ export function ListOpportunity(props) {
     tabNumber === 0 ? (
       <>
         <Grid container justify="center">
-          <Grid item xs={12} md={9} lg={9} container justify="flex-end">
+          <Grid item xs={12} md={9} lg={8} container justify="flex-end">
             <Grid item xs={12} sm={12} md={4} lg={3} xl={2}>
               <AddButtonCard />
             </Grid>
           </Grid>
-          <Grid item xs={12} md={9} lg={9}>
+          <Grid item xs={12} md={9} lg={8}>
             <hr />
           </Grid>
           <Grid
             item
             xs={12}
             md={9}
-            lg={9}
+            lg={8}
             container
             justify="flex-start"
             style={{ padding: "3vh 0" }}
@@ -98,7 +97,7 @@ export function ListOpportunity(props) {
               <Typography variant="h5">Created Opportunities</Typography>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={9} lg={9} container justify="flex-start" spacing={1}>
+          <Grid item xs={12} md={9} lg={8} container justify="flex-start" spacing={1}>
             {list.map(element => {
               let thisDate = new Date(element.endDate);
               const deltaDate = thisDate.getTime() - new Date();
@@ -117,7 +116,7 @@ export function ListOpportunity(props) {
 
         <Grid container justify="center">
           {draftTitle}
-          <Grid item xs={12} md={9} lg={9} container justify="flex-start" spacing={1}>
+          <Grid item xs={12} md={9} lg={8} container justify="flex-start" spacing={1}>
             {listDraft.map(element => {
               return (
                 <Grid key={Math.random()} className={classes.tile} item  xs={12} sm={6}lg={4} md={5} xl={3}>
@@ -130,7 +129,7 @@ export function ListOpportunity(props) {
 
         <Grid container justify="center">
           {expiredTitle}
-          <Grid item xs={12} md={9} lg={9} container justify="flex-start" spacing={1}>
+          <Grid item xs={12} md={9} lg={8} container justify="flex-start" spacing={1}>
             {list.map(element => {
               let thisDate = new Date(element.endDate);
               const deltaDate = thisDate.getTime() - new Date();
@@ -154,8 +153,7 @@ export function ListOpportunity(props) {
           <Grid
             item
             xs={12}
-            md={9}
-            lg={9}
+            md={8}
             container
             justify="flex-start"
           >
@@ -163,11 +161,11 @@ export function ListOpportunity(props) {
               <Typography variant="h5">Open Opportunities</Typography>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={9} lg={9}>
+          <Grid item xs={12} md={8} >
             <hr />
           </Grid>
 
-          <Grid item xs={12} md={9} lg={9} container justify="flex-start" spacing={1}>
+          <Grid item xs={12} md={8}  container justify="center" spacing={1}>
             {list.map(element => {
               let thisDate = new Date(element.endDate);
               const deltaDate = thisDate.getTime() - new Date();

@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     marginLeft: "5px",
   },
   button1: {
-    borderRadius: "20px",
+    borderRadius: "25px",
     backgroundColor: "white",
     boxShadow: "none",
     border: "1px solid #087B94",
@@ -43,13 +43,19 @@ const useStyles = makeStyles({
       color: "white",
       backgroundColor: "#087B94"
     },
+    height: "55px"
   },
   button2: {
-    borderRadius: "20px",
+    borderRadius: "25px",
+    height: "55px"
+
   },
   back: {
     margin: 3,
   },
+  avatar:{
+    borderRadius: "25px"
+  }
 });
 
 export default function MyCompany(props) {
@@ -71,8 +77,7 @@ export default function MyCompany(props) {
             container
             item
             xs={10}
-            md={9}
-            lg={7}
+            md={8}
             className={classes.contatinerHead}
             justify="center"
           >
@@ -101,8 +106,7 @@ export default function MyCompany(props) {
             container
             justify="center"
             xs={10}
-            md={9}
-            lg={7}
+            md={8}
             style={{
               padding: "1vh 0",
               color: "white",
@@ -123,15 +127,14 @@ export default function MyCompany(props) {
             alignItems="center"
             item
             xs={10}
-            md={9}
-            lg={7}
+            md={8}
             style={{
               backgroundColor: "white",
               borderRadius: "0 0 10px 10px",
               padding: "1vh 0",
             }}
           >
-            <Grid item xs={11}>
+            <Grid item xs={11} style={{minHeight: "28vh"}}>
               {ReactHtmlParser(companyData.companyDescription)}
             </Grid>
 

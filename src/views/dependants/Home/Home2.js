@@ -1,29 +1,20 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState, useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { createMuiTheme } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Tabs,
-  Tab,
-  Typography,
-  Box,
-  Grid,
-} from "@material-ui/core/";
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
+import { AppBar, Tabs, Tab, Typography, Box, Grid } from "@material-ui/core/";
 import { HomeContext, LoginContext, MyCompanyContext } from "contexts";
 import {
   AddOpportunity,
   ListOpportunity,
   MyCompany,
-  EditDraft
+  EditDraft,
 } from "../../../components/index";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
 import SingleJob from "../../../components/dependants/SingleJob";
 import { ListOfCandidatesOfASingleJob } from "components/dependants/ListOfCandidatesOfASingleJob";
 import { Spinner } from "components";
-
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,8 +45,13 @@ function a11yProps(index) {
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-
+const useStyles = makeStyles({
+  indicator: {
+    backgroundColor: "transparent",
+  },
+})
 export const Home2 = props => {
+  const classes = useStyles()
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
   const [dataJobsDraft, setDataJobsDraft] = useState("");
@@ -79,7 +75,6 @@ export const Home2 = props => {
     isUploaded,
     setIsUploaded,
   } = useContext(MyCompanyContext);
-
 
   //-----------theme settings
   const theme = createMuiTheme({
@@ -123,10 +118,13 @@ export const Home2 = props => {
     if (loginStatus) {
       const triggerAPI = async () => {
         const profileData = await API.getProfileEmployer(accessToken);
+
+        if (profileData) {
+          setDataMyCompany(profileData.response[1]);
+          setCompanyId(profileData.response[0].companyId);
+          setIsUploaded(false);
+        }
         //const companyData = await API.getCompanyDetails(accessToken);
-        setDataMyCompany(profileData.response[1]);
-        setCompanyId(profileData.response[0].companyId);
-        setIsUploaded(false);
       };
       triggerAPI(accessToken);
     }
@@ -156,8 +154,6 @@ export const Home2 = props => {
     setIsUpdated(false);
   }, [loginStatus, isUpdated, accessToken, setIsUpdated]);
 
-
-
   // ------if there are no data opportunity will just show a loader
   const list = !addOpportunity ? (
     dataJobs && dataJobsDraft !== "" ? (
@@ -169,30 +165,50 @@ export const Home2 = props => {
     <AddOpportunity />
   );
 
-  const isEdit = isEditOpportunity ? <EditDraft data={dataJobsDraft} /> : <SingleJob />;
+  const isEdit = isEditOpportunity ? (
+    <EditDraft data={dataJobsDraft} />
+  ) : (
+    <SingleJob />
+  );
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Grid container justify="center" alignItems="center" style={{padding: "24px", backgroundColor: "white"}}>
-          <Grid item xs={11} md={9} lg={9}>
-            <Typography style={{fontSize: "1.5rem", fontWeight:"500"}}>{mainTitle}{" "}</Typography>
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          style={{ padding:"24px", backgroundColor: "white" }}
+        >
+          <Grid container item xs={9} lg={8}justify="center">
+            <Grid item xs={11} md={10} lg={12}>
+              <Typography style={{ fontSize: "1.5rem", fontWeight: "500" }}>
+                {mainTitle}{" "}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
-        <AppBar position="static" color="primary">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            textColor="inherit"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Your Opportunity" {...a11yProps(0)} />
-            <Tab label="Candidates" {...a11yProps(1)} />
-            <Tab label="My Company" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
+        <Grid container justify="center" style={{backgroundColor: "#087B94"}}>
+          <Grid item xs={12} style={{padding: "0 120.88px"}} >
+            <AppBar position="static" color="primary" style={{boxShadow: "none"}}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="inherit"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+                classes={{
+                  indicator: classes.indicator
+                }}
+              >
+                <Tab label="Your Opportunity" {...a11yProps(0)} />
+                <Tab label="Candidates" {...a11yProps(1)} />
+                <Tab label="My Company" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+          </Grid>
+        </Grid>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}

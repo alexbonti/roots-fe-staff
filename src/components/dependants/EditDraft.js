@@ -6,16 +6,36 @@ import API from "../../helpers/api";
 import { arrayfy } from "../../helpers/arrayfy";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
-import {
-  HomeContext,
-  TextEditorContext,
-} from "../../contexts";
+import { HomeContext, TextEditorContext } from "../../contexts";
 import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  button1: {
+    borderRadius: "25px",
+    backgroundColor: "white",
+    border: "1px solid #087B94",
+    color: "#087B94",
+    transition: " all .1s ease",
+    "&:hover": {
+      color: "white",
+      backgroundColor: "#087B94",
+    },
+    height: "55px",
+    boxShadow: "none",
+  },
+  button2: {
+    borderRadius: "25px",
+    backgroundColor: "#087B94",
+    border: "1px solid #087B94",
+    color: "white",
+    transition: " all .1s ease",
+    height: "55px",
+    boxShadow: "none",
+  },
+}));
 
 const theme = createMuiTheme({
   palette: {
@@ -77,7 +97,7 @@ export function EditDraft(props) {
     seniority,
     skills,
     locationCoordinates,
-    _id
+    _id,
   } = cardData[0];
 
   console.log(locationCoordinates);
@@ -186,24 +206,30 @@ export function EditDraft(props) {
       <div>
         <div style={styleEdit}>
           <div>
-            <Button
-              onClick={() => {
-                editSingleJob();
-              }}
-            >
-              {"< Back"}
-            </Button>
             <ThemeProvider theme={theme}>
               <Grid container justify="center" alignItems="center">
+                <Grid item xs={12} md={8}>
+                  <Button
+                    onClick={() => {
+                      editSingleJob();
+                    }}
+                  >
+                    {"< Back"}
+                  </Button>
+                </Grid>
+
                 <Grid
                   container
                   item
                   xs={12}
-                  md={6}
-                  lg={6}
+                  md={8}
                   alignItems="center"
                   justify="center"
-                  style={{ backgroundColor: "snow", borderRadius: "10px" }}
+                  style={{
+                    backgroundColor: "snow",
+                    borderRadius: "10px",
+                    padding: "3vh 0",
+                  }}
                 >
                   <Grid item xs={11} md={7} lg={7}>
                     <TextField
@@ -418,7 +444,13 @@ export function EditDraft(props) {
                       justify="center"
                       style={{ padding: "3vh 0" }}
                     >
-                      <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        style={{ padding: "1vh" }}
+                        align="center"
+                      >
                         <Button
                           onClick={() => {
                             submitToApi(AccessToken);
@@ -426,6 +458,7 @@ export function EditDraft(props) {
                           fullWidth
                           variant="contained"
                           color="primary"
+                          className={classes.button1}
                         >
                           Save For Later
                         </Button>
@@ -438,6 +471,7 @@ export function EditDraft(props) {
                           onClick={() => {
                             activePreview();
                           }}
+                          className={classes.button2}
                         >
                           Preview
                         </Button>
@@ -449,7 +483,11 @@ export function EditDraft(props) {
             </ThemeProvider>
           </div>
         </div>
-        {isPreview ? <JobFullView data={dataForFullView} comesFromDraft={true}/> : ""}
+        {isPreview ? (
+          <JobFullView data={dataForFullView} comesFromDraft={true} />
+        ) : (
+          ""
+        )}
       </div>
     ) : (
       ""

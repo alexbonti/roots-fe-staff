@@ -86,7 +86,7 @@ export function ListOfCandidatesOfASingleJob(props) {
     shortListedData.length > 0 ? (
       <>
         <Grid container item xs={12} alignItems="center" justify="center">
-          <Grid item xs={12} lg={9} md={9}>
+          <Grid item xs={12} lg={8}>
             <Typography color="primary" variant="h5" gutterBottom>
               Shortlist
             </Typography>
@@ -101,8 +101,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                   key={Math.random()}
                   item
                   xs={12}
-                  lg={9}
-                  md={9}
+                  lg={8}
                   container
                   direction="column"
                   className={classes.card}
@@ -114,7 +113,8 @@ export function ListOfCandidatesOfASingleJob(props) {
                       <Grid container justify="space-between">
                         <Grid
                           item
-                          xs={11}
+                          xs={8}
+                          lg={8}
                           onClick={() =>
                             setIsSingleCandidate({
                               _: true,
@@ -191,7 +191,7 @@ export function ListOfCandidatesOfASingleJob(props) {
             }else{return "";}
           })}
         </Grid>
-        <Grid item xs={12} lg={9} md={9} style={{ padding: "2vh 0" }}>
+        <Grid item xs={12}  md={8} style={{ padding: "2vh 0" }}>
           <hr style={{ border: "1px solid #d0d0d0" }} />
         </Grid>
       </>
@@ -201,7 +201,8 @@ export function ListOfCandidatesOfASingleJob(props) {
 
   let content =  (
     <Grid container justify="center">
-      <Grid item xs={12}>
+      
+      <Grid item xs={12} md={8}>
         <Button
           className={classes.back}
           size="small"
@@ -211,8 +212,6 @@ export function ListOfCandidatesOfASingleJob(props) {
         >
           {"<"} Back
         </Button>
-      </Grid>
-      <Grid item xs={12} lg={9} md={9}>
         <Typography
           color="textPrimary"
           variant="h5"
@@ -222,7 +221,7 @@ export function ListOfCandidatesOfASingleJob(props) {
         </Typography>
       </Grid>
       {shortListedRender}
-      <Grid className={classes.root} container item xs={12} lg={9} md={9}>
+      <Grid className={classes.root} container item xs={12} md={8}>
         {dataArray.map(element => {
           const skills = element.candidateId.UserExtendedProfile.skills;
           const { _id, first_name, last_name } = element.candidateId;

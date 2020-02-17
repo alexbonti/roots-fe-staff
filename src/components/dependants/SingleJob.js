@@ -64,28 +64,28 @@ export default function FullViewCard() {
 
   return (
     <>
-      <Button
-        className={classes.back}
-        size="small"
-        onClick={() => {
-          closePreview();
-        }}
-      >
-        {"<"} Back
-      </Button>
-
       <Grid container justify="center">
+        <Grid item xs={10} md={8}>
+          <Button
+            className={classes.back}
+            size="small"
+            onClick={() => {
+              closePreview();
+            }}
+          >
+            {"<"} Back
+          </Button>
+        </Grid>
         <Grid
           item
           container
           xs={10}
-          md={6}
-          lg={6}
+          md={8}
           justify="center"
           style={{
             backgroundColor: "snow",
             borderRadius: "10px",
-            padding: "1vh 0",
+            padding: "3vh 0",
             boxShadow: "1px 1px #d0d0d0",
           }}
         >
@@ -95,7 +95,7 @@ export default function FullViewCard() {
           <Grid item xs={11}>
             {seniority}
           </Grid>
-          <Grid item xs={11}>
+          <Grid item xs={11} style={{ paddingBottom: "1vh" }}>
             {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
           </Grid>
 
@@ -121,7 +121,12 @@ export default function FullViewCard() {
             </Grid>
           </Grid>
 
-          <Grid item xs={11} className={classes.subText} style={{minHeight: "40vh", paddingTop: "3vh"}}>
+          <Grid
+            item
+            xs={11}
+            className={classes.subText}
+            style={{ minHeight: "40vh", paddingTop: "3vh" }}
+          >
             {ReactHtmlParser(description)}
           </Grid>
           <Grid item xs={11}>

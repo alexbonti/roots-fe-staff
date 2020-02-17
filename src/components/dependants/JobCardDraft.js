@@ -125,7 +125,7 @@ export default function JobCard(props) {
             size="small"
             onClick={() => editSingleJob()}
           >
-            Edit Add
+            Edit 
           </Button>
         </Grid>
       </Grid>
