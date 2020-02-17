@@ -61,23 +61,25 @@ export const EducationCV = props => {
 
   return props.data.length > 0 ? (
     <div>
-      <Container className={classes.transparentContainer}>
+      <Grid  container className={classes.transparentContainer}>
         <Grid container direction="column">
           <Grid item xs={4} className={classes.title}>
             Education
           </Grid>
         </Grid>
-      </Container>
+      </Grid>
       {props.data.map((e, i) => {
         const { degree, major, school, startDate, endDate } = e;
         return (
-          <Container className={classes.containerBottom} key={i}>
+          <Grid container className={classes.containerBottom} key={i}>
             <Grid
               container
               alignItems="flex-start"
-              direction="column"
               justify="center"
+              xs={12}
               spacing={3}
+
+              item
             >
               <Grid item xs={12} className={classes.title2} style={{color:"#545353"}}>
                 {school}
@@ -94,7 +96,7 @@ export const EducationCV = props => {
                 ) : null}
               </Grid>
             </Grid>
-          </Container>
+          </Grid>
         );
       })}
     </div>

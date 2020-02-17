@@ -64,13 +64,13 @@ export const ExperienceCV = props => {
 
   return props.data.length > 0 ? (
     <div>
-      <Container className={classes.transparentContainer}>
-        <Grid container direction="column">
+      <Grid container className={classes.transparentContainer}>
+        <Grid container direction="column" xs={12}>
           <Grid item xs={4} className={classes.title}>
             Experience
           </Grid>
         </Grid>
-      </Container>
+      </Grid>
       {props.data.map((e, i) => {
         const {
           companyName,
@@ -80,13 +80,14 @@ export const ExperienceCV = props => {
           endDate
         } = e;
         return (
-          <Container className={classes.containerBottom} key={i}>
+          <Grid container  className={classes.containerBottom} key={i}>
             <Grid
               container
               alignItems="flex-start"
-              direction="column"
               justify="center"
               spacing={3}
+              item
+              xs={12}
             >
               <Grid item xs={12} className={classes.title2} style={{color:"#545353"}}>
                 {positionTitle}
@@ -106,7 +107,7 @@ export const ExperienceCV = props => {
                 ) : null}
               </Grid>
             </Grid>
-          </Container>
+          </Grid>
         );
       })}
     </div>

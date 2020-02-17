@@ -193,23 +193,13 @@ export const Header = () => {
                     noWrap
                     className={classes.title}
                   >
-                    DEAKIN <br /> CREATE
+                  
                   </Typography>
                 </Grid>
               </Grid>
 
-              <Grid item xs={3}>
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  color="inherit"
-                  noWrap
-                  className={classes.title}
-                >
-                  Your Create
-                </Typography>
-              </Grid>
-              <Grid item xs={3}>
+             
+              <Grid item xs={4}>
                 <Typography
                   component="h1"
                   variant="h6"

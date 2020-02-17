@@ -158,7 +158,7 @@ export default function JobCard(props) {
                 size="small"
                 color="primary"
               >
-                View Add
+                View 
               </Button>
             </Grid>
           </Grid>

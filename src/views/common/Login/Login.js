@@ -40,8 +40,21 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #087b94",
     backgroundColor: "#087b94 !important",
     width: "80%",
-    margin: "1rem",
+    margin: "2rem 0",
+    height: "55px",
+    boxShadow: "none"
+
     // minWidth: "100px"
+  },
+  button2: {
+    color: "#087b94",
+    borderRadius: "25px",
+    border: "1px solid #087b94",
+    backgroundColor: "white",
+    width: "80%",
+    margin: "2rem 0",
+    height: "55px",
+    boxShadow: "none"
   },
   developMessage: {
     position: "absolute",
@@ -128,9 +141,9 @@ export const Login = () => {
           <Grid
             className={classes.loginBox}
             item
-            xs={10}
-            md={5}
-            lg={5}
+            xs={7}
+            md={4}
+            lg={4}
             justify="center"
           >
             <form noValidate>
@@ -158,8 +171,8 @@ export const Login = () => {
                 autoComplete="current-password"
               />
             </form>
-            <Grid container justify="center">
-              <Grid item xs={6} md={4} lg={6}>
+            <Grid container justify="center" style={{ marginTop: "5vh" }}>
+              <Grid item xs={12} align="center">
                 <Button
                   fullWidth
                   variant="contained"
@@ -169,11 +182,11 @@ export const Login = () => {
                   Login
                 </Button>
               </Grid>
-              <Grid item xs={6} md={4} lg={6}>
+              <Grid align="center" item xs={12}>
                 <Button
                   fullWidth
                   variant="contained"
-                  className={classes.buttons}
+                  className={classes.button2}
                   component={Link}
                   to="/register"
                 >

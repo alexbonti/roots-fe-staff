@@ -6,10 +6,7 @@ import API from "../../helpers/api";
 import { arrayfy } from "../../helpers/arrayfy";
 import pink from "@material-ui/core/colors/pink";
 import red from "@material-ui/core/colors/red";
-import {
-  HomeContext,
-  TextEditorContext,
-} from "../../contexts";
+import { HomeContext, TextEditorContext } from "../../contexts";
 import JobFullView from "./JobFullView";
 import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
@@ -17,25 +14,27 @@ import { TextEditor } from "./QuillEditor";
 
 const useStyles = makeStyles(theme => ({
   button1: {
-    borderRadius: "20px",
+    borderRadius: "25px",
     backgroundColor: "white",
     border: "1px solid #087B94",
     color: "#087B94",
-    transition: " all .1s ease", 
+    transition: " all .1s ease",
     "&:hover": {
       color: "white",
-      backgroundColor: "#087B94"
+      backgroundColor: "#087B94",
     },
+    height: "55px",
+    boxShadow: "none",
   },
   button2: {
-    borderRadius: "20px",
+    borderRadius: "25px",
     backgroundColor: "#087B94",
     border: "1px solid #087B94",
     color: "white",
-    transition: " all .1s ease", 
-    
+    transition: " all .1s ease",
+    height: "55px",
+    boxShadow: "none",
   },
-
 }));
 
 const theme = createMuiTheme({
@@ -116,10 +115,9 @@ export function AddOpportunity(props) {
   }, []);
 
   const submitToApi = async () => {
-    if(editStartDate === "" || editEndDate === ""){
+    if (editStartDate === "" || editEndDate === "") {
       return notify("date can not be empty");
-    }else {
-
+    } else {
       const data = {
         positionTitle: editPositionTitle === "" ? "Draft" : editPositionTitle,
         employmentType: editEmploymentType,
@@ -142,7 +140,6 @@ export function AddOpportunity(props) {
         notify("Something went wrong");
       }
     }
-
   };
 
   const getSkill = event => {
@@ -191,38 +188,42 @@ export function AddOpportunity(props) {
   const industryFieldRef = useRef(null);
   const locationRef = useRef(null);
 
-
-  const keyDown = (e, ref) =>  {
-    if(e.key === "Enter"){
+  const keyDown = (e, ref) => {
+    if (e.key === "Enter") {
       ref.current.focus();
     }
   };
-
 
   const content = (
     <div>
       <div style={styleEdit}>
         <div>
-          <Button
-            className={classes.back}
-            size="small"
-            onClick={() => {
-              setAddOpportunity(false);
-            }}
-          >
-            {"< Back"}
-          </Button>
           <ThemeProvider theme={theme}>
             <Grid container justify="center" alignItems="center">
+              <Grid item xs={12} md={8}>
+                <Button
+                  className={classes.back}
+                  size="small"
+                  onClick={() => {
+                    setAddOpportunity(false);
+                  }}
+                >
+                  {"< Back"}
+                </Button>
+              </Grid>
               <Grid
                 container
                 item
                 xs={12}
-                md={6}
-                lg={6}
+                md={8}
                 alignItems="center"
                 justify="center"
-                style={{ backgroundColor: "snow", borderRadius: "10px", boxShadow: "1px 1px 3px #d0d0d0" }}
+                style={{
+                  backgroundColor: "snow",
+                  borderRadius: "10px",
+                  boxShadow: "1px 1px 3px #d0d0d0",
+                  padding: "3vh 0",
+                }}
               >
                 <Grid item xs={11} md={7} lg={7}>
                   <TextField
@@ -233,7 +234,7 @@ export function AddOpportunity(props) {
                     placeholder="Position Title"
                     margin="normal"
                     fullWidth
-                    onKeyDown={(e) => keyDown(e, seniorityRef)}
+                    onKeyDown={e => keyDown(e, seniorityRef)}
                     inputRef={positionTitleRef}
                     onChange={event => {
                       setPositionTitle(event.target.value);
@@ -251,7 +252,7 @@ export function AddOpportunity(props) {
                     required
                     className={classes.textField}
                     placeholder="Seniority"
-                    onKeyDown={(e) => keyDown(e, employmentTypeRef)}
+                    onKeyDown={e => keyDown(e, employmentTypeRef)}
                     inputRef={seniorityRef}
                     onChange={e => setEditSeniority(e.target.value)}
                   >
@@ -273,7 +274,7 @@ export function AddOpportunity(props) {
                     className={classes.textField}
                     placeholder="Seniority"
                     fullWidth
-                    onKeyDown={(e) => keyDown(e, startDateRef)}
+                    onKeyDown={e => keyDown(e, startDateRef)}
                     inputRef={employmentTypeRef}
                     onChange={e => setEditEmploymentType(e.target.value)}
                   >
@@ -304,7 +305,7 @@ export function AddOpportunity(props) {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      onKeyDown={(e) => keyDown(e, endDateRef)}
+                      onKeyDown={e => keyDown(e, endDateRef)}
                       inputRef={startDateRef}
                       onChange={event => {
                         let pickedDay = new Date(
@@ -387,7 +388,7 @@ export function AddOpportunity(props) {
                     label="Required Skills"
                     placeholder="Write your skills separated by a coma"
                     className={classes.textField}
-                    onKeyDown={(e) => keyDown(e, industryFieldRef)}
+                    onKeyDown={e => keyDown(e, industryFieldRef)}
                     inputRef={skillsRef}
                     onChange={event => {
                       event.preventDefault();
@@ -405,7 +406,7 @@ export function AddOpportunity(props) {
                     value={editIntustryField}
                     margin="normal"
                     className={classes.textField}
-                    onKeyDown={(e) => keyDown(e, locationRef)}
+                    onKeyDown={e => keyDown(e, locationRef)}
                     inputRef={industryFieldRef}
                     onChange={e => setEditIndustryField(e.target.value)}
                   >
@@ -437,26 +438,26 @@ export function AddOpportunity(props) {
                       {positionSuggestions !== null &&
                       positionSuggestions !== undefined &&
                       positionSuggestions !== "" ? (
-                          <div className={classes.suggestion}>
-                            {positionSuggestions.map(suggestion => {
-                              return (
-                                <div
-                                  key={Math.random()}
-                                  onClick={event => {
-                                    event.preventDefault();
-                                    locationRef.current.focus();
-                                    setSuggestions(event);
-                                    getLongLat(suggestion);
-                                  }}
-                                >
-                                  {suggestion.label}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          ""
-                        )}
+                        <div className={classes.suggestion}>
+                          {positionSuggestions.map(suggestion => {
+                            return (
+                              <div
+                                key={Math.random()}
+                                onClick={event => {
+                                  event.preventDefault();
+                                  locationRef.current.focus();
+                                  setSuggestions(event);
+                                  getLongLat(suggestion);
+                                }}
+                              >
+                                {suggestion.label}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div />
                   </div>
@@ -481,7 +482,7 @@ export function AddOpportunity(props) {
                     justify="center"
                     style={{ padding: "3vh 0" }}
                   >
-                    <Grid item xs={12} sm={6} style={{padding: "1vh"}}>
+                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
                       <Button
                         onClick={() => {
                           submitToApi(AccessToken);
@@ -494,13 +495,12 @@ export function AddOpportunity(props) {
                         Save For Later
                       </Button>
                     </Grid>
-                    <Grid item xs={12} sm={6} style={{padding: "1vh"}}>
+                    <Grid item xs={12} sm={6} style={{ padding: "1vh" }}>
                       <Button
                         className={classes.button2}
                         variant="contained"
                         fullWidth
                         color="primary"
-                        
                         onClick={() => {
                           activePreview();
                         }}

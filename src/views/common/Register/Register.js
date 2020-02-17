@@ -148,7 +148,7 @@ const Register = props => {
       notify("Email not in proper format");
     }
     if (password !== confirmPassword) {
-      return notify("Passwords don't match.");
+      return notify("Passwords are different.");
     }
     if (emailPatternTest && firstNamePatternTest && lastNamePatternTest) {
       return registerEmployer();

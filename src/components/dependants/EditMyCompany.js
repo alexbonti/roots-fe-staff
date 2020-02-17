@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     padding: "2vh 0",
   },
   button1: {
-    borderRadius: "20px",
+    borderRadius: "25px",
     backgroundColor: "white",
     border: "1px solid #087B94",
     color: "#087B94",
@@ -31,6 +31,8 @@ const useStyles = makeStyles(theme => ({
       color: "white",
       backgroundColor: "#087B94"
     },
+    height: "55px"
+
   },
 }));
 
@@ -117,20 +119,20 @@ export function EditMyCompany(props) {
     <ThemeProvider theme={theme}>
       {/* BUTTON */}
 
-      <Grid container alignContent="flex-start">
-        <Button onClick={() =>setIsEditMycompany(false)}> {"<"} Back</Button>
-      </Grid>
+      
 
       {/* //MAIN center the page */}
       <Grid container justify="center">
+      <Grid container alignContent="flex-start" item xs={11} md={8}>
+        <Button onClick={() =>setIsEditMycompany(false)}> {"<"} Back</Button>
+      </Grid>
         <Grid
           container
           item
           xs={11}
-          md={6}
-          lg={6}
+          md={8}
           justify="center"
-          style={{ padding: "1vh 0", backgroundColor: "white",borderRadius:"10px", boxShadow: "1px 1px 3px #d0d0d0" }}
+          style={{ padding: "3vh 0", backgroundColor: "white",borderRadius:"10px", boxShadow: "1px 1px 3px #d0d0d0" }}
         >
           <Grid item xs={11} md={11} lg={7}>
             <TextField
@@ -222,7 +224,7 @@ export function EditMyCompany(props) {
             justify="center"
             style={{ padding: "1vh"}}
           >
-            <Grid item xs={6} md={4} lg={4}>
+            <Grid item xs={6}>
               <Button
                 onClick={() => {
                   submitToApi(AccessToken);

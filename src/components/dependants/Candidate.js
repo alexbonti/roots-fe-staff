@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Grid,
-  Icon,
   Avatar,
   Typography,
   ListItem,
@@ -85,78 +84,77 @@ export const Candidate = props => {
       ""
     );
 
-  let coverLetterFileIcon =
-    coverLetter !== "" && coverLetter.includes("http")  ? (
-      <Grid
-        item
-        xs={6}
-        container
-        alignItems="baseline"
-        // style={{ padding: "2vh 0" }}
-      >
-        <Grid item xs={11}>
-          <a
-            target="blank"
-            href={resumeURL}
-            style={{
-              textDecoration: "none",
-              color: "black",
-            }}
-          >
-            <DescriptionIcon
-              fontSize="large"
-              style={{ color: "rgba(8, 123, 148, 0.45)" }}
-            />
-          </a>
-        </Grid>
-        <Grid item xs={11}>
-          <Typography color="primary" variant="caption">
-            Cover Letter
-          </Typography>
-        </Grid>
-      </Grid>
-    ) : (
-      ""
-    );
+  // let coverLetterFileIcon =
+  //   coverLetter !== "" && coverLetter.includes("http")  ? (
+  //     <Grid
+  //       item
+  //       xs={6}
+  //       container
+  //       alignItems="baseline"
+  //       // style={{ padding: "2vh 0" }}
+  //     >
+  //       <Grid item xs={11}>
+  //         <a
+  //           target="blank"
+  //           href={resumeURL}
+  //           style={{
+  //             textDecoration: "none",
+  //             color: "black",
+  //           }}
+  //         >
+  //           <DescriptionIcon
+  //             fontSize="large"
+  //             style={{ color: "rgba(8, 123, 148, 0.45)" }}
+  //           />
+  //         </a>
+  //       </Grid>
+  //       <Grid item xs={11}>
+  //         <Typography color="primary" variant="caption">
+  //           Cover Letter
+  //         </Typography>
+  //       </Grid>
+  //     </Grid>
+  //   ) : (
+  //     ""
+  //   );
 
-  let resumeURLFileIcon =
-    resumeURL !== "" ? (
-      <Grid
-        item
-        xs={6}
-        container
-        alignItems="center"
-        // style={{ padding: "2vh 0" }}
-      >
-        <Grid item xs={11}>
-          <a
-            target="blank"
-            href={resumeURL}
-            style={{
-              textDecoration: "none",
-              color: "black",
-            }}
-          >
-            <DescriptionIcon
-              fontSize="large"
-              style={{ color: "rgba(8, 123, 148, 0.45)" }}
-            />
-          </a>
-        </Grid>
-        <Grid item xs={11}>
-          <Typography color="primary" variant="caption">
-            Resume
-          </Typography>
-        </Grid>
-      </Grid>
-    ) : (
-      ""
-    );
-  console.log(coverLetterFileIcon);
+  // let resumeURLFileIcon =
+  //   resumeURL !== "" ? (
+  //     <Grid
+  //       item
+  //       xs={6}
+  //       container
+  //       alignItems="center"
+  //       // style={{ padding: "2vh 0" }}
+  //     >
+  //       <Grid item xs={11}>
+  //         <a
+  //           target="blank"
+  //           href={resumeURL}
+  //           style={{
+  //             textDecoration: "none",
+  //             color: "black",
+  //           }}
+  //         >
+  //           <DescriptionIcon
+  //             fontSize="large"
+  //             style={{ color: "rgba(8, 123, 148, 0.45)" }}
+  //           />
+  //         </a>
+  //       </Grid>
+  //       <Grid item xs={11}>
+  //         <Typography color="primary" variant="caption">
+  //           Resume
+  //         </Typography>
+  //       </Grid>
+  //     </Grid>
+  //   ) : (
+  //     ""
+  //   );
   return (
     <div>
       <Grid container justify="center" alignItems="center">
-        <Grid item xs={12}>
+        <Grid item xs={12} md={8}>
           <Button onClick={back}> {"<"} Back</Button>
         </Grid>
         <Grid
@@ -165,7 +163,6 @@ export const Candidate = props => {
           item
           xs={12}
           md={8}
-          lg={7}
           style={{ borderRadius: "10px", boxShadow: "1px 1px 2px #d0d0d0" }}
         >
           <Grid
@@ -198,10 +195,10 @@ export const Candidate = props => {
                     {first_name} {last_name}{" "}
                   </Typography>
                 </Grid>
-                <Grid container item xs={4}>
+                {/* <Grid container item xs={4}>
                   {resumeURLFileIcon}
                   {coverLetterFileIcon}
-                </Grid>
+                </Grid> */}
                 <Grid item xs={11}>
                   <ListItem color="primary" style={{ padding: "0" }}>
                     <a
