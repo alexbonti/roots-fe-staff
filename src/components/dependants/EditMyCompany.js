@@ -61,7 +61,7 @@ export function EditMyCompany(props) {
   const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
   const { description, setDescription } = useContext(TextEditorContext);
-  console.log("TCL: EditMyCompany -> description", description)
+
   const {setIsEditMycompany, setMainTitle } = useContext(HomeContext);
   //if(props.data !== undefined){setDescription(props.data.companyDescription)};
   //--------------------- usestates

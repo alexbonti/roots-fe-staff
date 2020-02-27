@@ -12,7 +12,7 @@ export default function Accept() {
   });
 
   const { companyLogo, tempLogo, setTempLogo } = useContext(MyCompanyContext);
-  console.log("companyLogo ======>", companyLogo, "tempLogo ======>", tempLogo);
+
 
   // const acceptedFilesItems = acceptedFiles.map(file => (
   //   <li key={file.path}>

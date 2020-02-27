@@ -20,14 +20,17 @@ const modules = {
 };
 
 export const TextEditor = (props) => {
+
+  
   const { description, setDescription, descrptionOpportunity, setDescriptionOpportunity } = useContext(TextEditorContext);
+
+
   const {isEditOpportunity, isEditMyCompany} = useContext(HomeContext);
   const [nodeRedData] = useState("");
 
   const handleTextEditorChange = value => {
     
-    if(props.mode ===  "edit company" ){
-
+    if(props.data.mode ===  "edit company" ){
       return setDescription(value);
     }
     else {
@@ -37,7 +40,6 @@ export const TextEditor = (props) => {
 
 
   const toBeEdit = isEditOpportunity || isEditMyCompany ? props.data.data : "";
-  console.log("TCL: TextEditor -> toBeEdit", toBeEdit)
 
 
   return (
