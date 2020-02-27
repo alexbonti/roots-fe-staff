@@ -7,4 +7,6 @@ import Register from "./common/Register/Register";
 import { Home2 } from "./dependants/Home/Home2";
 
 import RegistrationConfirmation from "./common/Register/RegistrationConfirmation";
-export { Login, Register, RegistrationConfirmation, Home2 };
+import ResetPassword from "./common/Register/ResetPassword";
+import ResetPasswordSecondStep from "./common/Register/ResetPasswordSecondStep";
+export { Login, Register, RegistrationConfirmation, Home2 , ResetPassword, ResetPasswordSecondStep};

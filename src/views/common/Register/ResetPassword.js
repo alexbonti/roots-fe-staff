@@ -9,11 +9,11 @@ import {
   Grid,
   createMuiTheme,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { notify } from "components";
 import API from "../../../helpers/api";
 import { ThemeProvider } from "@material-ui/styles";
 import { Header2 } from "../../../components/dependants/Header2";
-import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     marginTop: theme.spacing(1),
     borderRadius: "1rem",
-    height: "55px"
+    height: "55px",
   },
   // developMessage: {
   //   position: "absolute",
@@ -62,106 +62,59 @@ const theme = createMuiTheme({
     tonalOffset: 0.2,
   },
 });
-const Register = props => {
+const ResetPassword = props => {
   // const { setLoginStatus } = React.useContex(LoginContext);
   const classes = useStyles();
-  const [pageHeading] = useState("Register");
+  const [pageHeading] = useState("Reset your password");
   const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [companyId, setCompanyId] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
-  const [emailVerified, setEmailVerified] = useState("");
 
 
-  // const errors 
+  // const errors
 
   const [emailFieldError, setEmailFieldError] = useState(false);
   // const { setOpenModal } = useContext(LoginContext);
 
-  const registerEmployer = () => {
-
-    let trimmedCompanyName = companyId.split(" ").join("");
+  const forgotPassword = () => {
     const data = {
-      first_name: firstName,
-      last_name: lastName,
-      companyId: trimmedCompanyName.toLowerCase(),
       emailId,
-      password,
     };
 
     const triggerAPI = async () => {
-      const registerData = await API.registerEmployer(data);
-      if (registerData) {
-        console.log(registerData);
-        setAccessToken(registerData.response.accessToken);
-        setEmailVerified(registerData.response.employerDetails.emailVerified);
-        setRedirect(true);
+      const forgotData = await API.forgotPassword(data);
+      if (forgotData) {
+        setRedirect(true)
       }
-
     };
     triggerAPI();
   };
 
   const validationCheck = () => {
-
-    if(emailId.length < 0 ){
+    if (emailId.length < 0) {
       setEmailFieldError(true);
       return notify("Email is required");
     }
 
-    if (
-      emailId.length < 0 ||
-      password.length < 0 ||
-      confirmPassword.length < 0 ||
-      firstName.length < 0 ||
-      lastName.length < 0 ||
-      companyId.lenght < 0 ||
-      emailId === "" ||
-      password === "" ||
-      confirmPassword === "" ||
-      firstName === "" ||
-      lastName === ""
-    ) {
-        
+    if (emailId.length < 0 || emailId === "") {
       return notify("Please fill in all the details.");
     }
 
     let emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let emailPatternTest = emailPattern.test(emailId);
-    
-    const namePattern = /^[a-zA-Z]*$/;
-    
-    const firstNamePatternTest = namePattern.test(firstName);
-    const lastNamePatternTest = namePattern.test(lastName);
-
-    if(!firstNamePatternTest || !lastNamePatternTest){
-
-      notify("First Name or Last Name should not include numbers or symbols");
-    }
-    
-
 
     if (!emailPatternTest) {
       setEmailFieldError(true);
       notify("Email not in proper format");
     }
-    if (password !== confirmPassword) {
-      return notify("Passwords are different.");
-    }
-    if (emailPatternTest && firstNamePatternTest && lastNamePatternTest) {
-      return registerEmployer();
+    if (emailPatternTest) {
+      return forgotPassword();
     }
   };
 
   let content = redirect ? (
     <Redirect
       to={{
-        pathname: "/registerSuccess",
-        state: { accessToken, emailVerified, emailId },
+        pathname: "/reset-password-second-step",
       }}
     />
   ) : (
@@ -176,7 +129,7 @@ const Register = props => {
         >
           <Grid item xs={8} lg={5} md={5}>
             <Typography className={classes.text}>
-              {"Great, Let 's do this"}
+              {"Send an email to reset your password"}
             </Typography>
           </Grid>
         </Grid>
@@ -189,27 +142,6 @@ const Register = props => {
               <TextField
                 margin="normal"
                 required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                name="firstName"
-                autoComplete="email"
-                onChange={e => setFirstName(e.target.value)}
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="email"
-                onChange={e => setLastName(e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
                 error={emailFieldError}
                 fullWidth
                 id="email"
@@ -218,38 +150,7 @@ const Register = props => {
                 autoComplete="email"
                 onChange={e => setEmailId(e.target.value)}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="companyId"
-                label="Company Name"
-                name="Company Name"
-                autoComplete="Company Name"
-                onChange={e => setCompanyId(e.target.value)}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                onChange={e => setPassword(e.target.value)}
-                autoComplete="current-password"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                onChange={e => setConfirmPassword(e.target.value)}
-                autoComplete="current-password"
-              />
+
               <Button
                 fullWidth
                 variant="contained"
@@ -257,7 +158,7 @@ const Register = props => {
                 className={classes.buttons}
                 onClick={validationCheck}
               >
-                Register
+                Send Email
               </Button>
             </form>
           </Grid>
@@ -276,4 +177,4 @@ const Register = props => {
   return content;
 };
 
-export default withRouter(Register);
+export default withRouter(ResetPassword);

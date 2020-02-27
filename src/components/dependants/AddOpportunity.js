@@ -375,9 +375,8 @@ export function AddOpportunity(props) {
                 <Grid item xs={11} md={7} lg={7} style={{ padding: "3vh 0" }}>
                   {" "}
                   <TextEditor
-                    data={"opportunity"}
+                    data={{mode:"opportunity", data:singleJobData.description }}
                     inputRef={descriptionRef}
-                    editData={singleJobData.description}
                   />{" "}
                 </Grid>
                 <Grid item xs={11} md={7} lg={7}>
@@ -563,4 +562,5 @@ const type = [
   { label: "Full-Time" },
   { label: "Part-Time" },
   { label: "Casual" },
+  { label: "Internship" },
 ];

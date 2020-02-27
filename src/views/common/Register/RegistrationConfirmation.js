@@ -59,7 +59,9 @@ const RegistrationConfirmation = ({ ...props }) => {
       setIsVerified(true);
     }
   };
-
+if(props.location.state === undefined || props.location.state === null ){
+    return null;
+}
   const content = isVerified ? (
     <ThemeProvider theme={theme}>
       <Grid
@@ -88,7 +90,7 @@ const RegistrationConfirmation = ({ ...props }) => {
             </Typography>
           </Grid>
           <Grid item xs={11} lg={11} md={11} style={{ padding: "3vh 3vw" }}>
-            <Button component={Link} to="/"variant="contained" color="primary" fullWidth style={{textDecoration: "none"}}>
+            <Button component={Link} to="/"variant="contained" color="primary" fullWidth style={{textDecoration: "none", height: "55px",borderRadius: "20px"}}>
               Home
             </Button>
           </Grid>
@@ -145,6 +147,7 @@ const RegistrationConfirmation = ({ ...props }) => {
             <Button
               fullWidth
               variant="contained"
+              style={{borderRadius: "20px", height: "55px"}}
               color="primary"
               onClick={() => {
                 sendCode();
