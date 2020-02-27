@@ -69,8 +69,8 @@ export default function MyCompany(props) {
 
   const companyData = props.data.companyDetails;
 
-  if(companyData === null ) {return <div>Loading</div>;}
-  if(companyData === undefined ) {return <div>Loading</div>;}
+  if(props.data.companyDetails === null ) {return <div>Loading</div>;}
+  if(props.data.companyDetails === undefined ) {return <div>Loading</div>;}
   let content =
     companyData !== undefined  && companyData !== null? (
       <>

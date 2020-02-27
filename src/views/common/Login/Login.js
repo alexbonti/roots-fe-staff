@@ -39,19 +39,16 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "25px",
     border: "1px solid #087b94",
     backgroundColor: "#087b94 !important",
-    width: "80%",
     margin: "2rem 0",
     height: "55px",
     boxShadow: "none"
 
-    // minWidth: "100px"
   },
   button2: {
     color: "#087b94",
     borderRadius: "25px",
     border: "1px solid #087b94",
     backgroundColor: "white",
-    width: "80%",
     margin: "2rem 0",
     height: "55px",
     boxShadow: "none"
@@ -143,7 +140,7 @@ export const Login = () => {
             item
             xs={7}
             md={4}
-            lg={4}
+            lg={3}
             justify="center"
           >
             <form noValidate>

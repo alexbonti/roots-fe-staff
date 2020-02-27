@@ -4,8 +4,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { LoginContext } from "contexts";
-import { Login, Register, Home2, RegistrationConfirmation } from "views";
+import { Login, Register, Home2, RegistrationConfirmation, ResetPassword } from "views";
 import { Layout } from "../layout";
+import { ResetPasswordSecondStep } from "views/index";
 
 export const AppRoutes = props => {
   const { loginStatus } = useContext(LoginContext);
@@ -41,6 +42,20 @@ export const AppRoutes = props => {
       />
       <Route
         exact
+        path="/reset-password"
+        render={() =><ResetPassword {...props} />
+          
+        }
+      />
+      <Route
+        exact
+        path="/reset-password-second-step"
+        render={() =><ResetPasswordSecondStep {...props} />
+          
+        }
+      />
+      <Route
+        exact
         path="/register"
         render={() =>
           !redirectToLogin ? (
@@ -62,6 +77,7 @@ export const AppRoutes = props => {
             )
           }
         />
+        
         <Route
           exact
           path="/registerSuccess"

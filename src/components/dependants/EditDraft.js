@@ -59,6 +59,12 @@ export function EditDraft(props) {
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
   const [statusString, setStatusString] = useState(false);
+  const [errorPositionTitle, setErrorPositionTitle] = useState(false);
+  const [errorSeniority, setErrorSeniority] = useState(false);
+  const [errorEmploymentType, setErrorEmploymentType] = useState(false);
+  const [errorRequiredSkills, setErrorRequiredSkills] = useState(false);
+  const [errorIndustryField, setErrorIndustryField] = useState(false);
+  const [errorLocation, setErrorLocation] = useState(false);
 
   const {
     isPreview,
@@ -100,7 +106,6 @@ export function EditDraft(props) {
     _id,
   } = cardData[0];
 
-  console.log(locationCoordinates);
 
   const [editEmploymentType, setEditEmploymentType] = useState(employmentType);
   const [editPositionTitle, setPositionTitle] = useState(positionTitle);
@@ -121,19 +126,44 @@ export function EditDraft(props) {
   const [editDescription] = useState(description);
 
   const activePreview = () => {
-    if (
-      editLocation === "" ||
-      editIntustryField === "" ||
-      editEndDate === "" ||
-      editStartDate === "" ||
-      employmentType === "" ||
-      seniority === "" ||
-      editPositionTitle === ""
-    ) {
-      return notify("Please fill all the required fields");
-    } else {
+    const setPreview = () => {
       setIsPreview(true);
       setStyleEdit({ display: "none" });
+    };
+    if (editPositionTitle === "") {
+      setErrorPositionTitle(true);
+      return notify("Position title can not be empty. ");
+    } else {
+      setErrorPositionTitle(false);
+    }
+
+    if (editIntustryField === "") {
+      setErrorIndustryField(true);
+      return notify("Industry field can not be empty. ");
+    } else {
+      setErrorIndustryField(false);
+    }
+
+    if (editLocation === "") {
+      setErrorLocation(true);
+      return notify("Location field can not be empty. ");
+    } else {
+      setErrorLocation(false);
+    }
+
+    if (editSeniority === "") {
+      setErrorSeniority(true);
+      return notify("Seniority field can not be empty. ");
+    } else {
+      setErrorSeniority(false);
+    }
+
+    if (editEmploymentType === "") {
+      setErrorEmploymentType(true);
+      return notify("Employement field can not be empty. ");
+    } else {
+      setPreview();
+      setErrorEmploymentType(false);
     }
   };
 
@@ -157,14 +187,12 @@ export function EditDraft(props) {
         longitude: editLongitude,
       };
       const updateData = await API.updateOpportunityDraft(data);
-
+     
       if (updateData) {
         setIsUpdated(true);
         notify("Job saved in Draft");
         editSingleJob();
-      } else {
-        notify("Please first complete your Company profile");
-      }
+      } 
     }
   };
 
@@ -201,6 +229,9 @@ export function EditDraft(props) {
     editDescription,
     _id,
   };
+
+
+  
   const content =
     cardData[0] !== undefined && cardData !== null ? (
       <div>
@@ -235,6 +266,7 @@ export function EditDraft(props) {
                     <TextField
                       className={classes.textField}
                       required
+                      error={errorPositionTitle}
                       defaultValue={
                         positionTitle !== undefined ? positionTitle : "Draft"
                       }
@@ -243,7 +275,6 @@ export function EditDraft(props) {
                       placeholder="Position Title"
                       margin="normal"
                       fullWidth
-                      error={statusString}
                       onChange={event => {
                         event.target.value === ""
                           ? setStatusString(true)
@@ -260,6 +291,7 @@ export function EditDraft(props) {
                       value={editSeniority}
                       margin="normal"
                       fullWidth
+                      error={errorSeniority}
                       required
                       className={classes.textField}
                       placeholder="Seniority"
@@ -283,6 +315,7 @@ export function EditDraft(props) {
                       className={classes.textField}
                       placeholder="Seniority"
                       fullWidth
+                      error={errorEmploymentType}
                       onChange={e => setEditEmploymentType(e.target.value)}
                     >
                       {type.map(option => (
@@ -338,8 +371,7 @@ export function EditDraft(props) {
                   <Grid item xs={11} md={7} lg={7} style={{ padding: "3vh 0" }}>
                     {" "}
                     <TextEditor
-                      data={"opportunity"}
-                      editData={editDescription}
+                      data={{ mode: "opportunity", data: editDescription }}
                     />{" "}
                   </Grid>
                   <Grid item xs={11} md={7} lg={7}>
@@ -368,6 +400,7 @@ export function EditDraft(props) {
                       fullWidth
                       label="Industry Field"
                       required
+                      error={errorIndustryField}
                       value={editIntustryField}
                       margin="normal"
                       className={classes.textField}
@@ -389,6 +422,7 @@ export function EditDraft(props) {
                         label="Location"
                         value={inputPosition}
                         placeholder="Location"
+                        error={errorLocation}
                         className={classes.textField}
                         margin="normal"
                         onChange={event => {
@@ -538,4 +572,5 @@ const type = [
   { label: "Full-Time" },
   { label: "Part-Time" },
   { label: "Casual" },
+  { label: "Internship" },
 ];

@@ -101,14 +101,14 @@ class API {
     return await axiosInstance
       .post("/jobs/opportunityDraft", data, config)
       .then(response => response)
-      .catch(error => errorHelper(error));
+      .catch(error => console.log(error));
   };
 
   updateOpportunityDraft = async (data) => {
     return await axiosInstance
-      .put("/jobs/updatOpportunityDraft", data, config)
+      .put("/jobs/updateOpportunityDraft", data, config)
       .then(response => response)
-      .catch(error => errorHelper(error));
+      .catch(error => console.log(error));
   };
 
   draftToOpportunity = async (data) => {
@@ -180,6 +180,31 @@ class API {
             authorization: `Bearer ${accessToken}`,
           }
         }
+      )
+      .then(response => {
+        return ({"response": response.data.data});
+      })
+      .catch(error => errorHelper(error));
+  };
+
+  forgotPassword = async (data) => {
+    return axiosInstance
+      .post(
+        "employer/forgotPassword",
+        data
+      )
+      .then(response => {
+        return ({"response": response.data.data});
+      })
+      .catch(error => errorHelper(error));
+  };
+
+  
+  forgotPasswordSecondStep = async (data) => {
+    return axiosInstance
+      .post(
+        "employer/resetPassword",
+        data
       )
       .then(response => {
         return ({"response": response.data.data});

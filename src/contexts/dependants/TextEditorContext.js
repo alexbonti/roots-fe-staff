@@ -5,8 +5,8 @@ export const TextEditorContext = createContext();
 export const TextEditorProvider = props => {
   const textDescriptionDumb = ("");
 
-  const [description, setDescription] = useState(textDescriptionDumb);
-  const [descriptionOpportunity, setDescriptionOpportunity] = useState("");
+  const [description, setDescription] = useState("Your company description");
+  const [descriptionOpportunity, setDescriptionOpportunity] = useState("Write here...");
 
   const { children } = props;
   return (

@@ -14,7 +14,7 @@ import { LoginContext } from "contexts";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    padding: "0 !important"
+    padding: "0 !important",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -49,7 +49,7 @@ export const Header2 = () => {
   };
 
   return (
-    <div className={classes.root} style={{padding: 0 }}>
+    <div className={classes.root} style={{ padding: 0 }}>
       <AppBar position="static" style={{ backgroundColor: "#2B2B28" }}>
         <Toolbar disableGutters={false}>
           <Grid container justify="center">
@@ -64,17 +64,38 @@ export const Header2 = () => {
               <Grid item container xs={6} spacing={3}>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                    MECHID
+                  <a
+                      target="null"
+                      style={{ textDecoration: "none", color: "white" }}
+                      href="http://localhost:3032/home"
+                    >
+                      {" "}
+                      MECHID
+                    </a>
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                    About us
+                    <a
+                      style={{ textDecoration: "none", color: "white" }}
+                      target="null"
+                      href="http://168.1.217.30:30351/about"
+                    >
+                      {" "}
+                      About us
+                    </a>
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                    Help
+                    <a
+                      target="null"
+                      style={{ textDecoration: "none", color: "white" }}
+                      href="http://168.1.217.30:30351/help"
+                    >
+                      {" "}
+                      Help
+                    </a>
                   </Typography>
                 </Grid>
               </Grid>

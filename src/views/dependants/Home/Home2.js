@@ -49,9 +49,9 @@ const useStyles = makeStyles({
   indicator: {
     backgroundColor: "transparent",
   },
-})
+});
 export const Home2 = props => {
-  const classes = useStyles()
+  const classes = useStyles();
   const [value, setValue] = useState(0);
   const [dataJobs, setDataJobs] = useState("");
   const [dataJobsDraft, setDataJobsDraft] = useState("");
@@ -178,19 +178,32 @@ export const Home2 = props => {
           container
           justify="center"
           alignItems="center"
-          style={{ padding:"24px", backgroundColor: "white" }}
+          style={{ padding: "24px", backgroundColor: "white" }}
         >
-          <Grid container item xs={9} lg={8}justify="center">
-            <Grid item xs={11} md={10} lg={12}>
+          <Grid container item xs={9} md={9} lg={8} justify="center">
+            <Grid item xs={12}>
               <Typography style={{ fontSize: "1.5rem", fontWeight: "500" }}>
                 {mainTitle}{" "}
               </Typography>
             </Grid>
           </Grid>
         </Grid>
-        <Grid container justify="center" style={{backgroundColor: "#087B94"}}>
-          <Grid item xs={12} style={{padding: "0 120.88px"}} >
-            <AppBar position="static" color="primary" style={{boxShadow: "none"}}>
+        <Grid container justify="center" style={{ backgroundColor: "#087B94" }}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              padding: "0 120.88px",
+              // [theme.breakpoints.up("sm")]: {
+              //   padding: "0",
+              // },
+            }}
+          >
+            <AppBar
+              position="static"
+              color="primary"
+              style={{ boxShadow: "none" }}
+            >
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -199,7 +212,7 @@ export const Home2 = props => {
                 variant="fullWidth"
                 aria-label="full width tabs example"
                 classes={{
-                  indicator: classes.indicator
+                  indicator: classes.indicator,
                 }}
               >
                 <Tab label="Your Opportunity" {...a11yProps(0)} />

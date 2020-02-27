@@ -61,13 +61,14 @@ export function EditMyCompany(props) {
   const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
   const { description, setDescription } = useContext(TextEditorContext);
+  console.log("TCL: EditMyCompany -> description", description)
   const {setIsEditMycompany, setMainTitle } = useContext(HomeContext);
-  if(props.data !== undefined){setDescription(props.data.companyDescription)};
+  //if(props.data !== undefined){setDescription(props.data.companyDescription)};
   //--------------------- usestates
   const [companyName, setCompanyName] = useState(props.data.companyName);
-  const [companyIndustry, setCompanyIndustry] = useState("");
+  const [companyIndustry, setCompanyIndustry] = useState(props.data.companyIndustry);
   const [companyLocation, setCompanyLocation] = useState(props.data.location);
-  const [inputPosition, setInputPosition] = useState("");
+  const [inputPosition, setInputPosition] = useState(props.data.location);
   const [positionSuggestions, setPositionSuggestions] = useState("");
 
   //--------------------- functions
@@ -213,7 +214,7 @@ export function EditMyCompany(props) {
             lg={7}
             style={{ padding: "2vh 0"  }}
           >
-            <TextEditor editData={dataMyCompany.companyDescription}/>{" "}
+            <TextEditor data={{mode:"edit company", data: description} }/>{" "}
           </Grid>
           <Grid
             container

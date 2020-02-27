@@ -101,6 +101,7 @@ export function ListOfCandidatesOfASingleJob(props) {
                   key={Math.random()}
                   item
                   xs={12}
+                  md={8}
                   lg={8}
                   container
                   direction="column"
