@@ -67,7 +67,7 @@ export const Header2 = () => {
                   <a
                       target="null"
                       style={{ textDecoration: "none", color: "white" }}
-                      href="http://localhost:3032/home"
+                      href="#"
                     >
                       {" "}
                       MECHID
