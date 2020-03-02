@@ -34,11 +34,12 @@ export function ListOfCandidatesOfASingleJob(props) {
   const { setIsSingleCandidate, isUpdated, setIsUpdated } = useContext(
     CandidateContext
   );
+
+  
   const { accessToken } = useContext(LoginContext);
 
   const dataArray = applicantsInfo.opportunityData;
 
-  console.log(dataArray)
 
   useEffect(() => {
     setIsUpdated(false);
@@ -120,6 +121,10 @@ export function ListOfCandidatesOfASingleJob(props) {
                             setIsSingleCandidate({
                               _: true,
                               userDetails: element.candidateId,
+                              coverLetterCiteria: {
+                                cl: element.coverLetter,
+                                ksc: element.criteriaSelection
+                              }
                             })
                           }
                         >
@@ -166,6 +171,10 @@ export function ListOfCandidatesOfASingleJob(props) {
                             setIsSingleCandidate({
                               _: true,
                               userDetails: element.candidateId,
+                              coverLetterCiteria: {
+                                cl: element.coverLetter,
+                                ksc: element.criteriaSelection
+                              }
                             })
                           }
                         >
@@ -252,6 +261,10 @@ export function ListOfCandidatesOfASingleJob(props) {
                           setIsSingleCandidate({
                             _: true,
                             userDetails: element.candidateId,
+                            coverLetterCiteria: {
+                              cl: element.coverLetter,
+                              ksc: element.criteriaSelection
+                            }
                           })
                         }
                       >
@@ -299,6 +312,10 @@ export function ListOfCandidatesOfASingleJob(props) {
                           setIsSingleCandidate({
                             _: true,
                             userDetails: element.candidateId,
+                            coverLetterCiteria: {
+                              cl: element.coverLetter,
+                              ksc: element.criteriaSelection
+                            }
                           })
                         }
                       >

@@ -77,8 +77,10 @@ export const ExperienceCV = props => {
           description,
           positionTitle,
           startDate,
-          endDate
+          endDate,
+          referee
         } = e;
+        console.log(referee)
         return (
           <Grid container  className={classes.containerBottom} key={i}>
             <Grid
@@ -95,6 +97,11 @@ export const ExperienceCV = props => {
               <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
                 {companyName}
               </Grid>
+            {referee !== undefined ? (
+              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
+              {referee.name} {" "} {referee.phoneNumber}
+            </Grid>
+            ) : "" }
               <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
                 {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
               </Grid>

@@ -13,6 +13,7 @@ import { Candidate } from "./dependants/Candidate";
 import { ExperienceCV } from "./dependants/cv/ExperienceCV";
 import { EducationCV } from "./dependants/cv/EducationCV";
 import { CoverLetterCV } from "./dependants/cv/CoverLetterCV";
+import { KSC } from "./dependants/cv/KSC";
 import { VolunteerCV } from "./dependants/cv/VolunteerCV";
 import {Spinner} from "./common/Spinner";
 import {EditDraft} from "./dependants/EditDraft";
@@ -36,5 +37,5 @@ export {
   VolunteerCV,
   Spinner,
   Header2,
-  EditDraft
+  EditDraft,KSC
 };

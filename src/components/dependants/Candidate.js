@@ -14,6 +14,7 @@ import {
   EducationCV,
   //VolunteerCV,
   CoverLetterCV,
+  KSC
 } from "../index";
 import DescriptionIcon from "@material-ui/icons/Description";
 
@@ -61,15 +62,15 @@ const useStyles = makeStyles({
 
 export const Candidate = props => {
   const classes = useStyles();
-  const { setIsSingleCandidate } = useContext(CandidateContext);
+  const { isSingleCandidate, setIsSingleCandidate } = useContext(CandidateContext);
+
   const {
     //volunteer,
     workExperience,
     education,
     avatar,
-    coverLetter,
-    resumeURL,
   } = props.data.UserExtendedProfile;
+
 
   const { first_name, last_name, emailId } = props.data;
 
@@ -77,80 +78,9 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
-  const coverLetterCard =
-    coverLetter !== "" && coverLetter.includes("http") !== "https:" ? (
-      <CoverLetterCV data={coverLetter} />
-    ) : (
-      ""
-    );
-
-  // let coverLetterFileIcon =
-  //   coverLetter !== "" && coverLetter.includes("http")  ? (
-  //     <Grid
-  //       item
-  //       xs={6}
-  //       container
-  //       alignItems="baseline"
-  //       // style={{ padding: "2vh 0" }}
-  //     >
-  //       <Grid item xs={11}>
-  //         <a
-  //           target="blank"
-  //           href={resumeURL}
-  //           style={{
-  //             textDecoration: "none",
-  //             color: "black",
-  //           }}
-  //         >
-  //           <DescriptionIcon
-  //             fontSize="large"
-  //             style={{ color: "rgba(8, 123, 148, 0.45)" }}
-  //           />
-  //         </a>
-  //       </Grid>
-  //       <Grid item xs={11}>
-  //         <Typography color="primary" variant="caption">
-  //           Cover Letter
-  //         </Typography>
-  //       </Grid>
-  //     </Grid>
-  //   ) : (
-  //     ""
-  //   );
-
-  // let resumeURLFileIcon =
-  //   resumeURL !== "" ? (
-  //     <Grid
-  //       item
-  //       xs={6}
-  //       container
-  //       alignItems="center"
-  //       // style={{ padding: "2vh 0" }}
-  //     >
-  //       <Grid item xs={11}>
-  //         <a
-  //           target="blank"
-  //           href={resumeURL}
-  //           style={{
-  //             textDecoration: "none",
-  //             color: "black",
-  //           }}
-  //         >
-  //           <DescriptionIcon
-  //             fontSize="large"
-  //             style={{ color: "rgba(8, 123, 148, 0.45)" }}
-  //           />
-  //         </a>
-  //       </Grid>
-  //       <Grid item xs={11}>
-  //         <Typography color="primary" variant="caption">
-  //           Resume
-  //         </Typography>
-  //       </Grid>
-  //     </Grid>
-  //   ) : (
-  //     ""
-  //   );
+ const coverLetterCard = isSingleCandidate.coverLetterCiteria.cl ? <CoverLetterCV data={isSingleCandidate.coverLetterCiteria.cl } /> : "";
+ const keySkillCriteria = isSingleCandidate.coverLetterCiteria.ksc ? <KSC data={isSingleCandidate.coverLetterCiteria.ksc} /> : "";
+ 
   return (
     <div>
       <Grid container justify="center" alignItems="center">
@@ -175,13 +105,16 @@ export const Candidate = props => {
             justify="space-between"
           >
             <Grid container item xs={12} alignItems="center">
-              <Grid item>
-                <Avatar
-                  alt="Remy Sharp"
-                  src={avatar}
-                  className={classes.avatar}
-                />
-              </Grid>
+              {
+                avatar !== "" ? (  <Grid item>
+                  <Avatar
+                    alt="Avatar"
+                    src={avatar}
+                    className={classes.avatar}
+                  />
+                </Grid>) : ""
+              }
+            
 
               <Grid
                 item
@@ -218,6 +151,9 @@ export const Candidate = props => {
           </Grid>
           <Grid item xs={12}>
             {coverLetterCard}
+          </Grid>
+          <Grid item xs={12}>
+            {keySkillCriteria}
           </Grid>
           <Grid item xs={12}>
             <ExperienceCV data={workExperience} />
