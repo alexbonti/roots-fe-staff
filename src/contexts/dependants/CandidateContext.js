@@ -6,7 +6,10 @@ export const CandidateProvider = props => {
   const [candidateProfile, setCandidateProfile] = useState("");
   const [isSingleCandidate, setIsSingleCandidate] = useState({
     _: false,
-    userDetails: ""
+    userDetails: "",
+    coverLetterCriteria: {
+      cl: "", ksc: ""
+    }
   });
 
   const [isUpdated, setIsUpdated] = useState(false)

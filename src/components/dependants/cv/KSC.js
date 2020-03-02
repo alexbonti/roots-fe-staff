@@ -56,7 +56,7 @@ const useStyles = makeStyles({
   }
 });
 
-export const CoverLetterCV = props => {
+export const KSC = props => {
 console.log("props", props)
   const classes = useStyles();
   return (
@@ -64,8 +64,8 @@ console.log("props", props)
       <div>
         <Container className={classes.transparentContainer}>
           <Grid container direction="column">
-            <Grid item xs={4} className={classes.title}>
-              Cover Letter
+            <Grid item xs={10} className={classes.title}>
+              Critical Skills Criteria
             </Grid>
           </Grid>
         </Container>
