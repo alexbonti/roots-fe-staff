@@ -63,7 +63,7 @@ class API {
     )
       .then(response => {
         console.log(response);
-        return { response: response.data.data };
+        return { response: response.data };
       })
       .catch(error => {
         errorHelper(error);
