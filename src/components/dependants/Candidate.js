@@ -16,7 +16,6 @@ import {
   CoverLetterCV,
   KSC
 } from "../index";
-import DescriptionIcon from "@material-ui/icons/Description";
 
 const useStyles = makeStyles({
   container: {

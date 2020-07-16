@@ -12,7 +12,7 @@ import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   button1: {
     borderRadius: "25px",
     backgroundColor: "white",
@@ -58,11 +58,10 @@ export function EditDraft(props) {
   const { descriptionOpportunity } = useContext(TextEditorContext);
   const [inputPosition, setInputPosition] = useState("");
   const [positionSuggestions, setPositionSuggestions] = useState("");
-  const [statusString, setStatusString] = useState(false);
+  const [ setStatusString] = useState(false);
   const [errorPositionTitle, setErrorPositionTitle] = useState(false);
   const [errorSeniority, setErrorSeniority] = useState(false);
   const [errorEmploymentType, setErrorEmploymentType] = useState(false);
-  const [errorRequiredSkills, setErrorRequiredSkills] = useState(false);
   const [errorIndustryField, setErrorIndustryField] = useState(false);
   const [errorLocation, setErrorLocation] = useState(false);
 

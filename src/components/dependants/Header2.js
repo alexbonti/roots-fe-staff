@@ -64,14 +64,13 @@ export const Header2 = () => {
               <Grid item container xs={6} spacing={3}>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                  <a
+                    <span
                       target="null"
                       style={{ textDecoration: "none", color: "white" }}
-                      href="#"
                     >
                       {" "}
                       MECHID
-                    </a>
+                    </span>
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -113,7 +112,7 @@ export const Header2 = () => {
                       noWrap
                       className={classes.title}
                     >
-                      Login {" > "}
+                        Login {" > "}
                     </Typography>
                   </Link>
                 )}

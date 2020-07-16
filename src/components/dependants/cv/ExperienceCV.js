@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Container } from "@material-ui/core/";
+import { Grid } from "@material-ui/core/";
 import ReactHtmlParser from "react-html-parser";
 
 
@@ -80,7 +80,6 @@ export const ExperienceCV = props => {
           endDate,
           referee
         } = e;
-        console.log(referee)
         return (
           <Grid container  className={classes.containerBottom} key={i}>
             <Grid
