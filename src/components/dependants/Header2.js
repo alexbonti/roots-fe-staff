@@ -64,13 +64,13 @@ export const Header2 = () => {
               <Grid item container xs={6} spacing={3}>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                    <span
-                      target="null"
+                    <Link
                       style={{ textDecoration: "none", color: "white" }}
+                      to="/home"
                     >
                       {" "}
                       MECHID
-                    </span>
+                    </Link>
                   </Typography>
                 </Grid>
                 <Grid item>
