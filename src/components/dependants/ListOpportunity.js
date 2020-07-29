@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: "white",
   },
-  
+
 }));
 
 
@@ -36,18 +36,8 @@ export function ListOpportunity(props) {
     setIsSingle(false);
   }, [tabNumber, setIsSingle]);
   const draftTitle =
-    listDraft.length === 0 || undefined ? (
-      ""
-    ) : (
-      <Grid
-        item
-        xs={12}
-        md={9}
-        lg={8}
-        container
-        justify="flex-start"
-        style={{ padding: "3vh 0" }}
-      >
+    listDraft.length === 0 || undefined ? null : (
+      <Grid item xs={12} md={9} lg={8} container justify="flex-start" style={{ padding: "3vh 0" }}  >
         <Grid item>
           <Typography variant="h5">Draft Opportunities</Typography>
         </Grid>
@@ -55,23 +45,12 @@ export function ListOpportunity(props) {
     );
 
   const expiredTitle =
-    list.length === 0 || undefined ? (
-      ""
-    ) : (
-      <Grid
-        item
-        xs={12}
-        md={9}
-        lg={8}
-        container
-        justify="flex-start"
-        style={{ padding: "3vh 0" }}
-      >
+    list.length === 0 || undefined ? null :
+      (<Grid item xs={12} md={9} lg={8} container justify="flex-start" style={{ padding: "3vh 0" }}  >
         <Grid item className={classes.title}>
           <Typography variant="h5">Expired Opportunities</Typography>
         </Grid>
-      </Grid>
-    );
+      </Grid>);
 
   const allJobs =
     tabNumber === 0 ? (
@@ -104,8 +83,8 @@ export function ListOpportunity(props) {
               const deltaDate = thisDate.getTime() - new Date();
               if (deltaDate > 0) {
                 return (
-                  <Grid key={Math.random()} item className={classes.tile}    xs={12} sm={6}lg={4} md={5} xl={3}>
-                    <JobCard  data={element} />
+                  <Grid key={Math.random()} item className={classes.tile} xs={12} sm={6} lg={4} md={5} xl={3}>
+                    <JobCard data={element} />
                   </Grid>
                 );
               } else {
@@ -120,7 +99,7 @@ export function ListOpportunity(props) {
           <Grid item xs={12} md={9} lg={8} container justify="space-between" spacing={1}>
             {listDraft.map(element => {
               return (
-                <Grid key={Math.random()} className={classes.tile} item  xs={12} sm={6}lg={4} md={5} xl={3}>
+                <Grid key={Math.random()} className={classes.tile} item xs={12} sm={6} lg={4} md={5} xl={3}>
                   <JobCardDraft data={element} />
                 </Grid>
               );
@@ -134,11 +113,11 @@ export function ListOpportunity(props) {
             {list.map(element => {
               let thisDate = new Date(element.endDate);
               const deltaDate = thisDate.getTime() - new Date();
-              
+
               if (deltaDate < 0) {
                 return (
-                  <Grid item key={Math.random()} className={classes.tile}  xs={12} sm={6}lg={4} md={5} xl={3}>
-                    <JobCard  data={element} type={"elapsed"} />
+                  <Grid item key={Math.random()} className={classes.tile} xs={12} sm={6} lg={4} md={5} xl={3}>
+                    <JobCard data={element} type={"elapsed"} />
                   </Grid>
                 );
               } else {
@@ -148,48 +127,46 @@ export function ListOpportunity(props) {
           </Grid>
         </Grid>
       </>
-    ) : (
-      <>
-        <Grid container justify="center">
-          <Grid
-            item
-            xs={12}
-            md={8}
-            container
-            justify="flex-start"
-          >
-            <Grid item className={classes.title}>
-              <Typography variant="h5">Open Opportunities</Typography>
+    ) :
+      (
+        <>
+          <Grid container justify="center">
+            <Grid
+              item
+              xs={12}
+              md={8}
+              container
+              justify="flex-start"
+            >
+              <Grid item className={classes.title}>
+                <Typography variant="h5">Open Opportunities</Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={8} >
+              <hr />
+            </Grid>
+
+            <Grid item xs={12} md={8} container justify="space-between" spacing={1}>
+              {list.map(element => {
+                let thisDate = new Date(element.endDate);
+                const deltaDate = thisDate.getTime() - new Date();
+                if (deltaDate > 0) {
+                  return (
+                    <Grid key={Math.random()} item xs={12} lg={4} md={5}>
+                      <CanditatesCard data={element} />
+                    </Grid>
+                  );
+                } else {
+                  return null;
+                }
+              })}
             </Grid>
           </Grid>
-          <Grid item xs={12} md={8} >
-            <hr />
-          </Grid>
+        </>
+      );
 
-          <Grid item xs={12} md={8}  container justify="space-between" spacing={1}>
-            {list.map(element => {
-              let thisDate = new Date(element.endDate);
-              const deltaDate = thisDate.getTime() - new Date();
-              if (deltaDate > 0) {
-                return (
-                  <Grid key={Math.random()} item xs={12} lg={4} md={5}>
-                    <CanditatesCard  data={element} />
-                  </Grid>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </Grid>
-        </Grid>
-      </>
-    );
-
-  const view = isSingleCandidate._ ? (
-    <Candidate data={isSingleCandidate.userDetails} />
-  ) : (
-    <ListOfCandidatesOfASingleJob data={isSingle.id} />
-  );
+  const view = isSingleCandidate._ ? <Candidate data={isSingleCandidate.userDetails} />
+    : <ListOfCandidatesOfASingleJob data={isSingle.id} />;
 
   const content = isSingle.view && tabNumber === 1 ? view : allJobs;
   return content;

@@ -1,7 +1,26 @@
 import { AccessToken } from "contexts/helpers";
 import axios from "axios";
 import { axiosInstance } from "helpers";
-import {notify} from 'components';
+import { notify } from 'components';
+
+const getAccessToken = () => {
+  return localStorage.getItem("accessToken");
+}
+
+
+/**
+ * @author Sanchit Dang
+ * @param {Function} callback Callback function to perform
+ * @param {any} data Data to pass as param 
+ */
+const performCallback = (callback, data) => {
+  if (callback instanceof Function) {
+    if (data !== undefined)
+      return callback(data);
+    callback();
+  }
+};
+
 
 let config = {
   headers: { authorization: "Bearer " + AccessToken },
@@ -31,35 +50,35 @@ const errorHelper = (error, variant) => {
 class API {
   loginEmployer = async (data, setAccessToken) => {
     return await axiosInstance
-    .post("/employer/login",data)
-    .then(response => {
-      setAccessToken(response.data.data.accessToken);
-      return response.data.data.employerDetails;
-    })
-    .catch(error => {
-      errorHelper(error);
-      return false;
-    });
+      .post("/employer/login", data)
+      .then(response => {
+        setAccessToken(response.data.data.accessToken);
+        return response.data.data.employerDetails;
+      })
+      .catch(error => {
+        errorHelper(error);
+        return false;
+      });
   };
 
 
   logout = async (accessToken) => {
     accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
-    .put("/employer/logout",{}, {
-      headers: {
-        authorization: "Bearer " + accessToken,
-      }
-    })
-    .then(response => {
-      return {"response": response}
-    })
-    .catch(error => window.localStorage.clear)
+      .put("/employer/logout", {}, {
+        headers: {
+          authorization: "Bearer " + accessToken,
+        }
+      })
+      .then(response => {
+        return { "response": response }
+      })
+      .catch(error => window.localStorage.clear)
   }
 
   registerEmployer = async data => {
     return await axiosInstance
-    .post("employer/register",data,
+      .post("employer/register", data,
     )
       .then(response => {
         console.log(response);
@@ -67,7 +86,7 @@ class API {
       })
       .catch(error => {
         errorHelper(error);
-        
+
       });
   };
 
@@ -92,7 +111,7 @@ class API {
         headers: {
           authorization: "Bearer " + accessToken,
         },
-      } )
+      })
       .then(response => response)
       .catch(error => errorHelper(error));
   };
@@ -118,9 +137,9 @@ class API {
       .catch(error => errorHelper(error));
   };
 
-  
 
-  createMyCompany = async (data, accessToken ) => {
+
+  createMyCompany = async (data, accessToken) => {
     console.log(accessToken)
     return await axiosInstance
       .post("/employer/createcompany", data, {
@@ -128,7 +147,7 @@ class API {
           authorization: "Bearer " + accessToken,
         },
       })
-      .then(response => {return response})
+      .then(response => { return response })
       .catch(error => errorHelper(error));
   };
 
@@ -150,7 +169,7 @@ class API {
   };
 
   getOpportunityDraft = async accessToken => {
-     accessToken = localStorage.getItem("accessToken");
+    accessToken = localStorage.getItem("accessToken");
     return axiosInstance
       .get("jobs/getOpportunityDraft", {
         headers: {
@@ -169,7 +188,7 @@ class API {
       });
   };
 
-  getApplicantsData = async (data,accessToken) => {
+  getApplicantsData = async (data, accessToken) => {
     accessToken = localStorage.getItem("accessToken");
     return axiosInstance
       .post(
@@ -182,7 +201,7 @@ class API {
         }
       )
       .then(response => {
-        return ({"response": response.data.data});
+        return ({ "response": response.data.data });
       })
       .catch(error => errorHelper(error));
   };
@@ -194,12 +213,12 @@ class API {
         data
       )
       .then(response => {
-        return ({"response": response.data.data});
+        return ({ "response": response.data.data });
       })
       .catch(error => errorHelper(error));
   };
 
-  
+
   forgotPasswordSecondStep = async (data) => {
     return axiosInstance
       .post(
@@ -207,13 +226,13 @@ class API {
         data
       )
       .then(response => {
-        return ({"response": response.data.data});
+        return ({ "response": response.data.data });
       })
       .catch(error => errorHelper(error));
   };
 
 
-  getProfileEmployer = async(auth) =>{
+  getProfileEmployer = async (auth) => {
     let accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
       .get('/employer/getProfile', {
@@ -222,10 +241,10 @@ class API {
         }
       })
       .then(response => {
-        return {"response": response.data.data.customerData}
+        return { "response": response.data.data.customerData }
       })
       .catch(error => {
-       return errorHelper(error)
+        return errorHelper(error)
       })
   }
 
@@ -328,33 +347,48 @@ class API {
   deleteOppDraft = async (data) => {
     let accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
-    .delete(`jobs/deleteOpportunityDraft`, 
-     {
-      headers: {
-        "authorization": `bearer ${accessToken}`,
-      },
-      data
-    })
-    .then(response => response)
-    .catch(error => errorHelper(error))
+      .delete(`jobs/deleteOpportunityDraft`,
+        {
+          headers: {
+            "authorization": `bearer ${accessToken}`,
+          },
+          data
+        })
+      .then(response => response)
+      .catch(error => errorHelper(error))
   }
 
   deleteOpp = async (data) => {
     let accessToken = localStorage.getItem("accessToken");
     return await axiosInstance
-    .delete(`jobs/deleteOpportunities`, 
-     {
+      .delete(`jobs/deleteOpportunities`,
+        {
+          headers: {
+            "authorization": `bearer ${accessToken}`,
+          },
+          data
+        })
+      .then(response => response)
+      .catch(error => errorHelper(error))
+  }
+
+  /**
+   * 
+   * @param {String} userId UserId 
+   * @param {Function} callback Callback function 
+   */
+  getCandidateInfo = (userId, callback) => {
+    axiosInstance.get(`search/user/${userId}`, {
       headers: {
-        "authorization": `bearer ${accessToken}`,
-      },
-      data
-    })
-    .then(response => response)
-    .catch(error => errorHelper(error))
+        "authorization": `bearer ${getAccessToken()}`,
+      }
+    }).then(response => {
+      performCallback(callback, response.data.data.user)
+    }).catch(error => errorHelper(error));
   }
 
 }
-  
+
 
 
 

@@ -8,8 +8,11 @@ import {
   Grid,
   Icon,
 } from "@material-ui/core/";
+import { TextHelper } from "helpers/index";
+import moment from "moment-timezone";
 
-const useStyles = makeStyles(theme => ({
+
+const useStyles = makeStyles(() => ({
   card: {
     borderRadius: "2px",
     border: "1px solid #b1afafbf",
@@ -53,7 +56,7 @@ export default function CandidatesCard(props) {
 
   const { setIsSingle } = useContext(HomeContext);
 
-  
+
   const requestApplicantsInfo = () => {
     console.log(_id);
     setIsSingle({ view: true, id: _id });
@@ -62,39 +65,32 @@ export default function CandidatesCard(props) {
   const statusButton = numberOfApplications < 1 ? true : false;
 
   const styleCardDefault = !statusButton ? classes.card : classes.cardDefault;
-   
+
 
   return (
-    <Grid
-      container
-      justify="center"
-      className={styleCardDefault}
-      onClick={!statusButton ? () => requestApplicantsInfo(_id) : () => {console.log("no candidates");}}
+    <Grid container justify="center" className={styleCardDefault}
+      onClick={!statusButton ? () => requestApplicantsInfo(_id) : () => { console.log("no candidates"); }}
     >
-      <Grid
-        item
-        xs={12}
-        style={{
-          backgroundColor: "#087B94",
-          height: ".5vh",
-          borderRadius: "2px 2px 0px 0px",
-        }}
-      ></Grid>
+      <Grid item xs={12} style={{
+        backgroundColor: "#087B94",
+        height: ".5vh",
+        borderRadius: "2px 2px 0px 0px",
+      }} ></Grid>
       <Grid item xs={11}>
-        <Typography variant="caption">{company}</Typography>
+        <Typography variant="caption">{TextHelper.titleCase(company)}</Typography>
       </Grid>
       <Grid item xs={11}>
-        <Typography style={{ fontWeight: "500" }}>{positionTitle}</Typography>
+        <Typography style={{ fontWeight: 500 }}>{TextHelper.titleCase(positionTitle)}</Typography>
       </Grid>
       <Grid item xs={11}>
-        <Typography variant="caption">{employmentType}</Typography>
+        <Typography variant="caption">{TextHelper.titleCase(employmentType)}</Typography>
       </Grid>
       <Grid item xs={11}>
-        <Typography variant="caption">{seniority}</Typography>
+        <Typography variant="caption">{TextHelper.titleCase(seniority)}</Typography>
       </Grid>
       <Grid item xs={11}>
         <Typography variant="caption">
-          Published on: {publishDate.substring(0, 10)} <br />
+          Published on: {TextHelper.formatToD_MMMM_YYYY(publishDate)} <br />
         </Typography>
       </Grid>
       <Grid item xs={12}>
@@ -107,7 +103,7 @@ export default function CandidatesCard(props) {
         alignItems="flex-start"
         justify="space-between"
       >
-        <Grid item xs={8} sm={8}lg={8} md={8}>
+        <Grid item xs={8} sm={8} lg={8} md={8}>
           <Button
             disabled={statusButton}
             size="small"

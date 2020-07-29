@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -14,13 +14,14 @@ import {
   EducationCV,
   //VolunteerCV,
   CoverLetterCV,
-  KSC
+  KSC,
+  Spinner,
+  CertificatesCV
 } from "../index";
+import { API } from "helpers/index";
 
 const useStyles = makeStyles({
   container: {
-    backgroundColor: "white",
-    borderRadius: "10px 10px 0 0 ",
   },
   transparentContainer: {
     padding: "10px 32px ",
@@ -63,12 +64,21 @@ export const Candidate = props => {
   const classes = useStyles();
   const { isSingleCandidate, setIsSingleCandidate } = useContext(CandidateContext);
 
-  const {
-    //volunteer,
-    workExperience,
-    education,
-    avatar,
-  } = props.data.UserExtendedProfile;
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  const [workExperience, setWorkExperience] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    API.getCandidateInfo(props.data._id, (userData) => {
+      setAvatar(userData.avatar);
+      setEducation(userData.education);
+      setWorkExperience(userData.workExperience);
+      setCertificates(userData.certificates);
+      setProfileLoaded(true);
+    });
+  }, [props.data._id]);
 
 
   const { first_name, last_name, emailId } = props.data;
@@ -77,22 +87,29 @@ export const Candidate = props => {
     setIsSingleCandidate(false);
   };
 
- const coverLetterCard = isSingleCandidate.coverLetterCiteria.cl ? <CoverLetterCV data={isSingleCandidate.coverLetterCiteria.cl } /> : "";
- const keySkillCriteria = isSingleCandidate.coverLetterCiteria.ksc ? <KSC data={isSingleCandidate.coverLetterCiteria.ksc} /> : "";
- 
+  const coverLetterCard = isSingleCandidate.coverLetterCiteria.cl ? <CoverLetterCV data={isSingleCandidate.coverLetterCiteria.cl} /> : "";
+  const keySkillCriteria = isSingleCandidate.coverLetterCiteria.ksc ? <KSC data={isSingleCandidate.coverLetterCiteria.ksc} /> : "";
+
   return (
     <div>
       <Grid container justify="center" alignItems="center">
         <Grid item xs={12} md={8}>
           <Button onClick={back}> {"<"} Back</Button>
         </Grid>
-        <Grid
+        {profileLoaded ? <Grid
           justify="center"
           container
           item
           xs={12}
           md={8}
-          style={{ borderRadius: "10px", boxShadow: "1px 1px 2px #d0d0d0" }}
+          style={{
+            borderRadius: "10px",
+            boxShadow: "1px 1px 2px #d0d0d0",
+            paddingTop: "5px",
+            paddingBottom: "5px",
+            backgroundColor: "white",
+
+          }}
         >
           <Grid
             container
@@ -105,7 +122,7 @@ export const Candidate = props => {
           >
             <Grid container item xs={12} alignItems="center">
               {
-                avatar !== "" ? (  <Grid item>
+                avatar !== "" ? (<Grid item>
                   <Avatar
                     alt="Avatar"
                     src={avatar}
@@ -113,8 +130,6 @@ export const Candidate = props => {
                   />
                 </Grid>) : ""
               }
-            
-
               <Grid
                 item
                 container
@@ -155,12 +170,15 @@ export const Candidate = props => {
             {keySkillCriteria}
           </Grid>
           <Grid item xs={12}>
-            <ExperienceCV data={workExperience} />
+            <ExperienceCV title="Experience" data={workExperience} />
           </Grid>
           <Grid item xs={12}>
-            <EducationCV data={education} />
+            <EducationCV title="Education" data={education} />
           </Grid>
-        </Grid>
+          <Grid item xs={12}>
+            <CertificatesCV title="Certificates" data={certificates} />
+          </Grid>
+        </Grid> : <Spinner />}
       </Grid>
       {/* <VolunteerCV data={volunteer} /> */}
     </div>
