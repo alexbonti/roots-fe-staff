@@ -1,5 +1,5 @@
 {
-  "name": "react-frontend-boilerplate",
+  "name": "refugee-jobsearch-employer",
   "version": "0.1.0-alpha",
   "private": true,
   "dependencies": {
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "css-loader": "^3.2.0",
+    "eslint-plugin-react-hooks": "^4.0.8",
     "style-loader": "^1.0.0"
   }
 }
