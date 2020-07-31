@@ -61,8 +61,8 @@ const useStyles = makeStyles({
 
 const Certificate = props => {
   let certificate = (<div style={{ background: "white" }}>
-    <Grid container justify="center" style={{ padding: "2vh" }}>
-      <Grid item container justify="space-between">
+    <Grid container justify="center" style={{ padding: "26px" }}>
+      <Grid item container>
         <Grid item xs={12}>
           <Typography variant="h6">{TextHelper.titleCase(props.title)}</Typography>
         </Grid>

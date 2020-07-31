@@ -387,6 +387,23 @@ class API {
     }).catch(error => errorHelper(error));
   }
 
+  /**
+   * 
+   * @param {String} name Name of the user to search
+   * @returns {Promise(Array(Object))} 
+   */
+  searchUsersWithName = async (name) => {
+    return axiosInstance.get(`search/users/name/${name}`, {
+      headers: {
+        "authorization": `bearer ${getAccessToken()}`,
+      }
+    }).then(response => {
+      return response.data.data.users;
+    }).catch(error => {
+      return [];
+    });
+  }
+
 }
 
 

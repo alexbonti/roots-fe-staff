@@ -9,7 +9,6 @@ import {
   Icon,
 } from "@material-ui/core/";
 import { TextHelper } from "helpers/index";
-import moment from "moment-timezone";
 
 
 const useStyles = makeStyles(() => ({

@@ -9,7 +9,7 @@ import { EditMyCompany } from "./dependants/EditMyCompany";
 import MyCompany from "./dependants/MyCompany";
 import { TextEditor } from "./dependants/QuillEditor";
 import AddButtonCard from "./dependants/AddButtonCard";
-import { Candidate } from "./dependants/Candidate";
+import { Candidate, ProfileComponent } from "./dependants/Candidate";
 import { ExperienceCV } from "./dependants/cv/ExperienceCV";
 import { EducationCV } from "./dependants/cv/EducationCV";
 import { CoverLetterCV } from "./dependants/cv/CoverLetterCV";
@@ -18,6 +18,7 @@ import { VolunteerCV } from "./dependants/cv/VolunteerCV";
 import { Spinner } from "./common/Spinner";
 import { EditDraft } from "./dependants/EditDraft";
 import { CertificatesCV } from "./dependants/cv/CertificatesCV";
+import { UserSearchBox } from "./dependants/UserSearchBox";
 
 export {
   AddOpportunity,
@@ -40,6 +41,7 @@ export {
   Header2,
   EditDraft,
   KSC,
-  CertificatesCV
-
+  CertificatesCV,
+  UserSearchBox,
+  ProfileComponent
 };

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core/";
+import { Grid, Typography, Divider } from "@material-ui/core/";
 import ReactHtmlParser from "react-html-parser";
+import { TextHelper } from "helpers/index";
 
 
 
@@ -12,7 +13,7 @@ const useStyles = makeStyles({
   },
   containerBottom: {
     backgroundColor: "white",
-    padding: "32px 70px 32px 32px "
+    padding: "26px"
   },
   transparentContainer: {
     padding: "10px 32px",
@@ -61,6 +62,7 @@ const useStyles = makeStyles({
 
 export const ExperienceCV = props => {
   const classes = useStyles();
+  const [isSeeMore, setIsSeeMore] = useState(true);
 
   return props.data.length > 0 ? (
     <div>
@@ -81,39 +83,82 @@ export const ExperienceCV = props => {
           referee
         } = e;
         return (
-          <Grid container  className={classes.containerBottom} key={i}>
-            <Grid
-              container
-              alignItems="flex-start"
-              justify="center"
-              spacing={3}
-              item
-              xs={12}
-            >
-              <Grid item xs={12} className={classes.title2} style={{color:"#545353"}}>
-                {positionTitle}
+          <>
+            <Grid container className={classes.containerBottom} key={i}>
+              <Grid container alignItems="flex-start" justify="center" item xs={12} >
+                <Grid item xs={12} style={{ color: "#545353" }}>
+                  <Typography variant="h6">
+                    <span>{`${TextHelper.titleCase(positionTitle)} • `}</span>
+                    <span style={{
+                      fontWeight: "300",
+                      fontSize: "smaller"
+                    }}>{`${TextHelper.titleCase(companyName)}`}</span>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} style={{ color: "#545353" }}>
+                  <Typography variant="body1">
+                    {`${TextHelper.formatToD_MMMM_YYYY(startDate)} - 
+                      ${endDate === undefined || endDate === null ? "Present" : `${TextHelper.formatToD_MMMM_YYYY(endDate)}`}`
+                    }
+                  </Typography>
+                </Grid>
+                {
+                  isSeeMore ?
+                    <Grid item xs={12} style={{
+                      textDecoration: "none",
+                      color: "#087B94",
+                      cursor: "pointer"
+                    }} onClick={() => {
+                      setIsSeeMore(false);
+                    }}>
+                      <Typography variant="subtitle1">
+                        See More
+                      </Typography>
+                    </Grid> :
+                    <>
+                      <Grid item xs={12} style={{ color: "#545353" }}>
+                        <Typography variant="body1">
+                          {ReactHtmlParser(description)}
+                        </Typography>
+                      </Grid>
+                      {referee !== undefined ? (<>
+                        <Grid item xs={12}>
+                          <Typography variant="body1" style={{ color: "#545353", fontWeigth: "600" }}>
+                            Refrees
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} style={{ color: "#545353" }}>
+                          <Typography variant="body1">
+                            <span style={{
+                              fontWeight: "400"
+                            }}>{`${TextHelper.titleCase(referee.name)} •`}</span><span style={{
+                              fontWeight: "300"
+                            }}> {`${referee.phoneNumber}`}</span>
+                          </Typography>
+                        </Grid>
+
+                      </>
+                      ) : null}
+                      <Grid item xs={12} style={{
+                        textDecoration: "none",
+                        color: "#087B94",
+                        cursor: "pointer"
+
+                      }} onClick={() => {
+                        setIsSeeMore(true);
+                      }}>
+                        <Typography variant="subtitle1" >
+                          See less
+                        </Typography>
+                      </Grid>
+                    </>
+                }
               </Grid>
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-                {companyName}
-              </Grid>
-            {referee !== undefined ? (
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-              {referee.name} {" "} {referee.phoneNumber}
             </Grid>
-            ) : "" }
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-                {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
-              </Grid>
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-                {ReactHtmlParser(description)}
-              </Grid>
-              <Grid item xs={12} style={{ width: "100%" }}>
-                {i < props.data.length - 1 ? (
-                  <hr className={classes.rule} />
-                ) : null}
-              </Grid>
-            </Grid>
-          </Grid>
+            {i < props.data.length - 1 ? (
+              <Divider />
+            ) : null}
+          </>
         );
       })}
     </div>

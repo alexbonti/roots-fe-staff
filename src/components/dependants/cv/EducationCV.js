@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core/";
+import { Grid, Typography, Divider } from "@material-ui/core/";
+import { TextHelper } from "helpers/index";
 
 const useStyles = makeStyles({
   container: {
@@ -61,7 +62,7 @@ export const EducationCV = props => {
 
   return props.data.length > 0 ? (
     <div>
-      <Grid  container className={classes.transparentContainer}>
+      <Grid container className={classes.transparentContainer}>
         <Grid container direction="column">
           <Grid item xs={4} className={classes.title}>
             Education
@@ -72,27 +73,29 @@ export const EducationCV = props => {
         const { degree, major, school, startDate, endDate } = e;
         return (
           <Grid container className={classes.containerBottom} key={i}>
-            <Grid
-              container
-              alignItems="flex-start"
-              justify="center"
-              xs={12}
-              spacing={3}
-
-              item
-            >
-              <Grid item xs={12} className={classes.title2} style={{color:"#545353"}}>
-                {school}
+            <Grid container alignItems="flex-start" justify="center" xs={12} item>
+              <Grid item xs={12} style={{ color: "#545353" }}>
+                <Typography variant="h6">
+                  <span>{`${TextHelper.titleCase(degree)} • `}</span>
+                  <span style={{
+                    fontWeight: "300",
+                    fontSize: "smaller"
+                  }}>{`${TextHelper.titleCase(major)}`}</span>
+                </Typography>
               </Grid>
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-                {degree}, {major}
+              <Grid item xs={12} style={{ color: "#545353" }}>
+                <Typography variant="body1">
+                  {`${TextHelper.titleCase(school)}`}
+                </Typography>
               </Grid>
-              <Grid item xs={12} className={classes.subText} style={{color:"#545353"}}>
-                {startDate.substring(0, 10)} - {endDate.substring(0, 10)}
+              <Grid item xs={12} style={{ color: "#545353" }}>
+                <Typography variant="body1">
+                  {`${TextHelper.formatToD_MMMM_YYYY(startDate)} - ${TextHelper.formatToD_MMMM_YYYY(endDate)}`}
+                </Typography>
               </Grid>
               <Grid item xs={12} style={{ width: "100%" }}>
                 {i < props.data.length - 1 ? (
-                  <hr className={classes.rule} />
+                  <Divider />
                 ) : null}
               </Grid>
             </Grid>
