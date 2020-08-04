@@ -16,7 +16,7 @@ import { AccessToken } from "../../contexts/helpers/";
 import MyDropzone from "./DropDrag";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   textField: {
     padding: "2vh 0",
   },
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "white",
     border: "1px solid #087B94",
     color: "#087B94",
-    transition: " all .1s ease", 
+    transition: " all .1s ease",
     boxShadow: "none",
     "&:hover": {
       color: "white",
@@ -55,14 +55,14 @@ export function EditMyCompany(props) {
   const classes = useStyles();
   const dataMyCompany = props.data
 
-  
+
 
   //-------------------context
   const { companyId, tempLogo, setIsUploaded } = useContext(MyCompanyContext);
 
-  const { description, setDescription } = useContext(TextEditorContext);
+  const { description } = useContext(TextEditorContext);
 
-  const {setIsEditMycompany, setMainTitle } = useContext(HomeContext);
+  const { setIsEditMycompany, setMainTitle } = useContext(HomeContext);
   //if(props.data !== undefined){setDescription(props.data.companyDescription)};
   //--------------------- usestates
   const [companyName, setCompanyName] = useState(props.data.companyName);
@@ -95,14 +95,14 @@ export function EditMyCompany(props) {
 
     if (companyId !== null && companyId !== "") {
       const updateDataCompany = await API.updateCompanyDetails(data);
-      if(updateDataCompany){
-        if(updateDataCompany.response.status === 200 ){
+      if (updateDataCompany) {
+        if (updateDataCompany.response.status === 200) {
           notify("Company Details Saved");
           setIsEditMycompany(false);
           setIsUploaded(true);
         }
       }
-      
+
     }
   };
 
@@ -113,27 +113,27 @@ export function EditMyCompany(props) {
     setPositionSuggestions("");
   };
 
-  
+
 
   return (
     //<Grid style={styleEdit}>
     <ThemeProvider theme={theme}>
       {/* BUTTON */}
 
-      
+
 
       {/* //MAIN center the page */}
       <Grid container justify="center">
-      <Grid container alignContent="flex-start" item xs={11} md={8}>
-        <Button onClick={() =>setIsEditMycompany(false)}> {"<"} Back</Button>
-      </Grid>
+        <Grid container alignContent="flex-start" item xs={11} md={8}>
+          <Button onClick={() => setIsEditMycompany(false)}> {"<"} Back</Button>
+        </Grid>
         <Grid
           container
           item
           xs={11}
           md={8}
           justify="center"
-          style={{ padding: "3vh 0", backgroundColor: "white",borderRadius:"10px", boxShadow: "1px 1px 3px #d0d0d0" }}
+          style={{ padding: "3vh 0", backgroundColor: "white", borderRadius: "10px", boxShadow: "1px 1px 3px #d0d0d0" }}
         >
           <Grid item xs={11} md={11} lg={7}>
             <TextField
@@ -149,7 +149,7 @@ export function EditMyCompany(props) {
               }}
             />
           </Grid>
-          <Grid item xs={11} md={11} lg={7} style={{padding: "1vh 0"}}>
+          <Grid item xs={11} md={11} lg={7} style={{ padding: "1vh 0" }}>
             <MyDropzone />
           </Grid>
           <Grid item xs={11} md={11} lg={7}>
@@ -185,26 +185,26 @@ export function EditMyCompany(props) {
             />
             <div>
               {positionSuggestions !== null &&
-              positionSuggestions !== undefined &&
-              positionSuggestions !== "" ? (
-                <div className={classes.suggestion}>
-                  {positionSuggestions.map(suggestion => {
-                    return (
-                      <div
-                        key={Math.random()}
-                        onClick={event => {
-                          event.preventDefault();
-                          setSuggestions(event);
-                        }}
-                      >
-                        {suggestion.label}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                ""
-              )}
+                positionSuggestions !== undefined &&
+                positionSuggestions !== "" ? (
+                  <div className={classes.suggestion}>
+                    {positionSuggestions.map(suggestion => {
+                      return (
+                        <div
+                          key={Math.random()}
+                          onClick={event => {
+                            event.preventDefault();
+                            setSuggestions(event);
+                          }}
+                        >
+                          {suggestion.label}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
             </div>
           </Grid>
           <Grid
@@ -212,9 +212,9 @@ export function EditMyCompany(props) {
             xs={11}
             md={11}
             lg={7}
-            style={{ padding: "2vh 0"  }}
+            style={{ padding: "2vh 0" }}
           >
-            <TextEditor data={{mode:"edit company", data: description} }/>{" "}
+            <TextEditor data={{ mode: "edit company", data: description }} />{" "}
           </Grid>
           <Grid
             container
@@ -223,7 +223,7 @@ export function EditMyCompany(props) {
             md={11}
             lg={7}
             justify="center"
-            style={{ padding: "1vh"}}
+            style={{ padding: "1vh" }}
           >
             <Grid item xs={6}>
               <Button

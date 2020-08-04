@@ -22,7 +22,7 @@ const modules = {
 export const TextEditor = (props) => {
 
   
-  const { description, setDescription, descrptionOpportunity, setDescriptionOpportunity } = useContext(TextEditorContext);
+  const {  setDescription,  setDescriptionOpportunity } = useContext(TextEditorContext);
 
 
   const {isEditOpportunity, isEditMyCompany} = useContext(HomeContext);

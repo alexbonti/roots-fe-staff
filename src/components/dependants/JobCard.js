@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { HomeContext } from "../../contexts/dependants/HomeContext";
-import { Modal, Button, Typography, Grid } from "@material-ui/core/";
+import { Modal, Button, Typography, Grid, Divider } from "@material-ui/core/";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { API } from "helpers";
 import { notify } from "components/index";
+import { TextHelper } from "helpers/index";
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +35,15 @@ const useStyles = makeStyles(theme => ({
   topBarCard: {
     backgroundColor: "#fff",
     borderRadius: "0px 0px 2px 2px",
-    boxShadow: "1px 2px 1px #d0d0d082",
+    border: "1px solid #b1afafbf",
+
+    boxShadow: "none",
+    "&:hover": {
+      cursor: "pointer",
+      boxShadow: "-1px 0px 6px #6a6a6a",
+      backgroundColor: "#c3e5cc6e",
+    },
+    transition: "all .3s ease",
   },
   buttonCancel: {
     color: "#f6cece",
@@ -48,12 +57,7 @@ const useStyles = makeStyles(theme => ({
     borderTop: "none",
     borderRadius: "0px 0px 2px 2px",
     backgroundColor: "snow",
-    boxShadow: "none",
-    "&:hover": {
-      boxShadow: "-1px 0px 6px #6a6a6a",
-      backgroundColor: "#c3e5cc6e",
-    },
-    transition: "all .3s ease",
+
   },
 
   paper: {
@@ -101,33 +105,32 @@ export default function JobCard(props) {
     props.type === "elapsed" ? "rgba(255, 119, 98, 0.9)" : "#087B94";
 
   return (
-    <>
+    <div style={{
+
+    }}>
       <Grid
         container
         justify="center"
         className={classes.topBarCard}
-        
       >
         <Grid
           item
           xs={12}
           style={{
             backgroundColor: `${colorTile}`,
-            height: ".5vh",
+            height: "5px",
             borderRadius: "2px 2px 0px 0px",
           }}
         />
-        <Grid
-          container
-          justify="center"
-          className={classes.containerTile}
-          item
-          xs={12}
-        >
+        <Grid container justify="center" className={classes.containerTile} item xs={12} spacing={1}
+          style={{
+            marginTop: "1px",
+            paddingLeft: "10px", paddingRight: "10px"
+          }} >
           <Grid container justify="space-between" item xs={12}>
             <Grid item xs={11} onClick={() => openSingleJob()}>
-              <Typography style={{ fontWeight: "500", paddingLeft: "1vh" }}>
-                {positionTitle}
+              <Typography style={{ fontWeight: "500" }}>
+                {TextHelper.titleCase(positionTitle)}
               </Typography>
             </Grid>
 
@@ -139,26 +142,32 @@ export default function JobCard(props) {
               />
             </Grid>
           </Grid>
-          <Grid item xs={11} onClick={() => openSingleJob()}>
+          <Grid item xs={12} onClick={() => openSingleJob()}>
             <Typography variant="caption">{seniority}</Typography>
           </Grid>
-          <Grid item xs={11} onClick={() => openSingleJob()}>
+          <Grid item xs={12} onClick={() => openSingleJob()}>
             <Typography variant="caption">
-              Published on: {publishDate.substring(0, 10)} <br />
-              End: {endDate.substring(0, 10)}
+              Published on: {TextHelper.formatToD_MMMM_YYYY(publishDate)} <br />
+              End: {TextHelper.formatToD_MMMM_YYYY(endDate)}
             </Typography>
           </Grid>
-          <Grid item xs={12} onClick={() => openSingleJob()}>
-            <hr style={{ borderColor: "#c9c7c761" }} />
-          </Grid>
+        </Grid>
+        <Grid item xs={12} onClick={() => openSingleJob()}>
+          <Divider style={{ borderColor: "#c9c7c761" }} />
+        </Grid>
+        <Grid container justify="center" className={classes.containerTile} item xs={12} spacing={1}
+          style={{
+            marginTop: "1px",
+            paddingLeft: "10px", paddingRight: "10px"
+          }}>
           <Grid item container xs={11} alignItems="center" justify="flex-end" onClick={() => openSingleJob()}>
-            <Grid item xs={4} lg={4} md={4} xl={3}>
+            <Grid item xs={2} lg={2} md={2} xl={2}>
               <Button
                 fullWidth
                 size="small"
                 color="primary"
               >
-                View 
+                View
               </Button>
             </Grid>
           </Grid>
@@ -199,6 +208,6 @@ export default function JobCard(props) {
           </Grid>
         </Grid>
       </Modal>
-    </>
+    </div>
   );
 }

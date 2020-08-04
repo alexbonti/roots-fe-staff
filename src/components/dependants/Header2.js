@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import API from "../../helpers/api";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import { LoginContext } from "contexts";
+import { UserSearchBox } from "components";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,14 +65,13 @@ export const Header2 = () => {
               <Grid item container xs={6} spacing={3}>
                 <Grid item>
                   <Typography variant="h6" className={classes.title}>
-                  <a
-                      target="null"
+                    <Link
                       style={{ textDecoration: "none", color: "white" }}
-                      href="#"
+                      to="/home"
                     >
                       {" "}
                       MECHID
-                    </a>
+                    </Link>
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -99,12 +99,15 @@ export const Header2 = () => {
                   </Typography>
                 </Grid>
               </Grid>
+              <Grid item xs={3}>
+                <UserSearchBox />
+              </Grid>
               <Grid item>
                 {loginStatus ? (
                   <IconButton color="inherit" onClick={() => logout()}>
                     <ExitToApp />
                   </IconButton>
-                ) : (
+                ) :
                   <Link to="/login" className={classes.login}>
                     <Typography
                       component="h1"
@@ -116,7 +119,7 @@ export const Header2 = () => {
                       Login {" > "}
                     </Typography>
                   </Link>
-                )}
+                }
               </Grid>
             </Grid>
           </Grid>
