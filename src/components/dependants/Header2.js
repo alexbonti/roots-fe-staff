@@ -99,9 +99,9 @@ export const Header2 = () => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item xs={3}>
+              {loginStatus && <Grid item xs={3}>
                 <UserSearchBox />
-              </Grid>
+              </Grid>}
               <Grid item>
                 {loginStatus ? (
                   <IconButton color="inherit" onClick={() => logout()}>
