@@ -70,7 +70,7 @@ export const Header2 = () => {
                       to="/home"
                     >
                       {" "}
-                      MECHID
+                      {process.env.REACT_APP_NAME}
                     </Link>
                   </Typography>
                 </Grid>
