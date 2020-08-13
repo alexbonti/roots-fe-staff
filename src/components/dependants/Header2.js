@@ -67,7 +67,7 @@ export const Header2 = () => {
                 justify="space-between"
                 alignItems="center"
               >
-                <Grid item container xs={6} spacing={3}>
+                <Grid item container xs={8} spacing={3}>
                   <Grid item>
                     <Typography variant="h6" className={classes.title}>
                       <Link
@@ -104,29 +104,32 @@ export const Header2 = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                {loginStatus && <Grid item xs={3}>
-                  <UserSearchBox />
-                </Grid>}
-                <Grid item>
-                  {loginStatus ? (
-                    <IconButton color="inherit" onClick={() => logout()}>
-                      <ExitToApp />
-                    </IconButton>
-                  ) :
-                    <Link to="/login" className={classes.login}>
-                      <Typography
-                        component="h1"
-                        variant="h6"
-                        color="inherit"
-                        noWrap
-                        className={classes.title}
-                      >
-                        Login {" > "}
-                      </Typography>
-                    </Link>
-                  }
+                <Grid item container xs={4} alignItems="center" justify="flex-end">
+                  {loginStatus && <Grid item xs={8}>
+                    <UserSearchBox />
+                  </Grid>}
+                  <Grid item xs={1}>
+                    {loginStatus ? (
+                      <IconButton color="inherit" onClick={() => logout()}>
+                        <ExitToApp />
+                      </IconButton>
+                    ) :
+                      <Link to="/login" className={classes.login}>
+                        <Typography
+                          component="h1"
+                          variant="h6"
+                          color="inherit"
+                          noWrap
+                          className={classes.title}
+                        >
+                          Login {" > "}
+                        </Typography>
+                      </Link>
+                    }
+                  </Grid>
                 </Grid>
               </Grid>
+
             </Grid>
           </Toolbar>
         </AppBar>
