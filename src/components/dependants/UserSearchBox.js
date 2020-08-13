@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { TextField, makeStyles, fade } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { TextField, makeStyles, fade, } from "@material-ui/core";
 
 import { Autocomplete } from "@material-ui/lab";
 import { API } from "helpers/index";
@@ -7,24 +7,19 @@ import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   search: {
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+    borderRadius: "2px",
+    backgroundColor: fade(theme.palette.common.white, 1),
+    "& :hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.80),
     },
-    width: "100%"
-  },
-  inputRoot: {
-    color: "inherit",
-    backgroundColor: "white",
-    borderRadius: theme.shape.borderRadius,
     width: "100%",
+    "& .MuiAutocomplete-inputRoot[class*=\"MuiFilledInput-root\"]": {
+      paddingTop: "5px !important",
+      paddingRight: "8px !important",
+      paddingBottom: "5px !important"
+    }
   },
-  inputInput: {
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    borderRadius: theme.shape.borderRadius,
-  },
+
 }));
 
 
@@ -36,35 +31,43 @@ export const UserSearchBox = withRouter(props => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    if (userToSearch === "") return setResults([]);
-    (async () => {
-      const responseData = await API.searchUsersWithName(userToSearch);
-      setResults(responseData);
-    })();
+    if (userToSearch === "") setResults([]);
+    else {
+      (async () => {
+        const responseData = await API.searchUsersWithName(userToSearch);
+        setUserToSearch("");
+        setResults(responseData);
+      })();
+    }
   }, [userToSearch]);
 
-  let searchBox = (<Autocomplete getOptionLabel={(user) => `${user.first_name} ${user.last_name}`}
+  let searchBox = (<Autocomplete id="searchBoxOuter"
+
+    getOptionLabel={(user) => `${user.first_name} ${user.last_name}`}
     onChange={(_, selectedUser) => {
-      console.log(_, selectedUser);
-      if (selectedUser !== null)
+      if (selectedUser !== null) {
+        setUserToSearch("");
         props.history.push(`/user/${selectedUser._id}`);
+      }
     }}
-    className={classes.search} open={isAutoCompleteOpen} options={results} onOpen={() => {
+    size="small" variant="outlined" className={classes.search}
+    open={isAutoCompleteOpen} options={results}
+    onOpen={() => {
       setResults([]);
       setIsAutoCompleteOpen(true);
-    }}
-    onClose={() => setIsAutoCompleteOpen(false)} noOptionsText="No Results Found"
-    renderInput={(params) =>
-      <TextField size="medium"
+    }} onClose={() => setIsAutoCompleteOpen(false)}
+    noOptionsText="No Results Found" renderInput={(params) =>
+      <TextField fullWidth id="searchBox" placeholder={label}
         margin="none"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }} onChange={(e) => setUserToSearch(e.target.value)}  {...params} label={label} variant="filled" InputProps={{
-          ...params.InputProps,
-          endAdornment: <Fragment>
+        value={userToSearch}
 
-          </Fragment>
+        onChange={(e) => {
+          setUserToSearch(e.target.value);
+        }} {...params} variant="filled" InputProps={{
+          disableUnderline: true,
+          ...params.InputProps,
+          startAdornment: <i className="material-icons">search</i>,
+          endAdornment: null
         }} />
     }
 

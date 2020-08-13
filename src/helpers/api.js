@@ -81,7 +81,6 @@ class API {
       .post("employer/register", data,
     )
       .then(response => {
-        console.log(response);
         return { response: response.data };
       })
       .catch(error => {
@@ -140,7 +139,6 @@ class API {
 
 
   createMyCompany = async (data, accessToken) => {
-    console.log(accessToken)
     return await axiosInstance
       .post("/employer/createcompany", data, {
         headers: {

@@ -141,7 +141,6 @@ export const Login = () => {
             xs={7}
             md={4}
             lg={3}
-            justify="center"
           >
             <form noValidate>
               <TextField

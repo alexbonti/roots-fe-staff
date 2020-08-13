@@ -1,6 +1,6 @@
 {
-  "name": "refugee-jobsearch-employer",
-  "version": "0.1.0-alpha",
+  "name": "garage-jobsearch-employer",
+  "version": "0.2.0-beta",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
