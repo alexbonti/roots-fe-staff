@@ -31,7 +31,7 @@ export const UserSearchBox = withRouter(props => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    if (userToSearch.length < 2) setResults([]);
+    if (userToSearch.length < 3) setResults([]);
     else {
       const delayDebounceFn = setTimeout(() => {
         (async () => {
