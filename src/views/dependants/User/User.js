@@ -8,7 +8,6 @@ export const UserProfile = withRouter(props => {
   useEffect(() => {
     setUserId(props.match.params.userId);
   }, [props.match.params]);
-  console.log(userId);
   if (userId === undefined) return <CircularProgress color="inherit" size={20} />
   return (<Container style={{ marginTop: "3vh" }}>
     <Grid container justify="center" alignItems="center">
