@@ -7,7 +7,6 @@ import {
   Grid,
   Avatar,
   Typography,
-  ListItem,
 } from "@material-ui/core/";
 import { CandidateContext } from "contexts/index";
 import {
@@ -19,7 +18,7 @@ import {
   Spinner,
   CertificatesCV
 } from "../index";
-import { API } from "helpers/index";
+import { API, PdfGenerator } from "helpers/index";
 
 const useStyles = makeStyles({
   container: {
@@ -80,9 +79,15 @@ export const Candidate = props => {
   );
 };
 
+Candidate.propTypes = {
+  data: PropTypes.shape({
+    _id: PropTypes.string
+  })
+};
+
+
 export const ProfileComponent = props => {
   const classes = useStyles();
-
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [workExperience, setWorkExperience] = useState([]);
   const [education, setEducation] = useState([]);
@@ -91,10 +96,12 @@ export const ProfileComponent = props => {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [emailId, setEmailId] = useState("");
+  const profileRef = React.createRef();
+  const [generatingPDF, setGenerationPDF] = useState(false);
 
   useEffect(() => {
     API.getCandidateInfo(props._id, (userData) => {
-      if (userData.avatar !== undefined)
+      if (userData.avatar !== undefined) 
         setAvatar(userData.avatar);
       else
         setAvatar("");
@@ -147,39 +154,48 @@ export const ProfileComponent = props => {
     }
     }
   >
+    <Grid item xs={12} style={{ padding: "10px 10px", alignSelf: "right" }} >
+      <PdfGenerator targetRef={profileRef} onComplete={() => {
+        setGenerationPDF(false);
+      }} filename={`${props._id}.pdf`}>
+        {({ toPdf }) => (
+          generatingPDF ? <Button variant="contained" disabled>Generating</Button>
+            : <Button variant="contained" onClick={() => {
+              setGenerationPDF(true);
+              toPdf();
+            }}>Generate Resume</Button>
+        )}
+      </PdfGenerator>
+    </Grid>
     <Grid
       container
       item
       xs={12}
       md={12}
+      ref={profileRef}
       lg={12}
       className={classes.container}
-      justify="space-between"
     >
-      <Grid container item xs={12} alignItems="center">
-        {
-          avatar !== "" ? (<Grid item>
-            <Avatar
-              alt="Avatar"
-              src={avatar}
-              className={classes.avatar}
-            />
-          </Grid>) : ""
-        }
-        <Grid
-          item
-          container
-          alignItems="baseline"
-          xs={8}
-          justify="space-between"
-        >
-          <Grid item xs={6} style={{ paddingTop: "2vh 0" }}>
-            <Typography variant="h4" style={{ color: "#545353" }}>
-              {first_name} {last_name}{" "}
-            </Typography>
-          </Grid>
-          <Grid item xs={11}>
-            <ListItem color="primary" style={{ padding: "0" }}>
+      <Grid item xs={12} style={{ padding: "26px" }}>
+        <Grid container alignItems="center" spacing={3}>
+          {
+            avatar !== "" ? (<Grid item xs={3}>
+              <Avatar
+                alt="Avatar"
+                src={avatar}
+                className={classes.avatar}
+              >
+                {`${first_name[0]} ${last_name[0]}`}
+              </Avatar>
+            </Grid>) : null
+          }
+          <Grid item xs={9} container>
+            <Grid item xs={12} >
+              <Typography variant="h4" style={{ color: "#545353" }}>
+                {first_name} {last_name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
               <a
                 href={`mailto:${emailId}`}
                 target="_top"
@@ -190,25 +206,25 @@ export const ProfileComponent = props => {
               >
                 {emailId}
               </a>
-            </ListItem>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
-    <Grid item xs={12}>
-      {coverLetterCard}
-    </Grid>
-    <Grid item xs={12}>
-      {keySkillCriteria}
-    </Grid>
-    <Grid item xs={12}>
-      <ExperienceCV title="Experience" data={workExperience} />
-    </Grid>
-    <Grid item xs={12}>
-      <EducationCV title="Education" data={education} />
-    </Grid>
-    <Grid item xs={12}>
-      <CertificatesCV title="Certificates" data={certificates} />
+      <Grid item xs={12}>
+        {coverLetterCard}
+      </Grid>
+      <Grid item xs={12}>
+        {keySkillCriteria}
+      </Grid>
+      <Grid item xs={12}>
+        <ExperienceCV title="Experience" data={workExperience} />
+      </Grid>
+      <Grid item xs={12}>
+        <EducationCV title="Education" data={education} />
+      </Grid>
+      <Grid item xs={12}>
+        <CertificatesCV title="Certificates" data={certificates} />
+      </Grid>
     </Grid>
   </Grid > : <Spinner />;
 };
