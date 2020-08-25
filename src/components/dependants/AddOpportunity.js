@@ -12,7 +12,7 @@ import { notify } from "../common/Notification";
 import { AccessToken } from "../../contexts/helpers/";
 import { TextEditor } from "./QuillEditor";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   button1: {
     borderRadius: "25px",
     backgroundColor: "white",
@@ -52,7 +52,7 @@ const theme = createMuiTheme({
   },
 });
 
-export function AddOpportunity(props) {
+export function AddOpportunity() {
   const classes = useStyles();
 
   const { descriptionOpportunity } = useContext(TextEditorContext);
@@ -321,7 +321,7 @@ export function AddOpportunity(props) {
                         } else if (
                           editEndDate !== "" &&
                           new Date(...prepareDate(editEndDate)) <
-                            pickedDay.getTime()
+                          pickedDay.getTime()
                         ) {
                           setErrorStartDate(true);
                           notify("Start date can't be after End date");
@@ -360,7 +360,7 @@ export function AddOpportunity(props) {
                         } else if (
                           editStartDate !== "" &&
                           new Date(...prepareDate(editStartDate)) >
-                            pickedDay.getTime()
+                          pickedDay.getTime()
                         ) {
                           setErrorEndDate(true);
                           notify("End date can't be before Start date");
@@ -375,7 +375,7 @@ export function AddOpportunity(props) {
                 <Grid item xs={11} md={7} lg={7} style={{ padding: "3vh 0" }}>
                   {" "}
                   <TextEditor
-                    data={{mode:"opportunity", data:singleJobData.description }}
+                    data={{ mode: "opportunity", data: singleJobData.description }}
                     inputRef={descriptionRef}
                   />{" "}
                 </Grid>
@@ -435,28 +435,28 @@ export function AddOpportunity(props) {
                     />
                     <div>
                       {positionSuggestions !== null &&
-                      positionSuggestions !== undefined &&
-                      positionSuggestions !== "" ? (
-                        <div className={classes.suggestion}>
-                          {positionSuggestions.map(suggestion => {
-                            return (
-                              <div
-                                key={Math.random()}
-                                onClick={event => {
-                                  event.preventDefault();
-                                  locationRef.current.focus();
-                                  setSuggestions(event);
-                                  getLongLat(suggestion);
-                                }}
-                              >
-                                {suggestion.label}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                        positionSuggestions !== undefined &&
+                        positionSuggestions !== "" ? (
+                          <div className={classes.suggestion}>
+                            {positionSuggestions.map(suggestion => {
+                              return (
+                                <div
+                                  key={Math.random()}
+                                  onClick={event => {
+                                    event.preventDefault();
+                                    locationRef.current.focus();
+                                    setSuggestions(event);
+                                    getLongLat(suggestion);
+                                  }}
+                                >
+                                  {suggestion.label}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          ""
+                        )}
                     </div>
                     <div />
                   </div>

@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import API from "../../helpers/api";
 
 import {
@@ -27,6 +28,43 @@ const useStyles = makeStyles({
     transition: "all .1s ease",
   },
 });
+
+const JOB_STATUS = {
+  APPLIED: "APPLIED",
+  VIEWED: "VIEWED",
+  PROCESSING: "PROCESSING",
+  DENIED: "DENIED",
+  ACCEPTED: "ACCEPTED",
+};
+
+
+const ChangeJobStatus = (props) => {
+  const [status, setStatus] = useState(props.status);
+  const id = Math.random().toString();
+  const onChange = useCallback(async (event) => {
+    const value = event.target.value;
+    const response = await API.updateApplicationStatus(props.jobId, props.candidateId, value);
+    if (response)
+      setStatus(value);
+  }, [props.candidateId, props.jobId]);
+
+  let selector = (<FormControl >
+    <InputLabel id={id + "label"}>Application Status</InputLabel>
+    <Select
+      labelId={id + "label"}
+      id={id}
+      value={status}
+      onChange={onChange}
+      defaultValue={status}
+    >
+      {Object.values(JOB_STATUS).map(value => {
+        return <MenuItem key={Math.random()} value={value}>{value}</MenuItem>;
+      })}
+    </Select>
+  </FormControl>);
+
+  return selector;
+};
 
 export function ListOfCandidatesOfASingleJob(props) {
   const classes = useStyles();
@@ -232,6 +270,13 @@ export function ListOfCandidatesOfASingleJob(props) {
                               ) : <StarBorder />
                             } checkedIcon={<StarRate />} value="checkedH" />
                         } />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <ChangeJobStatus
+                          status={element.applicationStatus}
+                          candidateId={element.candidateId._id}
+                          jobId={element.jobId._id}
+                        />
                       </Grid>
                       {skills.length > 0 &&
                         <Grid
