@@ -402,6 +402,25 @@ class API {
     });
   }
 
+  /**
+   * 
+   * @param {String} jobId Job ID to change status on
+   * @param {String} candidateId Candidate Id to change status on
+   * @param {String} newJobStatus new Application Status
+   * @returns {Promise(Array(Object))} 
+   */
+  updateApplicationStatus = async (jobId, candidateId, newJobStatus) => {
+    return axiosInstance.put(`/employer/jobApplicationStatus/${jobId}`, { candidateId, newJobStatus }, {
+      headers: {
+        "authorization": `bearer ${getAccessToken()}`,
+      }
+    }).then(response => {
+      return { "response": response };
+    }).catch(error => {
+      return [];
+    });
+  }
+
 }
 
 

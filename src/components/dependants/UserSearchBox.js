@@ -31,13 +31,16 @@ export const UserSearchBox = withRouter(props => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    if (userToSearch === "") setResults([]);
+    if (userToSearch.length < 3) setResults([]);
     else {
-      (async () => {
-        const responseData = await API.searchUsersWithName(userToSearch);
-        setUserToSearch("");
-        setResults(responseData);
-      })();
+      const delayDebounceFn = setTimeout(() => {
+        (async () => {
+          const responseData = await API.searchUsersWithName(userToSearch);
+          setUserToSearch("");
+          setResults(responseData);
+        })();
+      }, 120);
+      return () => clearTimeout(delayDebounceFn);
     }
   }, [userToSearch]);
 
