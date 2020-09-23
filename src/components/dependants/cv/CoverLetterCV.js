@@ -57,7 +57,6 @@ const useStyles = makeStyles({
 });
 
 export const CoverLetterCV = props => {
-console.log("props", props)
   const classes = useStyles();
   return (
     <div>

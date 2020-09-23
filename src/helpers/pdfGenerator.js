@@ -7,10 +7,19 @@ const PdfGenerator = (props) => {
   const { children } = props;
 
   const toPdf = () => {
-    const { targetRef, filename, x, y, options, onComplete } = props;
+    const { targetRef, filename, onComplete } = props;
     const source = targetRef;
     const targetComponent = source.current || source;
-    const backendURL = process.env.REACT_APP_BASE_URL; 
+    const backendURL = process.env.REACT_APP_BASE_URL;
+    const top_left_margin = 0;
+    const resumeWidth = targetComponent.clientWidth;
+    const resumeHeight = targetComponent.clientHeight;
+    const pdfWidth = resumeWidth;
+    const pdfHeight = (pdfWidth * 1.5);
+    const canvas_image_width = resumeWidth;
+    const canvas_image_height = resumeHeight;
+    const totalPDFPages = Math.ceil(resumeHeight / pdfHeight) - 1;
+
     if (!targetComponent) {
       throw new Error(
         "Target ref must be used or informed."
@@ -19,18 +28,21 @@ const PdfGenerator = (props) => {
     html2canvas(targetComponent, {
       logging: false,
       useCORS: false,
-      scale: props.scale,
       proxy: backendURL + "/helper/imageProxy",
       timeout: 0,
-      allowTaint: false,
+      allowTaint: true,
     }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png"); 
-      const pdf = new JsPdf(options);
-      pdf.addImage(imgData, "JPEG", x, y);
-
+      canvas.getContext('2d');
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      const pdf = new JsPdf('p', 'pt', [pdfWidth, pdfHeight]);
+      pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+      for (var i = 1; i <= totalPDFPages; i++) {
+        pdf.addPage([pdfWidth, pdfHeight]);
+        pdf.addImage(imgData, 'JPG', top_left_margin, -(pdfHeight * i) + 15, canvas_image_width, canvas_image_height);
+      }
       pdf.save(filename);
       if (onComplete) onComplete();
-    }).catch(error => console.log(error));
+    }).catch(error => console.error(error));
   };
 
   return <>{children({ toPdf: toPdf })}</>;
@@ -38,9 +50,6 @@ const PdfGenerator = (props) => {
 
 PdfGenerator.propTypes = {
   filename: PropTypes.string.isRequired,
-  x: PropTypes.number,
-  y: PropTypes.number,
-  options: PropTypes.object,
   scale: PropTypes.number,
   children: PropTypes.func.isRequired,
   onComplete: PropTypes.func,
@@ -53,8 +62,6 @@ PdfGenerator.propTypes = {
 
 PdfGenerator.defaultProps = {
   filename: "download.pdf",
-  x: 0,
-  y: 0,
   scale: 1,
   onComplete: undefined,
   targetRef: undefined
